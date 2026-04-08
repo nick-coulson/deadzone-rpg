@@ -344,7 +344,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   :root{--safe-bottom:env(safe-area-inset-bottom,0px)}
   html,body{height:100dvh}
   #setup-screen{padding:0;align-items:flex-start;overflow-y:auto}
-  .setup-container{width:100%;padding:20px 16px;border-radius:0;border:none;max-height:none;overflow:visible}
+  .setup-container{width:100%;padding:20px 16px 40px;border-radius:0;border:none;max-height:none;overflow:visible}
   .option-cards.cols-3{grid-template-columns:1fr 1fr}
   .btn-row{flex-direction:column}
   .btn-row .btn{width:100%;padding:12px;font-size:14px}
@@ -357,7 +357,8 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   .right-tab{padding:16px 4px 8px;font-size:10px}
   #action-bar{margin-bottom:44px;padding-bottom:calc(8px + var(--safe-bottom))}
   #header .header-center{display:none}
-  #header .header-right .btn-sm{padding:6px 7px;font-size:0;min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
+  #header .header-right .btn-sm{padding:6px 7px;font-size:16px;min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
+  #header .header-right .btn-sm .btn-label{display:none}
   #combat-overlay{position:fixed;inset:48px 0 0 0;z-index:55}
   /* Moodles mobile */
   .moodle-grid{grid-template-columns:1fr 1fr 1fr;gap:3px}
@@ -577,9 +578,9 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <span style="font-size:10px;color:var(--text-dim);font-family:var(--mono)" id="header-date"></span>
   </div>
   <div class="header-right">
-    <button class="btn btn-sm" onclick="saveGame()">&#128190; Speichern</button>
-    <button class="btn btn-sm" onclick="showLoadModal()">&#128194; Laden</button>
-    <button class="btn btn-sm" onclick="newChat()">&#128260; Neuer Chat</button>
+    <button class="btn btn-sm" onclick="saveGame()">&#128190;<span class="btn-label"> Speichern</span></button>
+    <button class="btn btn-sm" onclick="showLoadModal()">&#128194;<span class="btn-label"> Laden</span></button>
+    <button class="btn btn-sm" onclick="newChat()">&#128260;<span class="btn-label"> Neuer Chat</span></button>
     <button class="btn btn-sm" onclick="showSettingsModal()">&#9881;</button>
   </div>
 </div>
@@ -1258,9 +1259,9 @@ function applyLanguage(){
   const hdr=document.querySelector('.header-right');
   if(hdr){
     const btns=hdr.querySelectorAll('.btn-sm');
-    if(btns[0])btns[0].innerHTML='&#128190; '+(l==='en'?'Save':'Speichern');
-    if(btns[1])btns[1].innerHTML='&#128194; '+(l==='en'?'Load':'Laden');
-    if(btns[2])btns[2].innerHTML='&#128260; '+(l==='en'?'New Chat':'Neuer Chat');
+    if(btns[0])btns[0].innerHTML='&#128190;<span class="btn-label"> '+(l==='en'?'Save':'Speichern')+'</span>';
+    if(btns[1])btns[1].innerHTML='&#128194;<span class="btn-label"> '+(l==='en'?'Load':'Laden')+'</span>';
+    if(btns[2])btns[2].innerHTML='&#128260;<span class="btn-label"> '+(l==='en'?'New Chat':'Neuer Chat')+'</span>';
   }
 }
 
