@@ -91,7 +91,7 @@ html,body{width:100%;height:100%;font-family:var(--font);background:var(--bg-bas
 @keyframes typing{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
 
 /* Action Bar */
-#action-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--bg-surface);border-top:1px solid var(--border)}
+#action-bar{display:flex;align-items:flex-end;gap:6px;padding:10px 14px;background:var(--bg-surface);border-top:1px solid var(--border)}
 .quick-action{width:32px;height:32px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-muted);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .quick-action:hover{color:var(--accent);border-color:var(--accent-dim)}
 #chat-input-wrap{flex:1;display:flex;align-items:center;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:0 10px;transition:border .2s}
@@ -355,7 +355,10 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   #right-panel.expanded{transform:translateY(0)}
   .right-tabs::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:32px;height:4px;background:var(--border-light);border-radius:2px;z-index:1}
   .right-tab{padding:16px 4px 8px;font-size:10px}
-  #action-bar{margin-bottom:44px;padding-bottom:calc(8px + var(--safe-bottom))}
+  #action-bar{margin-bottom:44px;padding:8px 10px calc(8px + var(--safe-bottom));flex-wrap:wrap}
+  #action-bar>div:first-child{width:100%;justify-content:center;margin-bottom:4px}
+  #chat-input{font-size:16px;max-height:150px}
+  #chat-input-wrap{min-height:40px}
   #header .header-center{display:none}
   #header .header-right .btn-sm{padding:6px 7px;font-size:16px;min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
   #header .header-right .btn-sm .btn-label{display:none}
@@ -2612,7 +2615,7 @@ function showTyping(show){document.getElementById('typing-indicator').classList.
 document.addEventListener('DOMContentLoaded',()=>{
   const input=document.getElementById('chat-input');
   if(input){
-    input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,100)+'px';});
+    input.addEventListener('input',()=>{const max=window.innerWidth<=768?150:100;input.style.height='auto';input.style.height=Math.min(input.scrollHeight,max)+'px';});
     input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
   }
   // Pre-fill API key from localStorage
