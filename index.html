@@ -359,7 +359,9 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   #action-bar>div:first-child{width:100%;justify-content:center;margin-bottom:4px}
   #chat-input{font-size:16px;max-height:150px}
   #chat-input-wrap{min-height:40px}
-  #header .header-center{display:none}
+  #header .header-center{display:flex;flex:1;min-width:0}
+  #header .header-center span{display:none}
+  #header .header-center .header-select{flex:1;min-width:0;font-size:12px}
   #header .header-right .btn-sm{padding:6px 7px;font-size:16px;min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center}
   #header .header-right .btn-sm .btn-label{display:none}
   #combat-overlay{position:fixed;inset:48px 0 0 0;z-index:55}
