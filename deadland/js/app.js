@@ -2,6 +2,7 @@
 
 import { loadGenesisPrompt } from './prompt/genesisPrompt.js';
 import { gameEngine } from './core/gameEngine.js';
+import { i18n } from './core/i18n.js';
 import './core/stateUpdater.js'; // Initialize state updater (side effect)
 
 async function boot() {
@@ -9,6 +10,9 @@ async function boot() {
     // Load GENESIS system prompt
     await loadGenesisPrompt();
     console.log('GENESIS System Prompt loaded.');
+
+    // Apply translations
+    i18n.applyAll();
 
     // Initialize game engine
     await gameEngine.init();

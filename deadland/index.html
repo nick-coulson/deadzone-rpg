@@ -25,7 +25,7 @@
     <span id="top-bar-time" class="top-bar__time"></span>
     <span id="top-bar-weather" class="top-bar__weather" title="Aktuelles Wetter"><span id="top-bar-weather-icon"></span> <span id="top-bar-weather-text"></span></span>
     <span class="top-bar__spacer"></span>
-    <button type="button" id="btn-topbar-save" class="top-bar__save" title="Spielstand speichern">💾 Speichern</button>
+    <button type="button" id="btn-topbar-save" class="top-bar__save" data-i18n="topbar.save" data-i18n-title="topbar.save">💾 Speichern</button>
     <span id="top-bar-cost" class="top-bar__cost" title="Geschätzte Session-Kosten">$0.00</span>
   </header>
 
@@ -35,21 +35,28 @@
     <div id="screen-setup" class="screen active">
       <div class="setup-container">
         <h1 class="ascii-title">DEADZONE</h1>
-        <p class="setup-subtitle">AI Zombie Survival RPG</p>
-        <p class="setup-desc">Dieses Spiel benötigt einen OpenRouter API-Key.<br>Du findest deinen Key auf: <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a></p>
+        <p class="setup-subtitle" data-i18n="setup.subtitle">AI Zombie Survival RPG</p>
+        <p class="setup-desc"><span data-i18n-html="setup.desc">Dieses Spiel benötigt einen OpenRouter API-Key.<br>Du findest deinen Key auf:</span> <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a></p>
+
+        <!-- Language Selector -->
+        <div class="lang-selector">
+          <span data-i18n="lang.label">Sprache:</span>
+          <button type="button" class="lang-btn active" data-lang="de">🇩🇪 DE</button>
+          <button type="button" class="lang-btn" data-lang="en">🇬🇧 EN</button>
+        </div>
 
         <div class="setup-form">
-          <label for="api-key-input" class="input-label">API Key:</label>
+          <label for="api-key-input" class="input-label" data-i18n="setup.apiLabel">API Key:</label>
           <input type="password" id="api-key-input" class="terminal-input" placeholder="sk-or-v1-..." autocomplete="off">
-          <small style="color:#888; font-size:12px;">OpenRouter-Keys beginnen mit sk-or-v1-</small>
+          <small style="color:#888; font-size:12px;" data-i18n="setup.apiHint">OpenRouter-Keys beginnen mit sk-or-v1-</small>
           <div class="setup-checkbox">
             <input type="checkbox" id="save-key-checkbox" checked>
-            <label for="save-key-checkbox">Key im Browser speichern (localStorage)</label>
+            <label for="save-key-checkbox" data-i18n="setup.saveKey">Key im Browser speichern (localStorage)</label>
           </div>
           <div id="api-key-status" class="status-message"></div>
           <div class="setup-buttons">
-            <button type="button" id="btn-resume" class="terminal-btn primary hidden">Letzten Spielstand fortsetzen</button>
-            <button type="button" id="btn-start" class="terminal-btn primary">Neues Spiel / Modell wählen</button>
+            <button type="button" id="btn-resume" class="terminal-btn primary hidden" data-i18n="setup.resume">Letzten Spielstand fortsetzen</button>
+            <button type="button" id="btn-start" class="terminal-btn primary" data-i18n="setup.newGame">Neues Spiel / Modell wählen</button>
           </div>
         </div>
       </div>
@@ -58,15 +65,15 @@
     <!-- Model Selection Screen -->
     <div id="screen-model" class="screen">
       <div class="setup-container">
-        <h2 class="screen-title">Modell-Auswahl</h2>
+        <h2 class="screen-title" data-i18n="model.title">Modell-Auswahl</h2>
 
         <div class="model-section">
-          <h3 class="model-section-title">PREIS-LEISTUNG</h3>
+          <h3 class="model-section-title" data-i18n="model.pricePerf">PREIS-LEISTUNG</h3>
           <label class="model-option">
             <input type="radio" name="model" value="deepseek/deepseek-chat-v3-0324" checked>
             <div class="model-info">
               <span class="model-name">DeepSeek V3.2</span>
-              <span class="model-desc">Preis-Leistungs-König — ~90% GPT-5.4-Qualität zu 1/50 der Kosten. Sparse Attention senkt Kosten bei langen Sessions.</span>
+              <span class="model-desc" data-i18n="model.deepseek.desc">Preis-Leistungs-König — ~90% GPT-5.4-Qualität zu 1/50 der Kosten. Sparse Attention senkt Kosten bei langen Sessions.</span>
               <span class="model-price">~$0.27/M input, $1.10/M output</span>
             </div>
           </label>
@@ -74,31 +81,31 @@
             <input type="radio" name="model" value="qwen/qwen-3-235b-a22b">
             <div class="model-info">
               <span class="model-name">Qwen 3.6 Plus</span>
-              <span class="model-desc">Lineare Attention + Sparse MoE. Bis 1M Token Kontext — ideal für lange Kampagnen mit konsistenten Storylines.</span>
+              <span class="model-desc" data-i18n="model.qwen.desc">Lineare Attention + Sparse MoE. Bis 1M Token Kontext — ideal für lange Kampagnen mit konsistenten Storylines.</span>
               <span class="model-price">~$0.14/M input, $0.70/M output</span>
             </div>
           </label>
         </div>
 
         <div class="model-section">
-          <h3 class="model-section-title">PERFORMANCE</h3>
+          <h3 class="model-section-title" data-i18n="model.performance">PERFORMANCE</h3>
           <label class="model-option">
             <input type="radio" name="model" value="nvidia/llama-3.1-nemotron-ultra-253b-v1">
             <div class="model-info">
               <span class="model-name">NVIDIA Nemotron 3 Super (120B)</span>
-              <span class="model-desc">Hybrid-MoE: 120B Parameter, nur 12B aktiv. 50%+ schnellere Token-Generierung. Flüssiges, schnelles RP.</span>
+              <span class="model-desc" data-i18n="model.nemotron.desc">Hybrid-MoE: 120B Parameter, nur 12B aktiv. 50%+ schnellere Token-Generierung. Flüssiges, schnelles RP.</span>
               <span class="model-price">~$0.20/M input, $0.80/M output</span>
             </div>
           </label>
         </div>
 
         <div class="model-section">
-          <h3 class="model-section-title">SPEZIALIST & KOSTENLOS</h3>
+          <h3 class="model-section-title" data-i18n="model.specialist">SPEZIALIST & KOSTENLOS</h3>
           <label class="model-option">
             <input type="radio" name="model" value="aion-labs/aion-rp-v1">
             <div class="model-info">
               <span class="model-name">Aion-RP (8B)</span>
-              <span class="model-desc">Speziell für Roleplay trainiert. Hält Charakter-Stimmen und Handlungsstränge zuverlässig aufrecht.</span>
+              <span class="model-desc" data-i18n="model.aion.desc">Speziell für Roleplay trainiert. Hält Charakter-Stimmen und Handlungsstränge zuverlässig aufrecht.</span>
               <span class="model-price">~$0.80/M input, $1.60/M output</span>
             </div>
           </label>
@@ -106,26 +113,26 @@
             <input type="radio" name="model" value="meta-llama/llama-3.3-70b-instruct:free">
             <div class="model-info">
               <span class="model-name">Llama 3.3 70B (Free)</span>
-              <span class="model-desc">Komplett kostenlos! GPT-4-Niveau. Beste Wahl für Einstieg oder Budget null.</span>
-              <span class="model-price">Kostenlos</span>
+              <span class="model-desc" data-i18n="model.llama.desc">Komplett kostenlos! GPT-4-Niveau. Beste Wahl für Einstieg oder Budget null.</span>
+              <span class="model-price" data-i18n="model.llama.price">Kostenlos</span>
             </div>
           </label>
         </div>
 
         <div class="model-section">
-          <h3 class="model-section-title">ERWEITERT</h3>
+          <h3 class="model-section-title" data-i18n="model.advanced">ERWEITERT</h3>
           <label class="model-option">
             <input type="radio" name="model" value="custom">
             <div class="model-info">
-              <span class="model-name">Beliebiges OpenRouter-Modell</span>
-              <input type="text" id="custom-model-input" class="terminal-input small" placeholder="z.B. openai/gpt-4o">
+              <span class="model-name" data-i18n="model.custom">Beliebiges OpenRouter-Modell</span>
+              <input type="text" id="custom-model-input" class="terminal-input small" data-i18n-placeholder="model.customPlaceholder" placeholder="z.B. openai/gpt-4o">
             </div>
           </label>
         </div>
 
         <div class="setup-buttons">
-          <button type="button" id="btn-model-back" class="terminal-btn">Zurück</button>
-          <button type="button" id="btn-model-next" class="terminal-btn primary">Weiter</button>
+          <button type="button" id="btn-model-back" class="terminal-btn" data-i18n="btn.back">Zurück</button>
+          <button type="button" id="btn-model-next" class="terminal-btn primary" data-i18n="btn.next">Weiter</button>
         </div>
       </div>
     </div>
@@ -133,12 +140,12 @@
     <!-- Savegame Screen -->
     <div id="screen-savegames" class="screen">
       <div class="setup-container">
-        <h2 class="screen-title">Spielstand-Verwaltung</h2>
+        <h2 class="screen-title" data-i18n="saves.title">Spielstand-Verwaltung</h2>
         <div id="savegame-list" class="savegame-list"></div>
         <div class="setup-buttons">
-          <button type="button" id="btn-new-game" class="terminal-btn primary">Neues Spiel starten</button>
+          <button type="button" id="btn-new-game" class="terminal-btn primary" data-i18n="saves.newGame">Neues Spiel starten</button>
           <label class="terminal-btn import-btn">
-            Spielstand importieren (.deadzone)
+            <span data-i18n="saves.import">Spielstand importieren (.deadzone)</span>
             <input type="file" id="import-file-input" accept=".deadzone,.deadland" class="hidden">
           </label>
         </div>
@@ -158,203 +165,203 @@
 
         <!-- Step 1: Welt-Zustand -->
         <div class="wizard-page active" data-step="1">
-          <h2 class="screen-title">Welt-Zustand wählen</h2>
-          <p class="section-desc">In welcher Phase der Apokalypse beginnt deine Geschichte?</p>
+          <h2 class="screen-title" data-i18n="wizard.worldState">Welt-Zustand wählen</h2>
+          <p class="section-desc" data-i18n="wizard.worldStateDesc">In welcher Phase der Apokalypse beginnt deine Geschichte?</p>
           <div class="card-grid card-grid--2col">
             <label class="card-option">
               <input type="radio" name="phase" value="pre_outbreak" checked>
               <div class="card-option__inner">
                 <span class="card-option__icon">🏙️</span>
-                <span class="card-option__title">Vor dem Ausbruch</span>
-                <span class="card-option__desc">Die Welt ist noch normal. Erste mysteriöse Berichte tauchen auf. Gerüchte, seltsame Krankheitsfälle. Niemand glaubt es — noch nicht.</span>
+                <span class="card-option__title" data-i18n="phase.preOutbreak">Vor dem Ausbruch</span>
+                <span class="card-option__desc" data-i18n="phase.preOutbreak.desc">Die Welt ist noch normal. Erste mysteriöse Berichte tauchen auf. Gerüchte, seltsame Krankheitsfälle. Niemand glaubt es — noch nicht.</span>
               </div>
             </label>
             <label class="card-option">
               <input type="radio" name="phase" value="outbreak">
               <div class="card-option__inner">
                 <span class="card-option__icon">⚠️</span>
-                <span class="card-option__title">Ausbruch</span>
-                <span class="card-option__desc">Die Infektion breitet sich aus. Chaos, Panik, zusammenbrechende Ordnung. Militär versucht zu kontrollieren. Tag 0 bis Tag 7.</span>
+                <span class="card-option__title" data-i18n="phase.outbreak">Ausbruch</span>
+                <span class="card-option__desc" data-i18n="phase.outbreak.desc">Die Infektion breitet sich aus. Chaos, Panik, zusammenbrechende Ordnung. Militär versucht zu kontrollieren. Tag 0 bis Tag 7.</span>
               </div>
             </label>
             <label class="card-option">
               <input type="radio" name="phase" value="early_apocalypse">
               <div class="card-option__inner">
                 <span class="card-option__icon">💥</span>
-                <span class="card-option__title">Frühe Apokalypse</span>
-                <span class="card-option__desc">Wochen nach dem Ausbruch. Zivilisation zusammengebrochen. Strom fällt aus, Geschäfte geplündert. Zombies überall.</span>
+                <span class="card-option__title" data-i18n="phase.earlyApocalypse">Frühe Apokalypse</span>
+                <span class="card-option__desc" data-i18n="phase.earlyApocalypse.desc">Wochen nach dem Ausbruch. Zivilisation zusammengebrochen. Strom fällt aus, Geschäfte geplündert. Zombies überall.</span>
               </div>
             </label>
             <label class="card-option">
               <input type="radio" name="phase" value="years_later">
               <div class="card-option__inner">
                 <span class="card-option__icon">🌙</span>
-                <span class="card-option__title">Jahre danach</span>
-                <span class="card-option__desc">Natur erobert Städte zurück. Feste Siedlungen, Händler-Routen, brutale Fraktionen. Menschen sind die wahre Gefahr.</span>
+                <span class="card-option__title" data-i18n="phase.yearsLater">Jahre danach</span>
+                <span class="card-option__desc" data-i18n="phase.yearsLater.desc">Natur erobert Städte zurück. Feste Siedlungen, Händler-Routen, brutale Fraktionen. Menschen sind die wahre Gefahr.</span>
               </div>
             </label>
           </div>
           <div class="setup-buttons">
-            <button type="button" id="btn-newgame-back" class="terminal-btn">Zurück</button>
-            <button type="button" class="terminal-btn primary wizard-next" data-next="2">Weiter</button>
+            <button type="button" id="btn-newgame-back" class="terminal-btn" data-i18n="btn.back">Zurück</button>
+            <button type="button" class="terminal-btn primary wizard-next" data-next="2" data-i18n="btn.next">Weiter</button>
           </div>
         </div>
 
         <!-- Step 2: Startort -->
         <div class="wizard-page" data-step="2">
-          <h2 class="screen-title">Startort wählen</h2>
-          <p class="section-desc">Wo beginnt eure Geschichte?</p>
+          <h2 class="screen-title" data-i18n="wizard.location">Startort wählen</h2>
+          <p class="section-desc" data-i18n="wizard.locationDesc">Wo beginnt eure Geschichte?</p>
           <div class="card-grid card-grid--2col">
             <button type="button" class="card-option card-option--btn location-card active" data-value="Vorstadt">
               <div class="card-option__inner">
                 <span class="card-option__icon">🏠</span>
-                <span class="card-option__title">Vorstadt</span>
-                <span class="card-option__desc">Wohngebiet, viele Häuser zum Plündern, moderate Zombies</span>
+                <span class="card-option__title" data-i18n="loc.suburb">Vorstadt</span>
+                <span class="card-option__desc" data-i18n="loc.suburb.desc">Wohngebiet, viele Häuser zum Plündern, moderate Zombies</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Ländlich">
               <div class="card-option__inner">
                 <span class="card-option__icon">🌾</span>
-                <span class="card-option__title">Ländlich</span>
-                <span class="card-option__desc">Farmen, Scheunen, wenig Zombies, weite Wege</span>
+                <span class="card-option__title" data-i18n="loc.rural">Ländlich</span>
+                <span class="card-option__desc" data-i18n="loc.rural.desc">Farmen, Scheunen, wenig Zombies, weite Wege</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Industriegebiet">
               <div class="card-option__inner">
                 <span class="card-option__icon">🏭</span>
-                <span class="card-option__title">Industriegebiet</span>
-                <span class="card-option__desc">Fabriken, Werkstätten, Materialien, viele Zombies</span>
+                <span class="card-option__title" data-i18n="loc.industrial">Industriegebiet</span>
+                <span class="card-option__desc" data-i18n="loc.industrial.desc">Fabriken, Werkstätten, Materialien, viele Zombies</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Innenstadt">
               <div class="card-option__inner">
                 <span class="card-option__icon">🏙️</span>
-                <span class="card-option__title">Innenstadt</span>
-                <span class="card-option__desc">Hochhäuser, extrem gefährlich, beste Beute</span>
+                <span class="card-option__title" data-i18n="loc.downtown">Innenstadt</span>
+                <span class="card-option__desc" data-i18n="loc.downtown.desc">Hochhäuser, extrem gefährlich, beste Beute</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Militärbasis">
               <div class="card-option__inner">
                 <span class="card-option__icon">🎯</span>
-                <span class="card-option__title">Militärbasis</span>
-                <span class="card-option__desc">Waffen, Munition, starke Zombies, Blockaden</span>
+                <span class="card-option__title" data-i18n="loc.military">Militärbasis</span>
+                <span class="card-option__desc" data-i18n="loc.military.desc">Waffen, Munition, starke Zombies, Blockaden</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Waldgebiet">
               <div class="card-option__inner">
                 <span class="card-option__icon">🌲</span>
-                <span class="card-option__title">Waldgebiet</span>
-                <span class="card-option__desc">Natur, Jagd, versteckt, wenig Vorräte</span>
+                <span class="card-option__title" data-i18n="loc.forest">Waldgebiet</span>
+                <span class="card-option__desc" data-i18n="loc.forest.desc">Natur, Jagd, versteckt, wenig Vorräte</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Krankenhaus">
               <div class="card-option__inner">
                 <span class="card-option__icon">🏥</span>
-                <span class="card-option__title">Krankenhaus</span>
-                <span class="card-option__desc">Medizin, aber Zombie-Hotspot, Infektionsgefahr</span>
+                <span class="card-option__title" data-i18n="loc.hospital">Krankenhaus</span>
+                <span class="card-option__desc" data-i18n="loc.hospital.desc">Medizin, aber Zombie-Hotspot, Infektionsgefahr</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Einkaufszentrum">
               <div class="card-option__inner">
                 <span class="card-option__icon">🛒</span>
-                <span class="card-option__title">Einkaufszentrum</span>
-                <span class="card-option__desc">Vorräte, Kleidung, verteidigbar, aber umzingelt</span>
+                <span class="card-option__title" data-i18n="loc.mall">Einkaufszentrum</span>
+                <span class="card-option__desc" data-i18n="loc.mall.desc">Vorräte, Kleidung, verteidigbar, aber umzingelt</span>
               </div>
             </button>
           </div>
           <div class="setup-buttons">
-            <button type="button" class="terminal-btn wizard-prev" data-prev="1">Zurück</button>
-            <button type="button" class="terminal-btn primary wizard-next" data-next="3">Weiter</button>
+            <button type="button" class="terminal-btn wizard-prev" data-prev="1" data-i18n="btn.back">Zurück</button>
+            <button type="button" class="terminal-btn primary wizard-next" data-next="3" data-i18n="btn.next">Weiter</button>
           </div>
         </div>
 
         <!-- Step 3: Charakter & Hintergrund (final step) -->
         <div class="wizard-page" data-step="3">
-          <h2 class="screen-title">Charakter erstellen</h2>
-          <p class="section-desc">Wer bist du in dieser Welt?</p>
+          <h2 class="screen-title" data-i18n="wizard.character">Charakter erstellen</h2>
+          <p class="section-desc" data-i18n="wizard.characterDesc">Wer bist du in dieser Welt?</p>
           <div class="char-row">
             <div class="char-field">
-              <h3 class="section-label">Name</h3>
-              <input type="text" id="character-name-input" class="terminal-input" placeholder="z.B. James Cole / Elena Voss">
+              <h3 class="section-label" data-i18n="char.name">Name</h3>
+              <input type="text" id="character-name-input" class="terminal-input" data-i18n-placeholder="char.namePlaceholder" placeholder="z.B. James Cole / Elena Voss">
             </div>
             <div class="char-field">
-              <h3 class="section-label">Geschlecht</h3>
+              <h3 class="section-label" data-i18n="char.gender">Geschlecht</h3>
               <div class="preset-grid">
-                <button type="button" class="preset-btn gender-preset active" data-value="männlich">Männlich</button>
-                <button type="button" class="preset-btn gender-preset" data-value="weiblich">Weiblich</button>
+                <button type="button" class="preset-btn gender-preset active" data-value="männlich" data-i18n="char.male">Männlich</button>
+                <button type="button" class="preset-btn gender-preset" data-value="weiblich" data-i18n="char.female">Weiblich</button>
               </div>
             </div>
           </div>
 
-          <h3 class="section-label" style="margin-top: 20px;">Hintergrund wählen</h3>
-          <p class="section-desc">Dein Beruf vor dem Ausbruch beeinflusst Stärken, Schwächen und Startausrüstung.</p>
+          <h3 class="section-label" style="margin-top: 20px;" data-i18n="char.background">Hintergrund wählen</h3>
+          <p class="section-desc" data-i18n="char.backgroundDesc">Dein Beruf vor dem Ausbruch beeinflusst Stärken, Schwächen und Startausrüstung.</p>
           <div class="card-grid card-grid--2col">
             <button type="button" class="card-option card-option--btn background-card active" data-value="ex_soldat">
               <div class="card-option__inner">
                 <span class="card-option__icon">🎖️</span>
-                <span class="card-option__title">Ex-Soldat</span>
-                <span class="card-option__desc">Kampferfahrung, Waffen, taktisches Denken</span>
+                <span class="card-option__title" data-i18n="bg.exSoldier">Ex-Soldat</span>
+                <span class="card-option__desc" data-i18n="bg.exSoldier.desc">Kampferfahrung, Waffen, taktisches Denken</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="arzt">
               <div class="card-option__inner">
                 <span class="card-option__icon">⚕️</span>
-                <span class="card-option__title">Arzt</span>
-                <span class="card-option__desc">Medizin, Wundversorgung, analytisch</span>
+                <span class="card-option__title" data-i18n="bg.doctor">Arzt</span>
+                <span class="card-option__desc" data-i18n="bg.doctor.desc">Medizin, Wundversorgung, analytisch</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="mechaniker">
               <div class="card-option__inner">
                 <span class="card-option__icon">🔧</span>
-                <span class="card-option__title">Mechaniker</span>
-                <span class="card-option__desc">Reparatur, Improvisation, handwerklich</span>
+                <span class="card-option__title" data-i18n="bg.mechanic">Mechaniker</span>
+                <span class="card-option__desc" data-i18n="bg.mechanic.desc">Reparatur, Improvisation, handwerklich</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="lehrer">
               <div class="card-option__inner">
                 <span class="card-option__icon">📚</span>
-                <span class="card-option__title">Lehrer</span>
-                <span class="card-option__desc">Führung, Allgemeinwissen, Motivation</span>
+                <span class="card-option__title" data-i18n="bg.teacher">Lehrer</span>
+                <span class="card-option__desc" data-i18n="bg.teacher.desc">Führung, Allgemeinwissen, Motivation</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="sanitaeter">
               <div class="card-option__inner">
                 <span class="card-option__icon">🚑</span>
-                <span class="card-option__title">Sanitäter</span>
-                <span class="card-option__desc">Erste Hilfe unter Druck, belastbar</span>
+                <span class="card-option__title" data-i18n="bg.paramedic">Sanitäter</span>
+                <span class="card-option__desc" data-i18n="bg.paramedic.desc">Erste Hilfe unter Druck, belastbar</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="farmer">
               <div class="card-option__inner">
                 <span class="card-option__icon">🌿</span>
-                <span class="card-option__title">Farmer</span>
-                <span class="card-option__desc">Ausdauer, Nahrungswissen, zäh</span>
+                <span class="card-option__title" data-i18n="bg.farmer">Farmer</span>
+                <span class="card-option__desc" data-i18n="bg.farmer.desc">Ausdauer, Nahrungswissen, zäh</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="polizist">
               <div class="card-option__inner">
                 <span class="card-option__icon">👮</span>
-                <span class="card-option__title">Polizist</span>
-                <span class="card-option__desc">Schusswaffen, Nahkampf, Autorität</span>
+                <span class="card-option__title" data-i18n="bg.police">Polizist</span>
+                <span class="card-option__desc" data-i18n="bg.police.desc">Schusswaffen, Nahkampf, Autorität</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="wissenschaftler">
               <div class="card-option__inner">
                 <span class="card-option__icon">🔬</span>
-                <span class="card-option__title">Wissenschaftler</span>
-                <span class="card-option__desc">Analytisch, Infektionswissen, klug</span>
+                <span class="card-option__title" data-i18n="bg.scientist">Wissenschaftler</span>
+                <span class="card-option__desc" data-i18n="bg.scientist.desc">Analytisch, Infektionswissen, klug</span>
               </div>
             </button>
           </div>
 
           <div class="newgame-section">
-            <h3 class="section-label">Hintergrundgeschichte (optional)</h3>
-            <textarea id="character-backstory-input" class="terminal-textarea" rows="3" placeholder="Was hat dein Charakter erlebt? Was treibt ihn an? Dies beeinflusst den Spielstart..."></textarea>
+            <h3 class="section-label" data-i18n="char.backstory">Hintergrundgeschichte (optional)</h3>
+            <textarea id="character-backstory-input" class="terminal-textarea" rows="3" data-i18n-placeholder="char.backstoryPlaceholder" placeholder="Was hat dein Charakter erlebt? Was treibt ihn an? Dies beeinflusst den Spielstart..."></textarea>
           </div>
 
           <div class="setup-buttons">
-            <button type="button" class="terminal-btn wizard-prev" data-prev="2">Zurück</button>
-            <button type="button" id="btn-start-game" class="terminal-btn primary">Spiel starten</button>
+            <button type="button" class="terminal-btn wizard-prev" data-prev="2" data-i18n="btn.back">Zurück</button>
+            <button type="button" id="btn-start-game" class="terminal-btn primary" data-i18n="btn.startGame">Spiel starten</button>
           </div>
         </div>
 
@@ -371,28 +378,28 @@
   <div id="input-area" class="input-area hidden">
     <div class="input-line">
       <span class="input-prompt">&gt;</span>
-      <input type="text" id="game-input" class="game-input" placeholder="Was tust du?" autocomplete="off">
-      <button type="button" id="btn-send" class="send-btn" title="Senden">&#9654;</button>
+      <input type="text" id="game-input" class="game-input" data-i18n-placeholder="input.placeholder" placeholder="Was tust du?" autocomplete="off">
+      <button type="button" id="btn-send" class="send-btn" data-i18n-title="input.send" title="Senden">&#9654;</button>
     </div>
   </div>
 
   <!-- Quick Buttons -->
   <nav id="quick-buttons" class="quick-buttons hidden">
-    <button type="button" class="quick-btn" data-cmd="Status" title="F1">Status</button>
-    <button type="button" class="quick-btn" data-cmd="Inventar" title="F2">Inventar</button>
-    <button type="button" class="quick-btn" data-cmd="Karte" title="F3">Karte</button>
-    <button type="button" class="quick-btn" data-cmd="Gruppe" title="F4">Gruppe</button>
-    <button type="button" class="quick-btn" data-cmd="Basis" title="F5">Basis</button>
-    <button type="button" class="quick-btn" data-cmd="Notizbuch" title="F6">Notizbuch</button>
-    <button type="button" class="quick-btn settings-btn" id="btn-settings" title="Esc">Einstellungen</button>
+    <button type="button" class="quick-btn" data-cmd="Status" title="F1" data-i18n="quick.status">Status</button>
+    <button type="button" class="quick-btn" data-cmd="Inventar" title="F2" data-i18n="quick.inventory">Inventar</button>
+    <button type="button" class="quick-btn" data-cmd="Karte" title="F3" data-i18n="quick.map">Karte</button>
+    <button type="button" class="quick-btn" data-cmd="Gruppe" title="F4" data-i18n="quick.group">Gruppe</button>
+    <button type="button" class="quick-btn" data-cmd="Basis" title="F5" data-i18n="quick.base">Basis</button>
+    <button type="button" class="quick-btn" data-cmd="Notizbuch" title="F6" data-i18n="quick.notebook">Notizbuch</button>
+    <button type="button" class="quick-btn settings-btn" id="btn-settings" title="Esc" data-i18n="quick.settings">Einstellungen</button>
   </nav>
 
   <!-- Settings Overlay -->
   <div id="overlay-settings" class="overlay hidden">
     <div class="overlay-content">
-      <h2 class="overlay-title">Einstellungen</h2>
+      <h2 class="overlay-title" data-i18n="settings.title">Einstellungen</h2>
       <div class="settings-group">
-        <label>Modell:
+        <label><span data-i18n="settings.model">Modell:</span>
           <select id="settings-model-select" class="terminal-input small">
             <option value="deepseek/deepseek-chat-v3-0324">DeepSeek V3.2</option>
             <option value="qwen/qwen-3-235b-a22b">Qwen 3.6 Plus</option>
@@ -401,22 +408,30 @@
             <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B (Free)</option>
           </select>
         </label>
-        <label>API Key: <button type="button" id="btn-forget-key" class="terminal-btn small">Gespeicherten API Key löschen</button></label>
+        <label>API Key: <button type="button" id="btn-forget-key" class="terminal-btn small" data-i18n="settings.forgetKey">Gespeicherten API Key löschen</button></label>
       </div>
       <div class="settings-group">
-        <label>Budget-Limit ($): <input type="number" id="budget-limit-input" class="terminal-input small" value="5" min="0" step="0.5"></label>
+        <label><span data-i18n="settings.budgetLimit">Budget-Limit ($):</span> <input type="number" id="budget-limit-input" class="terminal-input small" value="5" min="0" step="0.5"></label>
       </div>
       <div class="settings-group">
-        <h3>Spielstand</h3>
-        <button type="button" id="btn-save-game" class="terminal-btn">Speichern</button>
-        <button type="button" id="btn-export-game" class="terminal-btn">Exportieren (.deadzone)</button>
-        <button type="button" id="btn-load-game" class="terminal-btn">Laden / Verwalten</button>
+        <label><span data-i18n="lang.label">Sprache:</span>
+          <select id="settings-lang-select" class="terminal-input small">
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="en">🇬🇧 English</option>
+          </select>
+        </label>
       </div>
       <div class="settings-group">
-        <h3>Session-Info</h3>
+        <h3 data-i18n="settings.saveSection">Spielstand</h3>
+        <button type="button" id="btn-save-game" class="terminal-btn" data-i18n="settings.save">Speichern</button>
+        <button type="button" id="btn-export-game" class="terminal-btn" data-i18n="settings.export">Exportieren (.deadzone)</button>
+        <button type="button" id="btn-load-game" class="terminal-btn" data-i18n="settings.loadManage">Laden / Verwalten</button>
+      </div>
+      <div class="settings-group">
+        <h3 data-i18n="settings.sessionInfo">Session-Info</h3>
         <div id="session-info-display" class="session-info"></div>
       </div>
-      <button type="button" id="btn-close-settings" class="terminal-btn primary">Schließen</button>
+      <button type="button" id="btn-close-settings" class="terminal-btn primary" data-i18n="settings.close">Schließen</button>
     </div>
   </div>
 
@@ -424,11 +439,11 @@
   <div id="overlay-loading" class="overlay hidden">
     <div class="loading-content">
       <div class="loading-spinner"></div>
-      <p id="loading-text">Lade...</p>
+      <p id="loading-text" data-i18n="loading.default">Lade...</p>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script type="module" src="js/app.js?v=8"></script>
+  <script type="module" src="js/app.js?v=9"></script>
 </body>
 </html>

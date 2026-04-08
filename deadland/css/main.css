@@ -235,6 +235,39 @@ a:hover { text-decoration: underline; color: var(--accent); }
   font-size: var(--font-size-sm);
 }
 
+.lang-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.lang-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 4px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  transition: all 0.2s;
+}
+
+.lang-btn:hover {
+  border-color: var(--accent-dim);
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  border-color: var(--accent-lime);
+  color: var(--accent-lime);
+  background: rgba(163, 230, 53, 0.08);
+}
+
 .screen-title {
   font-family: var(--font-heading);
   color: var(--accent);

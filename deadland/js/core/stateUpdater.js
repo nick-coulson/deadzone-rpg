@@ -2,17 +2,18 @@
 
 import { saveManager } from '../state/saveManager.js';
 import { eventBus } from './eventBus.js';
+import { i18n } from './i18n.js';
 
-const TIME_OF_DAY = [
-  [5, 'Morgendämmerung'], [7, 'Morgen'], [12, 'Mittag'],
-  [14, 'Nachmittag'], [18, 'Abend'], [21, 'Nacht'], [0, 'Tiefe Nacht']
+const TIME_OF_DAY_KEYS = [
+  [0, 'time.deepNight'], [5, 'time.dawn'], [7, 'time.morning'], [12, 'time.noon'],
+  [14, 'time.afternoon'], [18, 'time.evening'], [21, 'time.night']
 ];
 
 function getTimeOfDay(hour) {
-  for (let i = TIME_OF_DAY.length - 1; i >= 0; i--) {
-    if (hour >= TIME_OF_DAY[i][0]) return TIME_OF_DAY[i][1];
+  for (let i = TIME_OF_DAY_KEYS.length - 1; i >= 0; i--) {
+    if (hour >= TIME_OF_DAY_KEYS[i][0]) return i18n.t(TIME_OF_DAY_KEYS[i][1]);
   }
-  return 'Tiefe Nacht';
+  return i18n.t('time.deepNight');
 }
 
 class StateUpdater {
@@ -69,6 +70,18 @@ class StateUpdater {
   async updateScene(scene) {
     const entries = Object.entries(scene).map(([k, v]) => `${k}: "${v}"`).join('\n');
     await saveManager.setState('szene_aktuell', entries);
+
+    // Sync day counter from AI if provided
+    if (scene.tag) {
+      const day = parseInt(scene.tag);
+      if (day > 0) {
+        const save = await saveManager.getCurrentSave();
+        if (save && save.currentDay !== day) {
+          await saveManager.updateSaveMeta({ currentDay: day });
+          eventBus.emit('day:updated', { day });
+        }
+      }
+    }
   }
 
   async updateNotebook(entries) {

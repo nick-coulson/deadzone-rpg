@@ -2,6 +2,7 @@
 
 import { getGenesisPrompt } from './genesisPrompt.js';
 import { PHASE_CONTEXTS } from '../state/stateSchema.js';
+import { i18n } from '../core/i18n.js';
 
 class PromptBuilder {
   constructor() {
@@ -12,10 +13,12 @@ class PromptBuilder {
     this.groupData = '';
     this.sceneContext = '';
     this.onDemandData = [];
+    this.outbreakDay = null;
   }
 
   setPhase(phase) { this.phase = phase; }
   setLocation(location) { this.location = location; }
+  setOutbreakDay(day) { this.outbreakDay = day; }
   setMasterSummary(summary) { this.masterSummary = summary; }
   setCharacterData(data) { this.characterData = data; }
   setGroupData(data) { this.groupData = data; }
@@ -43,7 +46,20 @@ class PromptBuilder {
 
     // 3. World/Phase context
     if (this.phase && PHASE_CONTEXTS[this.phase]) {
-      parts.push(`## SPIELWELT-KONTEXT\n\n${PHASE_CONTEXTS[this.phase]}\nStartort: ${this.location}`);
+      let phaseText = `## SPIELWELT-KONTEXT\n\n${PHASE_CONTEXTS[this.phase]}\nStartort: ${this.location}`;
+
+      // Pre-outbreak: inject mandatory outbreak trigger
+      if (this.phase === 'pre_outbreak' && this.outbreakDay) {
+        phaseText += `\n\n### GEHEIMER AUSBRUCH-TRIGGER (NICHT dem Spieler verraten!)
+Der Zombie-Ausbruch MUSS an Tag ${this.outbreakDay} beginnen. Das ist NICHT optional.
+- Tage 1-${this.outbreakDay - 2}: Normalität mit zunehmend beunruhigenden Hinweisen (Nachrichten, kranke Tiere, seltsame Vorfälle, verschwundene Nachbarn)
+- Tag ${this.outbreakDay - 1}: Drastische Eskalation — Militärkonvois, Quarantäne-Zonen, Panik in den Nachrichten, Sirenen
+- Tag ${this.outbreakDay}: DER AUSBRUCH! Erste Zombies, Chaos, Zusammenbruch der Ordnung. Ab hier ist nichts mehr wie vorher.
+- Baue die Spannung realistisch auf. Der Spieler soll die wachsende Bedrohung SPÜREN bevor es losgeht.
+- Der Ausbruch-Tag ist fest — egal was der Spieler tut, er kann ihn nicht verhindern.`;
+      }
+
+      parts.push(phaseText);
     }
 
     // 4. Master summary (rolling history)
@@ -122,6 +138,7 @@ charakter:
   inventar_remove: []
 szene:
   ort: "aktueller_ort"
+  tag: 1
   uhrzeit: "HH:MM (24h-Format, z.B. 21:55)"
   wetter: "detailliertes aktuelles Wetter mit Temperatur (z.B. 'Nebliger Herbstmorgen, 8°C' oder 'Starkregen, 14°C' oder 'Klar, Sternenhimmel, -2°C')"
   zeit_verbraucht: "30min"
@@ -133,8 +150,14 @@ npcs: []
 
 Nur VERAENDERTE Felder eintragen. Leere Felder weglassen.
 
+### ZEITMANAGEMENT
+- Am Ende jeder Szene IMMER die vergangene Zeit realistisch abschätzen und im state_update als uhrzeit (neue absolute Uhrzeit), tag (aktueller Tag als Zahl) UND zeit_verbraucht eintragen.
+- WICHTIG: Das "tag" Feld im state_update MUSS immer den aktuellen Tag als Zahl enthalten (1, 2, 3...). Wenn Mitternacht überschritten wird, Tag um 1 erhöhen. Die <ui:time> Box und der state_update müssen IMMER denselben Tag zeigen!
+- Die <ui:time> Box am Ende jeder Antwort anzeigen mit aktuellem Tag, Uhrzeit, Tageszeit und vergangener Zeit (z.B. "Tag 1 | 07:45 Morgen | +25min vergangen").
+- Realistische Zeitschätzung: Kurze Gespräche ~5-10min, Erkundung eines Raumes ~15-30min, Plündern ~30-60min, Reisen zwischen Orten ~1-3h, Schlaf ~6-8h.
+
 ### SPRACHE
-Spiele auf Deutsch (oder der Sprache des Spielers). Narrativer Text ist literarische Prosa. UI-Boxen sind kompakt und informativ.`;
+Spiele auf ${i18n.lang === 'en' ? 'Englisch (English)' : 'Deutsch (German)'}. Narrativer Text ist literarische Prosa. UI-Boxen sind kompakt und informativ. ALLE Ausgaben (Erzählung, UI-Boxen, Status, Inventar) müssen in der gewählten Sprache sein.`;
   }
 
   buildMessages(conversationHistory) {

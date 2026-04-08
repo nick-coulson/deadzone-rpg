@@ -1,5 +1,15 @@
 // DEADZONE — UI Box Renderers
 
+function mdToHtml(text) {
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\n/g, '<br>');
+}
+
 const BOX_HEADERS = {
   scene: 'SZENE',
   threat: 'BEDROHUNG ERKANNT',
@@ -51,7 +61,7 @@ export function renderUIBox(segment) {
   } else {
     const pre = document.createElement('div');
     pre.className = 'ui-box-content';
-    pre.textContent = content;
+    pre.innerHTML = mdToHtml(content);
     box.appendChild(pre);
   }
 
@@ -90,7 +100,7 @@ const BOX_RENDERERS = {
       } else if (line.match(/fehl|fail|miss/i)) {
         p.className = 'roll-result roll-failure';
       }
-      p.textContent = line;
+      p.innerHTML = mdToHtml(line);
       div.appendChild(p);
     }
     return div;
@@ -116,14 +126,14 @@ const BOX_RENDERERS = {
   notebook_update(content) {
     const div = document.createElement('div');
     div.className = 'ui-box-content';
-    div.textContent = content;
+    div.innerHTML = mdToHtml(content);
     return div;
   },
 
   threat(content, attrs) {
     const div = document.createElement('div');
     div.className = 'ui-box-content';
-    div.textContent = content;
+    div.innerHTML = mdToHtml(content);
     return div;
   }
 };

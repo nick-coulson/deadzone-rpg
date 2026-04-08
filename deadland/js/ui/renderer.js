@@ -98,13 +98,29 @@ class Renderer {
     this.scrollToBottom();
   }
 
+  // Convert basic markdown to safe HTML
+  markdownToHtml(text) {
+    // Escape HTML first to prevent XSS
+    const escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    // Then apply markdown formatting
+    return escaped
+      .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/`(.+?)`/g, '<code>$1</code>')
+      .replace(/\n/g, '<br>');
+  }
+
   // Render parsed segments
   renderSegments(segments) {
     for (const segment of segments) {
       if (segment.type === 'narrative') {
         const div = document.createElement('div');
         div.className = 'narrative-block fade-in';
-        div.textContent = segment.content;
+        div.innerHTML = this.markdownToHtml(segment.content);
         this.outputEl.appendChild(div);
       } else if (segment.type === 'ui') {
         const box = renderUIBox(segment);
@@ -130,7 +146,7 @@ class Renderer {
   }
 
   scrollToBottom() {
-    const container = document.getElementById('screen-game');
+    const container = document.getElementById('game-output');
     if (container) {
       requestAnimationFrame(() => {
         container.scrollTop = container.scrollHeight;

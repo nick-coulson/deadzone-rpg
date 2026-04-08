@@ -13,6 +13,8 @@ import { eventBus } from './eventBus.js';
 import { showOverlay, hideOverlay, showLoading, hideLoading } from '../ui/overlays.js';
 import { exportSave } from '../state/exportImport.js';
 import { PHASE_LABELS } from '../state/stateSchema.js';
+import { parseResponse } from '../ui/responseParser.js';
+import { i18n } from './i18n.js';
 
 // Game states
 const STATE = {
@@ -153,19 +155,36 @@ class GameEngine {
       this.goToSavegames();
     });
 
-    this._on('setting-scanlines', 'change', (e) => {
-      document.body.classList.toggle('scanlines', e.target.checked);
-      saveManager.setSetting('scanlines', e.target.checked);
-    });
-
-    this._on('setting-typewriter', 'change', (e) => {
-      typewriter.setEnabled(e.target.checked);
-      saveManager.setSetting('typewriter', e.target.checked);
-    });
-
     this._on('budget-limit-input', 'change', (e) => {
       costTracker.setBudgetLimit(parseFloat(e.target.value) || 0);
     });
+
+    // Language switcher — setup screen buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        i18n.setLang(btn.dataset.lang);
+        const langSelect = document.getElementById('settings-lang-select');
+        if (langSelect) langSelect.value = btn.dataset.lang;
+      });
+    });
+
+    // Language switcher — settings dropdown
+    this._on('settings-lang-select', 'change', (e) => {
+      i18n.setLang(e.target.value);
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === e.target.value);
+      });
+    });
+
+    // Restore saved language on init
+    const savedLang = localStorage.getItem('deadzone_lang') || 'de';
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === savedLang);
+    });
+    const langSelect = document.getElementById('settings-lang-select');
+    if (langSelect) langSelect.value = savedLang;
 
     this._on('settings-model-select', 'change', (e) => {
       const newModel = e.target.value;
@@ -232,6 +251,12 @@ class GameEngine {
       const textEl = document.getElementById('top-bar-weather-text');
       if (iconEl) iconEl.textContent = icon;
       if (textEl) textEl.textContent = wetter;
+    });
+
+    eventBus.on('day:updated', ({ day }) => {
+      const dayEl = document.getElementById('top-bar-day');
+      if (dayEl) dayEl.textContent = `${i18n.t('topbar.day')} ${day}`;
+      if (this.currentSave) this.currentSave.currentDay = day;
     });
   }
 
@@ -324,7 +349,7 @@ class GameEngine {
 
     apiClient.setModel(modelId);
     costTracker.setModel(modelId);
-    saveManager.setSetting('lastModel', modelId);
+    await saveManager.setSetting('lastModel', modelId);
 
     // Sync settings dropdown
     const settingsSelect = document.getElementById('settings-model-select');
@@ -436,15 +461,15 @@ class GameEngine {
     const charData = this.getSelectedCharacter();
 
     if (!location) {
-      alert('Bitte wähle einen Startort oder gib einen eigenen ein.');
+      alert(i18n.t('alert.noLocation'));
       return;
     }
     if (!charData.name) {
-      alert('Bitte gib einen Charakternamen ein.');
+      alert(i18n.t('alert.noName'));
       return;
     }
 
-    showLoading('Charakter wird generiert...');
+    showLoading(i18n.t('loading.charGen'));
 
     try {
       const backstoryPart = charData.backstory ? `\nPersönliche Geschichte: ${charData.backstory}` : '';
@@ -497,7 +522,7 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
 
       const characterName = charData.name;
 
-      showLoading('Spiel wird erstellt...');
+      showLoading(i18n.t('loading.gameCreate'));
 
       // Create save
       this.currentSave = await saveManager.createNewSave(characterName, phase, location);
@@ -505,6 +530,13 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
       await saveManager.setState('charakter_beschreibung', charPrompt);
       await saveManager.setState('game_time', '08:00');
       await saveManager.setState('tageszeit', 'Morgen');
+
+      // If pre_outbreak: set random outbreak day between 4-8
+      if (phase === 'pre_outbreak') {
+        const outbreakDay = Math.floor(Math.random() * 5) + 4; // 4-8
+        await saveManager.setState('outbreak_day', outbreakDay);
+        promptBuilder.setOutbreakDay(outbreakDay);
+      }
 
       // Setup prompt builder
       promptBuilder.setPhase(phase);
@@ -538,7 +570,7 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
   }
 
   async loadGame(saveId) {
-    showLoading('Spielstand wird geladen...');
+    showLoading(i18n.t('loading.saveLoad'));
 
     try {
       const { save, stateMap, conversation } = await saveManager.loadSave(saveId);
@@ -561,6 +593,12 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
       const savedCost = stateMap['cost_tracker'];
       if (savedCost) {
         costTracker.restoreSnapshot(savedCost);
+      }
+
+      // Restore outbreak day for pre_outbreak phase
+      const outbreakDay = stateMap['outbreak_day'];
+      if (outbreakDay) {
+        promptBuilder.setOutbreakDay(parseInt(outbreakDay));
       }
 
       // Enter game mode
@@ -882,8 +920,5 @@ Vergiss nicht den <state_update> Block am Ende.`
     }
   }
 }
-
-// Need parseResponse for loading saved conversations
-import { parseResponse } from '../ui/responseParser.js';
 
 export const gameEngine = new GameEngine();

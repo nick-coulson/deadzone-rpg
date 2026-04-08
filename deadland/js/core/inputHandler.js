@@ -15,7 +15,7 @@ const SYSTEM_COMMANDS = [
 const GAME_COMMANDS = [
   { pattern: /^(status|wie geht es mir)/i, type: 'status', loadData: ['charakter'] },
   { pattern: /^(inventar|was habe ich)/i, type: 'inventory', loadData: ['charakter'] },
-  { pattern: /^(karte|wo bin ich)/i, type: 'map', loadData: ['welt/bekannte_orte'] },
+  { pattern: /^(karte|wo bin ich)/i, type: 'map', loadData: ['welt/weltzustand'] },
   { pattern: /^(gruppe|wer ist bei mir)/i, type: 'group', loadData: ['npcs/gruppe'] },
   { pattern: /^(basis|wie steht es um)/i, type: 'base', loadData: ['basis/hauptbasis'] },
   { pattern: /^(notizbuch|was weiss ich)/i, type: 'notebook', loadData: ['notizbuch'] },
