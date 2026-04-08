@@ -1508,7 +1508,7 @@ async function setupNext(){
       const testModel=document.getElementById('model-custom').value.trim()||document.getElementById('model-select-setup').value;
       const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
         method:'POST',
-        headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':window.location.href,'X-Title':'DEADZONE'},
+        headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
         body:JSON.stringify({model:testModel,messages:[{role:'user',content:'Hi'}],max_tokens:1})
       });
       if(res.status!==200&&res.status!==201){
@@ -2241,9 +2241,7 @@ async function callAI(msgs){
       method:'POST',
       headers:{
         'Authorization':'Bearer '+apiKey,
-        'Content-Type':'application/json',
-        'HTTP-Referer':window.location.href,
-        'X-Title':'DEADZONE'
+        'Content-Type':'application/json'
       },
       body:JSON.stringify({
         model:GS.model,
