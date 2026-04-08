@@ -461,31 +461,31 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   <div class="form-group"><label>Hintergrund</label><textarea id="char-bg-input" placeholder="Ex-Soldat? Arzt? Mechaniker? Farmer? Lehrer?"></textarea></div>
   <div class="form-group"><label>Spezialisierung</label></div>
   <div class="option-cards cols-3" id="spec-cards">
-    <div class="option-card" data-spec="fighter" onclick="selectCard(this,'spec')"><div class="icon">&#9876;&#65039;</div><div class="name">Kampfer</div><div class="desc">Nahkampf, Schusswaffen, Taktik</div></div>
-    <div class="option-card" data-spec="scout" onclick="selectCard(this,'spec')"><div class="icon">&#128065;&#65039;</div><div class="name">Kundschafter</div><div class="desc">Schleichen, Aufklarung, Fallen</div></div>
-    <div class="option-card" data-spec="medic" onclick="selectCard(this,'spec')"><div class="icon">&#128137;</div><div class="name">Sanitater</div><div class="desc">Heilung, Chirurgie, Krankheiten</div></div>
+    <div class="option-card" data-spec="fighter" onclick="selectCard(this,'spec')"><div class="icon">&#9876;&#65039;</div><div class="name">Kämpfer</div><div class="desc">Nahkampf, Schusswaffen, Taktik</div></div>
+    <div class="option-card" data-spec="scout" onclick="selectCard(this,'spec')"><div class="icon">&#128065;&#65039;</div><div class="name">Kundschafter</div><div class="desc">Schleichen, Aufklärung, Fallen</div></div>
+    <div class="option-card" data-spec="medic" onclick="selectCard(this,'spec')"><div class="icon">&#128137;</div><div class="name">Sanitäter</div><div class="desc">Heilung, Chirurgie, Krankheiten</div></div>
     <div class="option-card" data-spec="engineer" onclick="selectCard(this,'spec')"><div class="icon">&#128295;</div><div class="name">Ingenieur</div><div class="desc">Bau, Reparatur, Fahrzeuge</div></div>
-    <div class="option-card" data-spec="leader" onclick="selectCard(this,'spec')"><div class="icon">&#11088;</div><div class="name">Anfuhrer</div><div class="desc">Moral, Diplomatie, Organisation</div></div>
-    <div class="option-card" data-spec="scavenger" onclick="selectCard(this,'spec')"><div class="icon">&#128218;</div><div class="name">Plunderer</div><div class="desc">Suche, Handel, Resourcen</div></div>
+    <div class="option-card" data-spec="leader" onclick="selectCard(this,'spec')"><div class="icon">&#11088;</div><div class="name">Anführer</div><div class="desc">Moral, Diplomatie, Organisation</div></div>
+    <div class="option-card" data-spec="scavenger" onclick="selectCard(this,'spec')"><div class="icon">&#128218;</div><div class="name">Plünderer</div><div class="desc">Suche, Handel, Resourcen</div></div>
     <div class="option-card" data-spec="farmer" onclick="selectCard(this,'spec')"><div class="icon">&#127793;</div><div class="name">Farmer</div><div class="desc">Nahrung, Tiere, Natur</div></div>
     <div class="option-card" data-spec="mechanic" onclick="selectCard(this,'spec')"><div class="icon">&#128663;</div><div class="name">Mechaniker</div><div class="desc">Fahrzeuge, Generatoren, Waffen</div></div>
     <div class="option-card" data-spec="chemist" onclick="selectCard(this,'spec')"><div class="icon">&#129514;</div><div class="name">Chemiker</div><div class="desc">Medizin, Sprengstoff, Gifte</div></div>
   </div>
-  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zuruck</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
+  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zurück</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
 </div>
 
 <!-- Step 2: Stats -->
 <div class="setup-step" data-step="2">
   <div class="step-title">Attribute verteilen</div>
-  <div class="points-left">Punkte ubrig: <span id="points-remaining">10</span></div>
+  <div class="points-left">Punkte übrig: <span id="points-remaining">10</span></div>
   <div id="stat-alloc-list"></div>
-  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zuruck</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
+  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zurück</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
 </div>
 
 <!-- Step 3: Traits -->
 <div class="setup-step" data-step="3">
-  <div class="step-title">Eigenschaften wahlen</div>
-  <p style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Negative Eigenschaften geben Bonuspunkte fur positive. Wahle weise — sie beeinflussen dein Uberleben!</p>
+  <div class="step-title">Eigenschaften wählen</div>
+  <p style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Negative Eigenschaften geben Bonuspunkte für positive. Wähle weise — sie beeinflussen dein Überleben!</p>
   <div class="points-left">Trait-Punkte: <span id="trait-points-display" style="color:var(--accent)">0</span></div>
   <div style="margin-bottom:12px">
     <div class="sec-title" style="color:var(--danger);margin-bottom:6px">&#9888; NEGATIVE EIGENSCHAFTEN (geben Punkte)</div>
@@ -495,36 +495,36 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <div class="sec-title" style="color:var(--success);margin-bottom:6px">&#10004; POSITIVE EIGENSCHAFTEN (kosten Punkte)</div>
     <div class="trait-select-grid" id="positive-traits-grid"></div>
   </div>
-  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zuruck</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
+  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zurück</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
 </div>
 
 <!-- Step 4: Apocalypse Phase -->
 <div class="setup-step" data-step="4">
-  <div class="step-title">Welt-Zustand wahlen</div>
+  <div class="step-title">Welt-Zustand wählen</div>
   <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">In welcher Phase der Apokalypse beginnt deine Geschichte? Dies beeinflusst die gesamte Spielwelt.</p>
   <div class="option-cards cols-2" id="phase-cards">
     <div class="option-card" data-phase="pre_outbreak" onclick="selectCard(this,'phase')">
       <div class="icon">&#127961;&#65039;</div>
       <div class="name">Vor dem Ausbruch</div>
-      <div class="desc">Die Welt ist noch normal. Erste mysteridse Berichte tauchen auf. Geruchte, seltsame Krankheitsfalle. Niemand glaubt es — noch nicht. Du ahnst, dass etwas kommt.</div>
+      <div class="desc">Die Welt ist noch normal. Erste mysteriöse Berichte tauchen auf. Gerüchte, seltsame Krankheitsfalle. Niemand glaubt es — noch nicht. Du ahnst, dass etwas kommt.</div>
     </div>
     <div class="option-card" data-phase="outbreak" onclick="selectCard(this,'phase')">
       <div class="icon">&#9888;&#65039;</div>
       <div class="name">Ausbruch</div>
-      <div class="desc">Die Infektion breitet sich gerade aus. Chaos, Panik, zusammenbrechende Ordnung. Militar versucht zu kontrollieren. Nachrichtenblackouts. Tag 0 bis Tag 7.</div>
+      <div class="desc">Die Infektion breitet sich gerade aus. Chaos, Panik, zusammenbrechende Ordnung. Militär versucht zu kontrollieren. Nachrichtenblackouts. Tag 0 bis Tag 7.</div>
     </div>
     <div class="option-card selected" data-phase="early_apocalypse" onclick="selectCard(this,'phase')">
       <div class="icon">&#128165;</div>
-      <div class="name">Fruhe Apokalypse</div>
-      <div class="desc">Wochen nach dem Ausbruch. Zivilisation ist zusammengebrochen. Strom fallt aus, Geschafte geplundert. Uberlebende bilden erste Gruppen. Zombies uberall.</div>
+      <div class="name">Frühe Apokalypse</div>
+      <div class="desc">Wochen nach dem Ausbruch. Zivilisation ist zusammengebrochen. Strom fällt aus, Geschäfte geplündert. Überlebende bilden erste Gruppen. Zombies überall.</div>
     </div>
     <div class="option-card" data-phase="late_apocalypse" onclick="selectCard(this,'phase')">
       <div class="icon">&#127766;</div>
       <div class="name">Jahre danach</div>
-      <div class="desc">Mehrere Jahre nach dem Zusammenbruch. Natur erobert Stadte zuruck. Feste Siedlungen, Handler-Routen, brutale Fraktionen. Zombies sind Alltag. Uberleben ist Routine — Menschen die wahre Gefahr.</div>
+      <div class="desc">Mehrere Jahre nach dem Zusammenbruch. Natur erobert Städte zurück. Feste Siedlungen, Händler-Routen, brutale Fraktionen. Zombies sind Alltag. Überleben ist Routine — Menschen die wahre Gefahr.</div>
     </div>
   </div>
-  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zuruck</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
+  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zurück</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
 </div>
 
 <!-- Step 5: Community Config -->
@@ -532,7 +532,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   <div class="step-title">Gemeinschaft konfigurieren</div>
   <div class="form-group"><label>Startbedingung</label></div>
   <div class="option-cards cols-3" id="start-type-cards">
-    <div class="option-card" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128058;</div><div class="name">Einzelganger</div><div class="desc">Allein, kein Lager, hardcore.</div></div>
+    <div class="option-card" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128058;</div><div class="name">Einzelgänger</div><div class="desc">Allein, kein Lager, hardcore.</div></div>
     <div class="option-card selected" data-start="small_group" onclick="selectCard(this,'start')"><div class="icon">&#128101;</div><div class="name">Kleine Gruppe</div><div class="desc">3-5 Leute, provisorisches Lager.</div></div>
     <div class="option-card" data-start="established" onclick="selectCard(this,'start')"><div class="icon">&#127970;</div><div class="name">Etablierte Basis</div><div class="desc">8-12 Leute, befestigtes Lager.</div></div>
   </div>
@@ -544,24 +544,24 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <div class="res-config-row"><span class="rc-label">Baumaterial</span><select id="cfg-materials"><option value="none">Keines</option><option value="some" selected>Wenig</option><option value="plenty">Reichlich</option></select></div>
     <div class="res-config-row"><span class="rc-label">Fahrzeuge</span><select id="cfg-vehicles"><option value="none">Keine</option><option value="wreck">Wrack (reparierbar)</option><option value="working" selected>Ein Fahrzeug</option></select></div>
   </div>
-  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zuruck</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
+  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zurück</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
 </div>
 
 <!-- Step 6: Location -->
 <div class="setup-step" data-step="6">
-  <div class="step-title">Startort wahlen</div>
+  <div class="step-title">Startort wählen</div>
   <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Wo beginnt eure Geschichte?</p>
   <div class="option-cards cols-2" id="start-location-cards">
-    <div class="option-card selected" data-loc="suburbia" onclick="selectCard(this,'loc')"><div class="icon">&#127968;</div><div class="name">Vorstadt</div><div class="desc">Wohngebiet, viele Hauser zum Plindern, moderate Zombies</div></div>
-    <div class="option-card" data-loc="rural" onclick="selectCard(this,'loc')"><div class="icon">&#127806;</div><div class="name">Landlich</div><div class="desc">Farmen, Scheunen, wenig Zombies, weite Wege</div></div>
-    <div class="option-card" data-loc="industrial" onclick="selectCard(this,'loc')"><div class="icon">&#127981;</div><div class="name">Industriegebiet</div><div class="desc">Fabriken, Werkstatten, Materialien, viele Zombies</div></div>
-    <div class="option-card" data-loc="downtown" onclick="selectCard(this,'loc')"><div class="icon">&#127751;</div><div class="name">Innenstadt</div><div class="desc">Hochhauser, extrem gefahrlich, beste Beute</div></div>
-    <div class="option-card" data-loc="military" onclick="selectCard(this,'loc')"><div class="icon">&#127386;</div><div class="name">Militarbasis</div><div class="desc">Waffen, Munition, starke Zombies, Blockaden</div></div>
-    <div class="option-card" data-loc="forest" onclick="selectCard(this,'loc')"><div class="icon">&#127794;</div><div class="name">Waldgebiet</div><div class="desc">Natur, Jagd, versteckt, wenig Vorrate</div></div>
+    <div class="option-card selected" data-loc="suburbia" onclick="selectCard(this,'loc')"><div class="icon">&#127968;</div><div class="name">Vorstadt</div><div class="desc">Wohngebiet, viele Häuser zum Plündern, moderate Zombies</div></div>
+    <div class="option-card" data-loc="rural" onclick="selectCard(this,'loc')"><div class="icon">&#127806;</div><div class="name">Ländlich</div><div class="desc">Farmen, Scheunen, wenig Zombies, weite Wege</div></div>
+    <div class="option-card" data-loc="industrial" onclick="selectCard(this,'loc')"><div class="icon">&#127981;</div><div class="name">Industriegebiet</div><div class="desc">Fabriken, Werkstätten, Materialien, viele Zombies</div></div>
+    <div class="option-card" data-loc="downtown" onclick="selectCard(this,'loc')"><div class="icon">&#127751;</div><div class="name">Innenstadt</div><div class="desc">Hochhäuser, extrem gefährlich, beste Beute</div></div>
+    <div class="option-card" data-loc="military" onclick="selectCard(this,'loc')"><div class="icon">&#127386;</div><div class="name">Militärbasis</div><div class="desc">Waffen, Munition, starke Zombies, Blockaden</div></div>
+    <div class="option-card" data-loc="forest" onclick="selectCard(this,'loc')"><div class="icon">&#127794;</div><div class="name">Waldgebiet</div><div class="desc">Natur, Jagd, versteckt, wenig Vorräte</div></div>
     <div class="option-card" data-loc="hospital" onclick="selectCard(this,'loc')"><div class="icon">&#127973;</div><div class="name">Krankenhaus</div><div class="desc">Medizin, aber Zombie-Hotspot, Infektionsgefahr</div></div>
-    <div class="option-card" data-loc="shopping_mall" onclick="selectCard(this,'loc')"><div class="icon">&#128722;</div><div class="name">Einkaufszentrum</div><div class="desc">Vorrate, Kleidung, verteidigbar, aber umzingelt</div></div>
+    <div class="option-card" data-loc="shopping_mall" onclick="selectCard(this,'loc')"><div class="icon">&#128722;</div><div class="name">Einkaufszentrum</div><div class="desc">Vorräte, Kleidung, verteidigbar, aber umzingelt</div></div>
   </div>
-  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zuruck</button><button class="btn btn-primary" onclick="startGame()">&#9760;&#65039; Uberleben beginnt</button></div>
+  <div class="btn-row"><button class="btn" onclick="setupPrev()">Zurück</button><button class="btn btn-primary" onclick="startGame()">&#9760;&#65039; Überleben beginnt</button></div>
 </div>
 </div>
 </div>
@@ -588,7 +588,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <div class="typing-indicator" id="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
     <div id="action-bar">
       <div style="display:flex;gap:3px">
-        <button class="quick-action" title="Kampfen" onclick="quickAction('fight')">&#9876;&#65039;</button>
+        <button class="quick-action" title="Kämpfen" onclick="quickAction('fight')">&#9876;&#65039;</button>
         <button class="quick-action" title="Reden" onclick="quickAction('talk')">&#128483;&#65039;</button>
         <button class="quick-action" title="Suchen" onclick="quickAction('scavenge')">&#128269;</button>
         <button class="quick-action" title="Schleichen" onclick="quickAction('stealth')">&#129323;</button>
@@ -604,7 +604,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div class="combat-log" id="combat-log"></div>
       <div class="combat-actions" id="combat-actions">
         <button class="combat-action-btn" data-action="melee" onclick="combatAction('melee')"><span class="cab-icon">&#129668;</span>Nahkampf</button>
-        <button class="combat-action-btn" data-action="shoot" onclick="combatAction('shoot')"><span class="cab-icon">&#128299;</span>Schiessen</button>
+        <button class="combat-action-btn" data-action="shoot" onclick="combatAction('shoot')"><span class="cab-icon">&#128299;</span>Schießen</button>
         <button class="combat-action-btn" data-action="defend" onclick="combatAction('defend')"><span class="cab-icon">&#128737;&#65039;</span>Verteidigung</button>
         <button class="combat-action-btn" data-action="flee" onclick="combatAction('flee')"><span class="cab-icon">&#127939;</span>Fliehen</button>
       </div>
@@ -625,7 +625,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <div class="right-tab-content active" data-tab="char">
       <div class="weather-display">
         <span class="weather-icon" id="weather-icon">&#9925;</span>
-        <div class="weather-info"><div class="weather-name" id="weather-name">Bewolkt</div><div class="weather-effect" id="weather-effect">Normale Sicht</div></div>
+        <div class="weather-info"><div class="weather-name" id="weather-name">Bewölkt</div><div class="weather-effect" id="weather-effect">Normale Sicht</div></div>
         <div style="text-align:right">
           <div class="day-counter" id="day-counter">Tag 1</div>
           <div style="font-size:9px;color:var(--text-dim);font-family:var(--mono)" id="game-date"></div>
@@ -669,11 +669,11 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         <div class="tags-wrap" id="tags-display"></div>
       </div>
       <div class="sec">
-        <div class="sec-title">Ausrustung</div>
+        <div class="sec-title">Ausrüstung</div>
         <div class="equipment-grid" id="equipment-grid">
           <div class="equip-slot" data-slot="head"><span class="slot-icon">&#128082;</span><span class="slot-label">Kopf</span></div>
           <div class="equip-slot" data-slot="melee"><span class="slot-icon">&#129668;</span><span class="slot-label">Nahkampf</span></div>
-          <div class="equip-slot" data-slot="body"><span class="slot-icon">&#129507;</span><span class="slot-label">Korper</span></div>
+          <div class="equip-slot" data-slot="body"><span class="slot-icon">&#129507;</span><span class="slot-label">Körper</span></div>
           <div class="equip-slot" data-slot="ranged"><span class="slot-icon">&#128299;</span><span class="slot-label">Fernkampf</span></div>
           <div class="equip-slot" data-slot="legs"><span class="slot-icon">&#128086;</span><span class="slot-label">Beine</span></div>
         </div>
@@ -697,7 +697,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div class="sec">
         <div class="sec-title">Bedrohungsstufe</div>
         <div class="threat-bar">
-          <div class="tb-label"><span>Sicher</span><span id="threat-label">Niedrig</span><span>Horde</span></div>
+          <div class="tb-label"><span>Niedrig</span><span id="threat-label">Sicher</span><span>Horde</span></div>
           <div class="tb-track"><div class="tb-fill" id="threat-fill" style="width:10%"></div></div>
         </div>
       </div>
@@ -710,7 +710,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <!-- COMMUNITY TAB -->
     <div class="right-tab-content" data-tab="community">
       <div class="sec">
-        <div class="sec-title">Uberlebende (<span id="survivor-count">0</span>/<span id="survivor-max">12</span>)</div>
+        <div class="sec-title">Überlebende (<span id="survivor-count">0</span>/<span id="survivor-max">12</span>)</div>
         <div id="survivor-list"></div>
       </div>
       <div class="sec">
@@ -838,7 +838,7 @@ const GS = {
 /* =========================================================================
    CONSTANTS
    ========================================================================= */
-const STAT_NAMES={combat:'Kampf',stealth:'Schleichen',leadership:'Fuhrung',survival:'Uberleben',mechanics:'Mechanik',medicine:'Medizin'};
+const STAT_NAMES={combat:'Kampf',stealth:'Schleichen',leadership:'Führung',survival:'Überleben',mechanics:'Mechanik',medicine:'Medizin'};
 const STAT_COLORS={combat:'#ef4444',stealth:'#8b5cf6',leadership:'#f59e0b',survival:'#10b981',mechanics:'#42a5f5',medicine:'#e91e63'};
 const SPEC_DEFAULTS={
   fighter:{combat:14,stealth:8,leadership:6,survival:10,mechanics:6,medicine:6},
@@ -851,7 +851,7 @@ const SPEC_DEFAULTS={
   mechanic:{combat:8,stealth:6,leadership:6,survival:8,mechanics:16,medicine:6},
   chemist:{combat:6,stealth:8,leadership:6,survival:8,mechanics:10,medicine:14},
 };
-const SPEC_NAMES={fighter:'Kampfer',scout:'Kundschafter',medic:'Sanitater',engineer:'Ingenieur',leader:'Anfuhrer',scavenger:'Plunderer',farmer:'Farmer',mechanic:'Mechaniker',chemist:'Chemiker'};
+const SPEC_NAMES={fighter:'Kämpfer',scout:'Kundschafter',medic:'Sanitäter',engineer:'Ingenieur',leader:'Anführer',scavenger:'Plünderer',farmer:'Farmer',mechanic:'Mechaniker',chemist:'Chemiker'};
 const SPEC_TAGS={
   fighter:[{name:'Nahkampf-Experte',type:'positive'},{name:'Waffenkenner',type:'positive'}],
   scout:[{name:'Leisetreter',type:'positive'},{name:'Adleraugen',type:'positive'}],
@@ -867,17 +867,17 @@ const SPEC_TAGS={
 // Negative Traits (give bonus points, cause gameplay penalties)
 const NEGATIVE_TRAITS={
   smoker:{name:'Raucher',desc:'Braucht Zigaretten oder wird gestresst/depressiv',points:4,icon:'&#128684;'},
-  claustrophobic:{name:'Klaustrophobiker',desc:'Panik in engen Raumen, Kellern, Tunneln',points:3,icon:'&#128560;'},
-  hemophobic:{name:'Hamophob',desc:'Panik beim Anblick von Blut, Stress bei Verletzungen',points:3,icon:'&#129656;'},
-  insomniac:{name:'Schlaflos',desc:'Schlechter Schlaf, Mudigkeit baut sich schneller auf',points:4,icon:'&#128564;'},
+  claustrophobic:{name:'Klaustrophobiker',desc:'Panik in engen Räumen, Kellern, Tunneln',points:3,icon:'&#128560;'},
+  hemophobic:{name:'Hämophob',desc:'Panik beim Anblick von Blut, Stress bei Verletzungen',points:3,icon:'&#129656;'},
+  insomniac:{name:'Schlaflos',desc:'Schlechter Schlaf, Müdigkeit baut sich schneller auf',points:4,icon:'&#128564;'},
   slow_healer:{name:'Langsame Heilung',desc:'Verletzungen heilen langsamer',points:3,icon:'&#129657;'},
   weak_stomach:{name:'Empfindlicher Magen',desc:'Wird schneller krank von schlechtem Essen',points:2,icon:'&#129326;'},
-  overweight:{name:'Ubergewichtig',desc:'Weniger Ausdauer, langsamer, aber mehr Startkraft',points:4,icon:'&#9878;&#65039;'},
+  overweight:{name:'Übergewichtig',desc:'Weniger Ausdauer, langsamer, aber mehr Startkraft',points:4,icon:'&#9878;&#65039;'},
   underweight:{name:'Untergewichtig',desc:'Weniger Kraft, aber agiler und leiser',points:4,icon:'&#129468;'},
-  short_temper:{name:'Hitzkopf',desc:'Konflikte mit anderen Uberlebenden, Moraleprobleme',points:3,icon:'&#128545;'},
-  cowardly:{name:'Angstlich',desc:'Panic-Moodle baut sich schneller auf, Kampfnachteile',points:5,icon:'&#128552;'},
-  loud:{name:'Laut',desc:'Macht mehr Gerausche, zieht Zombies an',points:3,icon:'&#128227;'},
-  addict:{name:'Suchtig',desc:'Braucht Alkohol/Pillen oder Depression steigt',points:5,icon:'&#127863;'},
+  short_temper:{name:'Hitzkopf',desc:'Konflikte mit anderen Überlebenden, Moraleprobleme',points:3,icon:'&#128545;'},
+  cowardly:{name:'Ängstlich',desc:'Panic-Moodle baut sich schneller auf, Kampfnachteile',points:5,icon:'&#128552;'},
+  loud:{name:'Laut',desc:'Macht mehr Geräusche, zieht Zombies an',points:3,icon:'&#128227;'},
+  addict:{name:'Süchtig',desc:'Braucht Alkohol/Pillen oder Depression steigt',points:5,icon:'&#127863;'},
   asthmatic:{name:'Asthmatiker',desc:'Ausdauer regeneriert langsamer, Probleme beim Rennen',points:4,icon:'&#128168;'},
   near_sighted:{name:'Kurzsichtig',desc:'Reduzierte Sichtweite ohne Brille',points:2,icon:'&#128083;'},
 };
@@ -885,34 +885,34 @@ const NEGATIVE_TRAITS={
 const POSITIVE_TRAITS={
   fast_learner:{name:'Schnelllerner',desc:'+30% XP auf alles',points:-6,icon:'&#127891;'},
   thick_skinned:{name:'Dicke Haut',desc:'Weniger Schaden durch Kratzer/Bisse',points:-4,icon:'&#129513;'},
-  lucky:{name:'Gluckspilz',desc:'Bessere Beute, bessere Wurfel',points:-5,icon:'&#127808;'},
+  lucky:{name:'Glückspilz',desc:'Bessere Beute, bessere Wurfel',points:-5,icon:'&#127808;'},
   night_owl:{name:'Nachteule',desc:'Keine Panik-Nachteile bei Nacht',points:-3,icon:'&#129417;'},
   iron_gut:{name:'Eisenmagen',desc:'Kann verdorbenes Essen besser vertragen',points:-2,icon:'&#128170;'},
-  keen_hearing:{name:'Scharfes Gehor',desc:'Hort Zombies fruher, schwerer zu uberraschen',points:-3,icon:'&#128066;'},
+  keen_hearing:{name:'Scharfes Gehör',desc:'Hort Zombies früher, schwerer zu überraschen',points:-3,icon:'&#128066;'},
 };
 let traitPoints=0;
 let selectedTraits={positive:[],negative:[]};
 
 const LOCATIONS=[
-  {id:'suburbia',name:'Vorstadt',icon:'&#127968;',type:'residential',zombieDensity:'medium',loot:'moderate',desc:'Ruhige Wohnviertel, nun von Zombies uberrannt'},
+  {id:'suburbia',name:'Vorstadt',icon:'&#127968;',type:'residential',zombieDensity:'medium',loot:'moderate',desc:'Ruhige Wohnviertel, nun von Zombies überrannt'},
   {id:'rural',name:'Landgebiet',icon:'&#127806;',type:'rural',zombieDensity:'low',loot:'low',desc:'Weite Felder und verlassene Farmen'},
   {id:'industrial',name:'Industriegebiet',icon:'&#127981;',type:'industrial',zombieDensity:'high',loot:'materials',desc:'Fabriken und Lagerhallen voller Materialien'},
-  {id:'downtown',name:'Innenstadt',icon:'&#127751;',type:'urban',zombieDensity:'extreme',loot:'high',desc:'Skyline der Toten, gefahr auf Schritt und Tritt'},
-  {id:'military',name:'Militarbasis',icon:'&#127386;',type:'military',zombieDensity:'high',loot:'weapons',desc:'Verlassene Kaserne mit militarischem Gerat'},
+  {id:'downtown',name:'Innenstadt',icon:'&#127751;',type:'urban',zombieDensity:'extreme',loot:'high',desc:'Skyline der Toten, Gefahr auf Schritt und Tritt'},
+  {id:'military',name:'Militärbasis',icon:'&#127386;',type:'military',zombieDensity:'high',loot:'weapons',desc:'Verlassene Kaserne mit militarischem Gerät'},
   {id:'forest',name:'Waldgebiet',icon:'&#127794;',type:'nature',zombieDensity:'low',loot:'survival',desc:'Dichter Wald, gut zum Verstecken'},
-  {id:'hospital',name:'Krankenhaus',icon:'&#127973;',type:'medical',zombieDensity:'very_high',loot:'medicine',desc:'Uberlebensnotwendige Medizin, aber todliche Gefahr'},
+  {id:'hospital',name:'Krankenhaus',icon:'&#127973;',type:'medical',zombieDensity:'very_high',loot:'medicine',desc:'Überlebensnotwendige Medizin, aber tödliche Gefahr'},
   {id:'shopping_mall',name:'Einkaufszentrum',icon:'&#128722;',type:'commercial',zombieDensity:'high',loot:'supplies',desc:'Alles was man braucht, wenn man reinkommt'},
   {id:'gas_station',name:'Tankstelle',icon:'&#9981;',type:'fuel',zombieDensity:'medium',loot:'fuel',desc:'Treibstoff und Snacks'},
-  {id:'school',name:'Schule',icon:'&#127979;',type:'shelter',zombieDensity:'medium',loot:'low',desc:'Grosses Gebaude, gut als Basis'},
-  {id:'farm',name:'Bauernhof',icon:'&#127806;',type:'farm',zombieDensity:'low',loot:'food',desc:'Anbauflachen und Tiere, wenn noch welche leben'},
-  {id:'police_station',name:'Polizeistation',icon:'&#128658;',type:'security',zombieDensity:'medium',loot:'weapons',desc:'Waffen und Schutzausrustung'},
+  {id:'school',name:'Schule',icon:'&#127979;',type:'shelter',zombieDensity:'medium',loot:'low',desc:'Großes Gebäude, gut als Basis'},
+  {id:'farm',name:'Bauernhof',icon:'&#127806;',type:'farm',zombieDensity:'low',loot:'food',desc:'Anbauflächen und Tiere, wenn noch welche leben'},
+  {id:'police_station',name:'Polizeistation',icon:'&#128658;',type:'security',zombieDensity:'medium',loot:'weapons',desc:'Waffen und Schutzausrüstung'},
 ];
 
 const WEATHER_TYPES={
   clear:{icon:'&#9728;&#65039;',name:'Klar',effect:'Gute Sicht, Zombies aktiver'},
-  cloudy:{icon:'&#9925;',name:'Bewolkt',effect:'Normale Bedingungen'},
-  rain:{icon:'&#127783;&#65039;',name:'Regen',effect:'-2 Sicht, Gerausche gedampft, Zombies langsamer'},
-  storm:{icon:'&#9928;&#65039;',name:'Sturm',effect:'-4 Sicht, Larm, Zombies desorientiert, Gefahrlich'},
+  cloudy:{icon:'&#9925;',name:'Bewölkt',effect:'Normale Bedingungen'},
+  rain:{icon:'&#127783;&#65039;',name:'Regen',effect:'-2 Sicht, Geräusche gedämpft, Zombies langsamer'},
+  storm:{icon:'&#9928;&#65039;',name:'Sturm',effect:'-4 Sicht, Lärm, Zombies desorientiert, Gefahrlich'},
   fog:{icon:'&#127787;&#65039;',name:'Nebel',effect:'-5 Sicht, perfekt zum Schleichen, keine Fernsicht'},
   snow:{icon:'&#127784;&#65039;',name:'Schnee',effect:'-2 Bewegung, Spuren sichtbar, Kalte-Schaden'},
   heat:{icon:'&#127777;&#65039;',name:'Hitzewelle',effect:'-3 Ausdauer, Zombies aggressiver'},
@@ -922,29 +922,322 @@ const WEATHER_TYPES={
 const FACILITY_TYPES={
   infirmary:{name:'Krankenstation',icon:'&#128137;',desc:'Heilt Verletzungen und Infektionen',maxLevel:3},
   workshop:{name:'Werkstatt',icon:'&#128295;',desc:'Repariert Waffen und Fahrzeuge',maxLevel:3},
-  kitchen:{name:'Kuche',icon:'&#127860;',desc:'Kocht Nahrung, reduziert Verbrauch',maxLevel:3},
-  watchtower:{name:'Wachturm',icon:'&#128065;&#65039;',desc:'Fruherkennung von Horden',maxLevel:2},
+  kitchen:{name:'Küche',icon:'&#127860;',desc:'Kocht Nahrung, reduziert Verbrauch',maxLevel:3},
+  watchtower:{name:'Wachturm',icon:'&#128065;&#65039;',desc:'Früherkennung von Horden',maxLevel:2},
   garden:{name:'Garten',icon:'&#127793;',desc:'Produziert Nahrung taglich',maxLevel:3},
   armory:{name:'Waffenkammer',icon:'&#128299;',desc:'Lagert und wartet Waffen',maxLevel:2},
-  generator:{name:'Generator',icon:'&#9889;',desc:'Strom fur die Basis',maxLevel:2},
+  generator:{name:'Generator',icon:'&#9889;',desc:'Strom für die Basis',maxLevel:2},
   barricade:{name:'Barrikaden',icon:'&#129521;',desc:'Verteidigung gegen Angriffe',maxLevel:3},
-  storage:{name:'Lager',icon:'&#128230;',desc:'Erhoht Ressourcen-Kapazitat',maxLevel:2},
+  storage:{name:'Lager',icon:'&#128230;',desc:'Erhöht Ressourcen-Kapazitat',maxLevel:2},
   radio:{name:'Funkstation',icon:'&#128225;',desc:'Kontakt zu anderen Gruppen',maxLevel:2},
   lab:{name:'Labor',icon:'&#128300;',desc:'Medizin und Heilmittel herstellen',maxLevel:2},
   garage:{name:'Garage',icon:'&#128663;',desc:'Fahrzeugreparatur und -umbau',maxLevel:2},
 };
 
 const FACTIONS={
-  military_remnants:{name:'Militar-Reste',icon:'&#127386;',color:'var(--military)'},
+  military_remnants:{name:'Militär-Reste',icon:'&#127386;',color:'var(--military)'},
   raiders:{name:'Raider',icon:'&#128128;',color:'var(--raiders)'},
-  traders:{name:'Handler-Karawane',icon:'&#128176;',color:'var(--traders)'},
+  traders:{name:'Händler-Karawane',icon:'&#128176;',color:'var(--traders)'},
   cult:{name:'Der Kult',icon:'&#128163;',color:'var(--zombie)'},
-  other_survivors:{name:'Andere Uberlebende',icon:'&#128101;',color:'var(--survivors)'},
+  other_survivors:{name:'Andere Überlebende',icon:'&#128101;',color:'var(--survivors)'},
 };
 
 const ZOMBIE_TYPES=['Shambler','Runner','Screamer','Bloater','Feral','Juggernaut','Plague Zombie','Horde'];
 
 const XP_TABLE={1:100,2:250,3:450,4:700,5:1000,6:1400,7:1900,8:2500,9:3200,10:4000};
+
+
+/* =========================================================================
+   LOCALIZATION
+   ========================================================================= */
+const LANG={
+  de:{
+    // Setup
+    setupTitle:'DEADZONE',
+    setupSubtitle:'Zombie Survival — Die Toten erheben sich',
+    continueBtn:'▶ Letzten Spielstand fortsetzen',
+    savedAt:'Gespeichert: ',
+    // Step titles
+    step0Title:'Verbindung',
+    step1Title:'Charakter erstellen',
+    step2Title:'Attribute verteilen',
+    step3Title:'Eigenschaften wählen',
+    step4Title:'Welt-Zustand wählen',
+    step5Title:'Gemeinschaft konfigurieren',
+    step6Title:'Startort wählen',
+    // Buttons
+    next:'Weiter',
+    back:'Zurück',
+    startGame:'☠️ Überleben beginnt',
+    save:'💾 Speichern',
+    load:'📂 Laden',
+    newChat:'🔄 Neuer Chat',
+    close:'Schließen',
+    cancel:'Abbrechen',
+    // Labels
+    apiKeyLabel:'OpenRouter API Key',
+    modelLabel:'KI-Modell',
+    customModelLabel:'Eigene Model-ID (optional)',
+    languageLabel:'Sprache / Language',
+    nameLabel:'Name',
+    backgroundLabel:'Hintergrund',
+    specLabel:'Spezialisierung',
+    pointsLeft:'Punkte übrig: ',
+    traitPoints:'Trait-Punkte: ',
+    negTraitsTitle:'⚠ NEGATIVE EIGENSCHAFTEN (geben Punkte)',
+    posTraitsTitle:'✔ POSITIVE EIGENSCHAFTEN (kosten Punkte)',
+    traitNote:'Negative Eigenschaften geben Bonuspunkte für positive. Wähle weise — sie beeinflussen dein Überleben!',
+    phaseNote:'In welcher Phase der Apokalypse beginnt deine Geschichte? Dies beeinflusst die gesamte Spielwelt.',
+    startCondition:'Startbedingung',
+    resources:'RESSOURCEN',
+    locationNote:'Wo beginnt eure Geschichte?',
+    // Tabs
+    tabChar:'Charakter',
+    tabBase:'Basis',
+    tabCommunity:'Gruppe',
+    tabMap:'Karte',
+    tabLog:'Log',
+    // Sections
+    health:'GESUNDHEIT',
+    stamina:'AUSDAUER',
+    infection:'⚠ INFEKTION',
+    moodlesTitle:'Zustand (Moodles)',
+    attributes:'Attribute',
+    traitsStatus:'Traits / Status',
+    equipment:'Ausrüstung',
+    inventory:'Inventar',
+    base:'Basis: ',
+    resourcesTitle:'Ressourcen',
+    threatTitle:'Bedrohungsstufe',
+    vehicles:'Fahrzeuge',
+    survivors:'Überlebende',
+    communityMorale:'Gemeinschafts-Moral',
+    factions:'Fraktionen',
+    currentPos:'Aktuelle Position: ',
+    exploredPlaces:'Erkundete Orte',
+    activeClocks:'Aktive Uhren',
+    missions:'Missionen',
+    timeline:'Zeitleiste',
+    // Quick actions
+    qaFight:'Kämpfen',
+    qaTalk:'Reden',
+    qaSearch:'Suchen',
+    qaStealth:'Schleichen',
+    qaFlee:'Fliehen',
+    qaBuild:'Basis bauen',
+    // Threat levels
+    threatSafe:'Sicher',
+    threatLow:'Gering',
+    threatMedium:'Erhöht',
+    threatHigh:'Hoch',
+    threatCritical:'Kritisch',
+    threatHorde:'HORDE!',
+    // Moodle names
+    mHunger:'Hunger',mThirst:'Durst',mFatigue:'Müdigkeit',mPain:'Schmerz',
+    mBoredom:'Langeweile',mDepression:'Depression',mStress:'Stress',mPanic:'Panik',mTemp:'Temperatur',
+    // Resource names
+    rFood:'Nahrung',rMedicine:'Medizin',rAmmo:'Munition',rMaterials:'Material',rFuel:'Treibstoff',
+    // Survivor statuses
+    statusHealthy:'Gesund',statusInjured:'Verletzt',statusInfected:'Infiziert',statusDead:'Tot',
+    // Misc
+    noVehicles:'Keine Fahrzeuge',
+    noSurvivors:'Keine Überlebenden',
+    noMissions:'Keine Missionen',
+    noEvents:'Keine Ereignisse',
+    nothingExplored:'Noch nichts erkundet',
+    noClocks:'Keine aktiven Uhren',
+    whatDo:'Was tust du?',
+    loading:'Die Toten erwachen...',
+    gameSaved:'Spiel gespeichert.',
+    newChatConfirm:'Neuen Chat starten? Der Spielstand bleibt erhalten.',
+    newChatStarted:'Neuer Chat gestartet. Spielstand beibehalten.',
+    apiKeyNeeded:'API Key benötigt!',
+    selectSpec:'Wähle eine Spezialisierung!',
+    settings:'Einstellungen',
+    settingsAI:'KI',
+    settingsDisplay:'Anzeige',
+    settingsTemp:'Temperatur',
+    settingsMaxTokens:'Max Tokens',
+    settingsFontSize:'Schriftgröße',
+    settingsCustomPrompt:'Eigener Systemprompt-Zusatz',
+    settingsCustomPromptPH:'Zusätzliche Anweisungen...',
+    loadTitle:'Spielstand laden',
+    loadDesc:'Lade einen gespeicherten Spielstand.',
+    deleteConfirm:'Spielstand löschen?',
+    deleteSave:'Spielstand löschen',
+    compressing:'Komprimiere Chat-Verlauf...',
+    compressed:'Chat komprimiert. Geschichte gespeichert.',
+    levelUp:'LEVEL UP! Stufe ',
+    noCamp:'Kein Lager',
+    buildTitle:'Einrichtung bauen',
+    buildNoSlots:'Keine Einrichtungen verfügbar',
+    buildNoSlotsDesc:'Alle Plätze belegt oder alle Typen gebaut.',
+    buildSelect:'Wähle eine Einrichtung für diesen Platz:',
+    buildDone:'Einrichtung gebaut: ',
+    buildNoSpace:'Kein Platz mehr!',
+    buildSlot:'Bauen...',
+    powerOn:'Strom AN',powerOff:'Strom AUS',
+    waterOn:'Wasser AN',waterOff:'Wasser AUS',
+    // Spec names
+    specFighter:'Kämpfer',specScout:'Kundschafter',specMedic:'Sanitäter',specEngineer:'Ingenieur',
+    specLeader:'Anführer',specScavenger:'Plünderer',specFarmer:'Farmer',specMechanic:'Mechaniker',specChemist:'Chemiker',
+    // Phase names
+    phasePreOutbreak:'Vor dem Ausbruch',
+    phaseOutbreak:'Ausbruch',
+    phaseEarly:'Frühe Apokalypse',
+    phaseLate:'Jahre danach',
+    // Community start
+    startSolo:'Einzelgänger',startSmall:'Kleine Gruppe',startEstablished:'Etablierte Basis',
+    startSoloDesc:'Allein, kein Lager, hardcore.',startSmallDesc:'3-5 Leute, provisorisches Lager.',startEstDesc:'8-12 Leute, befestigtes Lager.',
+    // Pre-outbreak community
+    startSoloPre:'Einzelperson',startSmallPre:'Kleine Prepper-Gruppe',startEstPre:'Organisierte Prepper',
+    startSoloPreDesc:'Allein lebend, kein Netzwerk.',startSmallPreDesc:'Kleine Prepper-Gruppe, einige Vorräte eingelagert.',startEstPreDesc:'Gut organisierte Prepper, Bunker, Vorratslager.',
+  },
+  en:{
+    setupTitle:'DEADZONE',
+    setupSubtitle:'Zombie Survival — The Dead Rise',
+    continueBtn:'▶ Continue Last Save',
+    savedAt:'Saved: ',
+    step0Title:'Connection',
+    step1Title:'Create Character',
+    step2Title:'Distribute Attributes',
+    step3Title:'Choose Traits',
+    step4Title:'Choose World State',
+    step5Title:'Configure Community',
+    step6Title:'Choose Starting Location',
+    next:'Next',
+    back:'Back',
+    startGame:'☠️ Begin Survival',
+    save:'💾 Save',
+    load:'📂 Load',
+    newChat:'🔄 New Chat',
+    close:'Close',
+    cancel:'Cancel',
+    apiKeyLabel:'OpenRouter API Key',
+    modelLabel:'AI Model',
+    customModelLabel:'Custom Model ID (optional)',
+    languageLabel:'Language',
+    nameLabel:'Name',
+    backgroundLabel:'Background',
+    specLabel:'Specialization',
+    pointsLeft:'Points remaining: ',
+    traitPoints:'Trait Points: ',
+    negTraitsTitle:'⚠ NEGATIVE TRAITS (give points)',
+    posTraitsTitle:'✔ POSITIVE TRAITS (cost points)',
+    traitNote:'Negative traits give bonus points for positive ones. Choose wisely — they affect your survival!',
+    phaseNote:'In which phase of the apocalypse does your story begin? This affects the entire game world.',
+    startCondition:'Starting Condition',
+    resources:'RESOURCES',
+    locationNote:'Where does your story begin?',
+    tabChar:'Character',
+    tabBase:'Base',
+    tabCommunity:'Group',
+    tabMap:'Map',
+    tabLog:'Log',
+    health:'HEALTH',
+    stamina:'STAMINA',
+    infection:'⚠ INFECTION',
+    moodlesTitle:'Condition (Moodles)',
+    attributes:'Attributes',
+    traitsStatus:'Traits / Status',
+    equipment:'Equipment',
+    inventory:'Inventory',
+    base:'Base: ',
+    resourcesTitle:'Resources',
+    threatTitle:'Threat Level',
+    vehicles:'Vehicles',
+    survivors:'Survivors',
+    communityMorale:'Community Morale',
+    factions:'Factions',
+    currentPos:'Current Location: ',
+    exploredPlaces:'Explored Locations',
+    activeClocks:'Active Clocks',
+    missions:'Missions',
+    timeline:'Timeline',
+    qaFight:'Fight',qaTalk:'Talk',qaSearch:'Search',qaStealth:'Stealth',qaFlee:'Flee',qaBuild:'Build Base',
+    threatSafe:'Safe',threatLow:'Low',threatMedium:'Elevated',threatHigh:'High',threatCritical:'Critical',threatHorde:'HORDE!',
+    mHunger:'Hunger',mThirst:'Thirst',mFatigue:'Fatigue',mPain:'Pain',
+    mBoredom:'Boredom',mDepression:'Depression',mStress:'Stress',mPanic:'Panic',mTemp:'Temperature',
+    rFood:'Food',rMedicine:'Medicine',rAmmo:'Ammo',rMaterials:'Materials',rFuel:'Fuel',
+    statusHealthy:'Healthy',statusInjured:'Injured',statusInfected:'Infected',statusDead:'Dead',
+    noVehicles:'No vehicles',
+    noSurvivors:'No survivors',
+    noMissions:'No missions',
+    noEvents:'No events',
+    nothingExplored:'Nothing explored yet',
+    noClocks:'No active clocks',
+    whatDo:'What do you do?',
+    loading:'The dead are waking...',
+    gameSaved:'Game saved.',
+    newChatConfirm:'Start new chat? The save will be kept.',
+    newChatStarted:'New chat started. Save kept.',
+    apiKeyNeeded:'API Key required!',
+    selectSpec:'Choose a specialization!',
+    settings:'Settings',
+    settingsAI:'AI',
+    settingsDisplay:'Display',
+    settingsTemp:'Temperature',
+    settingsMaxTokens:'Max Tokens',
+    settingsFontSize:'Font Size',
+    settingsCustomPrompt:'Custom System Prompt Addition',
+    settingsCustomPromptPH:'Additional instructions...',
+    loadTitle:'Load Save',
+    loadDesc:'Load a saved game.',
+    deleteConfirm:'Delete save?',
+    deleteSave:'Delete Save',
+    compressing:'Compressing chat history...',
+    compressed:'Chat compressed. Story saved.',
+    levelUp:'LEVEL UP! Level ',
+    noCamp:'No Camp',
+    buildTitle:'Build Facility',
+    buildNoSlots:'No facilities available',
+    buildNoSlotsDesc:'All slots taken or all types built.',
+    buildSelect:'Choose a facility for this slot:',
+    buildDone:'Facility built: ',
+    buildNoSpace:'No space left!',
+    buildSlot:'Build...',
+    powerOn:'Power ON',powerOff:'Power OFF',
+    waterOn:'Water ON',waterOff:'Water OFF',
+    specFighter:'Fighter',specScout:'Scout',specMedic:'Medic',specEngineer:'Engineer',
+    specLeader:'Leader',specScavenger:'Scavenger',specFarmer:'Farmer',specMechanic:'Mechanic',specChemist:'Chemist',
+    phasePreOutbreak:'Before Outbreak',
+    phaseOutbreak:'Outbreak',
+    phaseEarly:'Early Apocalypse',
+    phaseLate:'Years Later',
+    startSolo:'Lone Wolf',startSmall:'Small Group',startEstablished:'Established Base',
+    startSoloDesc:'Alone, no camp, hardcore.',startSmallDesc:'3-5 people, makeshift camp.',startEstDesc:'8-12 people, fortified camp.',
+    startSoloPre:'Living Alone',startSmallPre:'Small Prepper Group',startEstPre:'Organized Preppers',
+    startSoloPreDesc:'Living alone, no network.',startSmallPreDesc:'Small prepper group, some supplies stocked.',startEstPreDesc:'Well-organized preppers, bunker, stockpiles.',
+  }
+};
+function t(key){return (LANG[GS.settings.language]||LANG.de)[key]||(LANG.de[key]||key);}
+
+function applyLanguage(){
+  const l=GS.settings.language||'de';
+  // Update tab labels
+  document.querySelectorAll('.right-tab').forEach(tab=>{
+    const k=tab.dataset.tab;
+    const map={char:'tabChar',base:'tabBase',community:'tabCommunity',map:'tabMap',log:'tabLog'};
+    if(map[k])tab.textContent=t(map[k]);
+  });
+  // Update quick action titles
+  const qaMap={fight:'qaFight',talk:'qaTalk',scavenge:'qaSearch',stealth:'qaStealth',flee:'qaFlee',build:'qaBuild'};
+  document.querySelectorAll('.quick-action').forEach(btn=>{
+    const act=btn.getAttribute('onclick')?.match(/quickAction\('(\w+)'\)/);
+    if(act&&qaMap[act[1]])btn.title=t(qaMap[act[1]]);
+  });
+  // Update chat input placeholder
+  const ci=document.getElementById('chat-input');
+  if(ci)ci.placeholder=t('whatDo');
+  // Update header buttons
+  const hdr=document.querySelector('.header-right');
+  if(hdr){
+    const btns=hdr.querySelectorAll('.btn-sm');
+    if(btns[0])btns[0].innerHTML='&#128190; '+(l==='en'?'Save':'Speichern');
+    if(btns[1])btns[1].innerHTML='&#128194; '+(l==='en'?'Load':'Laden');
+    if(btns[2])btns[2].innerHTML='&#128260; '+(l==='en'?'New Chat':'Neuer Chat');
+  }
+}
 
 let selections={spec:null,start:'small_group',loc:'suburbia',phase:'early_apocalypse'};
 let currentStep=0;
@@ -954,11 +1247,68 @@ let npcFilter='all';
 /* =========================================================================
    SETUP
    ========================================================================= */
+
+function updateSetupForPhase(){
+  const phase=selections.phase;
+  const startCards=document.getElementById('start-type-cards');
+  const locCards=document.getElementById('start-location-cards');
+  if(!startCards||!locCards)return;
+  if(phase==='pre_outbreak'){
+    // Update community config for pre-outbreak
+    startCards.innerHTML=`
+      <div class="option-card" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128100;</div><div class="name">${t('startSoloPre')}</div><div class="desc">${t('startSoloPreDesc')}</div></div>
+      <div class="option-card selected" data-start="small_group" onclick="selectCard(this,'start')"><div class="icon">&#128101;</div><div class="name">${t('startSmallPre')}</div><div class="desc">${t('startSmallPreDesc')}</div></div>
+      <div class="option-card" data-start="established" onclick="selectCard(this,'start')"><div class="icon">&#127970;</div><div class="name">${t('startEstPre')}</div><div class="desc">${t('startEstPreDesc')}</div></div>`;
+    // Update location descriptions for pre-outbreak (no zombie references)
+    locCards.querySelectorAll('.option-card').forEach(card=>{
+      const loc=card.dataset.loc;
+      const preDescs={
+        suburbia:'Ruhiges Wohnviertel, gute Nachbarschaft',
+        rural:'Abgelegene Farmen, weite Felder, ruhig',
+        industrial:'Fabriken und Werkstätten, geschäftiges Treiben',
+        downtown:'Hochhäuser, belebte Straßen, viele Menschen',
+        military:'Militärstützpunkt, Sicherheitsbereich, Zugang beschränkt',
+        forest:'Waldgebiet, Wanderwege, Naturschutzgebiet',
+        hospital:'Krankenhaus, überlastet mit mysteriösen Patienten',
+        shopping_mall:'Einkaufszentrum, voller Menschen, normaler Betrieb',
+      };
+      if(preDescs[loc]){
+        const descEl=card.querySelector('.desc');
+        if(descEl)descEl.textContent=preDescs[loc];
+      }
+    });
+  }else{
+    // Reset to default descriptions
+    startCards.innerHTML=`
+      <div class="option-card" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128058;</div><div class="name">${t('startSolo')}</div><div class="desc">${t('startSoloDesc')}</div></div>
+      <div class="option-card selected" data-start="small_group" onclick="selectCard(this,'start')"><div class="icon">&#128101;</div><div class="name">${t('startSmall')}</div><div class="desc">${t('startSmallDesc')}</div></div>
+      <div class="option-card" data-start="established" onclick="selectCard(this,'start')"><div class="icon">&#127970;</div><div class="name">${t('startEstablished')}</div><div class="desc">${t('startEstDesc')}</div></div>`;
+    const defaultDescs={
+      suburbia:'Wohngebiet, viele Häuser zum Plündern, moderate Zombies',
+      rural:'Farmen, Scheunen, wenig Zombies, weite Wege',
+      industrial:'Fabriken, Werkstätten, Materialien, viele Zombies',
+      downtown:'Hochhäuser, extrem gefährlich, beste Beute',
+      military:'Waffen, Munition, starke Zombies, Blockaden',
+      forest:'Natur, Jagd, versteckt, wenig Vorräte',
+      hospital:'Medizin, aber Zombie-Hotspot, Infektionsgefahr',
+      shopping_mall:'Vorräte, Kleidung, verteidigbar, aber umzingelt',
+    };
+    locCards.querySelectorAll('.option-card').forEach(card=>{
+      const loc=card.dataset.loc;
+      if(defaultDescs[loc]){
+        const descEl=card.querySelector('.desc');
+        if(descEl)descEl.textContent=defaultDescs[loc];
+      }
+    });
+  }
+}
+
 function selectCard(el,group){
   el.parentNode.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   const val=el.dataset.spec||el.dataset.start||el.dataset.loc||el.dataset.phase;
   selections[group]=val;
+  if(group==='phase'){updateSetupForPhase();}
   if(group==='spec'){
     GS.character.stats={...SPEC_DEFAULTS[val]};
     allocPoints=10;buildStatAlloc();
@@ -967,18 +1317,18 @@ function selectCard(el,group){
 function setupNext(){
   if(currentStep===0){
     const key=document.getElementById('api-key-input').value.trim();
-    if(!key){alert('API Key benotigt!');return;}
+    if(!key){alert('API Key benötigt!');return;}
     GS.apiKey=key;
     const custom=document.getElementById('model-custom').value.trim();
     GS.model=custom||document.getElementById('model-select-setup').value;
-    GS.settings.language=document.getElementById('language-select').value;
+    GS.settings.language=document.getElementById('language-select').value;applyLanguage();
   }
   if(currentStep===1){
     GS.character.name=document.getElementById('char-name-input').value.trim()||'Unbekannt';
     GS.character.background=document.getElementById('char-bg-input').value.trim();
     GS.character.specialization=selections.spec;
     GS.character.specName=SPEC_NAMES[selections.spec]||'?';
-    if(!selections.spec){alert('Wahle eine Spezialisierung!');return;}
+    if(!selections.spec){alert('Wähle eine Spezialisierung!');return;}
     GS.character.stats={...SPEC_DEFAULTS[selections.spec]};
     allocPoints=10;buildStatAlloc();
   }
@@ -1031,9 +1381,9 @@ function adjStat(key,d){
 /* =========================================================================
    DATE SYSTEM
    ========================================================================= */
-const MONTHS_DE=['Januar','Februar','Marz','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const MONTHS_DE=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const DAYS_DE=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
-const SEASONS={0:'Winter',1:'Winter',2:'Fruhling',3:'Fruhling',4:'Fruhling',5:'Sommer',6:'Sommer',7:'Sommer',8:'Herbst',9:'Herbst',10:'Herbst',11:'Winter'};
+const SEASONS={0:'Winter',1:'Winter',2:'Frühling',3:'Frühling',4:'Frühling',5:'Sommer',6:'Sommer',7:'Sommer',8:'Herbst',9:'Herbst',10:'Herbst',11:'Winter'};
 
 function getGameDate(){
   const base=new Date(GS.world.startDate||'2025-03-15');
@@ -1114,24 +1464,24 @@ async function startGame(){
       resourceMult:3, civilOrder:true, electricityOn:true,
       startDay:'Tag 1 — Vor dem Ausbruch',
       factionRep:{military_remnants:50,raiders:-50,traders:50,cult:-10,other_survivors:50},
-      worldClocks:[{name:'Geruchte uber Infektion',current:0,max:10},{name:'Militarische Quarantane',current:0,max:15}],
-      description:'Die Welt funktioniert noch. Nachrichten berichten von einer mysteriosen Krankheit. Krankenhaeuser sind ueberlastet. Militar wird mobilisiert.',
+      worldClocks:[{name:'Gerüchte uber Infektion',current:0,max:10},{name:'Militärische Quarantane',current:0,max:15}],
+      description:'Die Welt funktioniert noch. Nachrichten berichten von einer mysteriosen Krankheit. Krankenhaeuser sind ueberlastet. Militär wird mobilisiert.',
     },
     outbreak:{
       dayStart:1, zombieMult:0.5, threatBase:30, moraleBonus:10,
       resourceMult:2, civilOrder:false, electricityOn:true,
       startDay:'Tag 3 — Der Ausbruch',
       factionRep:{military_remnants:30,raiders:-30,traders:20,cult:-20,other_survivors:30},
-      worldClocks:[{name:'Stromversorgung fallt aus',current:0,max:5},{name:'Militarische Evakuierung',current:0,max:8},{name:'Erste Horde',current:0,max:4}],
-      description:'Chaos uberall. Sirenen heulen. Militar versucht Quarantanezonen einzurichten. Nachbarn verwandeln sich. Supermarkte werden gesturmt. Das Fernsehen sendet Notfallwarnungen.',
+      worldClocks:[{name:'Stromversorgung fällt aus',current:0,max:5},{name:'Militärische Evakuierung',current:0,max:8},{name:'Erste Horde',current:0,max:4}],
+      description:'Chaos überall. Sirenen heulen. Militär versucht Quarantanezonen einzurichten. Nachbarn verwandeln sich. Supermarkte werden gestürmt. Das Fernsehen sendet Notfallwarnungen.',
     },
     early_apocalypse:{
       dayStart:21, zombieMult:1, threatBase:15, moraleBonus:0,
       resourceMult:1, civilOrder:false, electricityOn:false,
-      startDay:'Tag 21 — Fruhe Apokalypse',
+      startDay:'Tag 21 — Frühe Apokalypse',
       factionRep:{military_remnants:0,raiders:-20,traders:10,cult:0,other_survivors:20},
-      worldClocks:[{name:'Nachste Horde',current:0,max:7},{name:'Vorrate reichen noch',current:0,max:14}],
-      description:'Die Zivilisation ist zusammengebrochen. Kein Strom, kein Wasser, keine Regierung. Uberlebende kampfen um Ressourcen. Zombies dominieren die Strassen.',
+      worldClocks:[{name:'Nachste Horde',current:0,max:7},{name:'Vorräte reichen noch',current:0,max:14}],
+      description:'Die Zivilisation ist zusammengebrochen. Kein Strom, kein Wasser, keine Regierung. Überlebende kämpfen um Ressourcen. Zombies dominieren die Strassen.',
     },
     late_apocalypse:{
       dayStart:730, zombieMult:1.5, threatBase:25, moraleBonus:-10,
@@ -1139,7 +1489,7 @@ async function startGame(){
       startDay:'Jahr 3 — Die Neue Welt',
       factionRep:{military_remnants:-10,raiders:-40,traders:30,cult:10,other_survivors:10},
       worldClocks:[{name:'Nachste Horde',current:0,max:5},{name:'Fraktionskrieg',current:0,max:12},{name:'Wintereinbruch',current:0,max:20}],
-      description:'Jahre nach dem Zusammenbruch. Die Natur erobert die Stadte zuruck. Feste Siedlungen existieren, Handler-Karawanen ziehen umher. Brutale Fraktionen kontrollieren Gebiete. Zombies sind Alltag — die wahre Gefahr sind andere Menschen.',
+      description:'Jahre nach dem Zusammenbruch. Die Natur erobert die Städte zurück. Feste Siedlungen existieren, Händler-Karawanen ziehen umher. Brutale Fraktionen kontrollieren Gebiete. Zombies sind Alltag — die wahre Gefahr sind andere Menschen.',
     },
   };
   const pCfg=PHASE_CONFIG[phase];
@@ -1179,7 +1529,7 @@ async function startGame(){
   const zombieMultMap={pre_outbreak:0,outbreak:0.5,early_apocalypse:1,late_apocalypse:1.5};
   GS.world.locations=LOCATIONS.map(l=>{
     const loc={...l,discovered:l.id===selections.loc,visited:l.id===selections.loc,looted:false,cleared:false};
-    if(phase==='pre_outbreak'){loc.zombieDensity='none';loc.desc+=' (Noch normal, keine Zombie-Aktivitat)';}
+    if(phase==='pre_outbreak'){loc.zombieDensity='none';loc.desc+=' (Noch normal, keine Zombie-Aktivität)';}
     else if(phase==='outbreak'){
       const densityDown={extreme:'high',very_high:'medium',high:'medium',medium:'low',low:'none'};
       loc.zombieDensity=densityDown[loc.zombieDensity]||loc.zombieDensity;
@@ -1189,7 +1539,7 @@ async function startGame(){
       const densityUp={low:'medium',medium:'high',high:'very_high',very_high:'extreme'};
       loc.zombieDensity=densityUp[loc.zombieDensity]||loc.zombieDensity;
       loc.looted=Math.random()>0.4; // 60% already looted
-      loc.desc+=' (Natur erobert zuruck, teils uberwuchert)';
+      loc.desc+=' (Natur erobert zurück, teils überwuchert)';
     }
     return loc;
   });
@@ -1219,7 +1569,7 @@ async function startGame(){
    UI UPDATES
    ========================================================================= */
 function updateAllPanels(){
-  updateCharPanel();updateBasePanel();updateCommunityPanel();updateMapPanel();updateLogPanel();
+  updateCharPanel();updateBasePanel();updateCommunityPanel();updateMapPanel();updateLogPanel();applyLanguage();
 }
 function updateCharPanel(){
   const c=GS.character;
@@ -1280,7 +1630,7 @@ function updateCharPanel(){
     const moodlesDef=[
       {key:'hunger',icon:'&#127838;',name:'Hunger',invert:true},
       {key:'thirst',icon:'&#128167;',name:'Durst',invert:true},
-      {key:'fatigue',icon:'&#128164;',name:'Mudigkeit',invert:true},
+      {key:'fatigue',icon:'&#128164;',name:'Müdigkeit',invert:true},
       {key:'pain',icon:'&#129657;',name:'Schmerz',invert:true},
       {key:'boredom',icon:'&#128556;',name:'Langeweile',invert:true},
       {key:'depression',icon:'&#128546;',name:'Depression',invert:true},
@@ -1296,7 +1646,7 @@ function updateCharPanel(){
         else if(v<=30){severity='warning';valCls='warn';label='Kalt';}
         else if(v<=70){severity='';valCls='ok';label='Angenehm';}
         else if(v<=85){severity='warning';valCls='warn';label='Warm';}
-        else{severity='danger';valCls='bad';label='Uberhitzung';}
+        else{severity='danger';valCls='bad';label='Überhitzung';}
       }else{
         if(v>=80){severity='critical';valCls='crit';label='Kritisch';}
         else if(v>=60){severity='danger';valCls='bad';label='Hoch';}
@@ -1336,7 +1686,7 @@ function updateBasePanel(){
       const ft=FACILITY_TYPES[f.type]||{};
       fg.innerHTML+=`<div class="facility-slot built ${f.damaged?'damaged':''}"><span class="facility-icon">${ft.icon||'?'}</span><span class="facility-name">${ft.name||f.type}</span><span class="facility-level">Stufe ${f.level||1}/${ft.maxLevel||3}</span></div>`;
     } else {
-      fg.innerHTML+=`<div class="facility-slot"><span class="facility-icon" style="opacity:.3">&#10133;</span><span class="facility-name" style="color:var(--text-dim);font-size:9px">Leer</span></div>`;
+      fg.innerHTML+=`<div class="facility-slot" onclick="showBuildModal(${i})"><span class="facility-icon" style="opacity:.3">➕</span><span class="facility-name" style="color:var(--text-dim);font-size:9px">Bauen...</span></div>`;
     }
   }
   // Resources
@@ -1355,7 +1705,7 @@ function updateBasePanel(){
   }).join('');
   // Threat
   document.getElementById('threat-fill').style.width=com.threatLevel+'%';
-  const tLabels=['Sicher','Niedrig','Erhoht','Hoch','Kritisch','HORDE!'];
+  const tLabels=['Sicher','Gering','Erhöht','Hoch','Kritisch','HORDE!'];
   document.getElementById('threat-label').textContent=tLabels[Math.min(5,Math.floor(com.threatLevel/20))];
   // Vehicles
   const vl=document.getElementById('vehicles-list');
@@ -1367,12 +1717,12 @@ function updateCommunityPanel(){
   const com=GS.community;
   document.getElementById('survivor-count').textContent=com.survivors.length;
   const sl=document.getElementById('survivor-list');
-  if(!com.survivors.length){sl.innerHTML='<span style="color:var(--text-dim);font-size:11px">Keine Uberlebenden</span>';return;}
+  if(!com.survivors.length){sl.innerHTML='<span style="color:var(--text-dim);font-size:11px">Keine Überlebenden</span>';return;}
   sl.innerHTML=com.survivors.map(s=>{
     const statusCls=s.dead?'dead':s.infected?'infected':s.injured?'injured':'healthy';
     const statusText=s.dead?'Tot':s.infected?'Infiziert':s.injured?'Verletzt':'Gesund';
     const statusColor=s.dead?'var(--text-dim)':s.infected?'var(--infection)':s.injured?'var(--danger)':'var(--success)';
-    return`<div class="survivor-card ${statusCls}"><div class="survivor-header"><div class="survivor-portrait">${s.icon||'&#129489;'}</div><div class="survivor-info"><div class="survivor-name">${s.name}</div><div class="survivor-role">${s.role||'Uberlebender'}${s.trait?' — '+s.trait:''}</div></div><span class="survivor-status" style="background:${statusColor}20;color:${statusColor}">${statusText}</span></div></div>`;
+    return`<div class="survivor-card ${statusCls}"><div class="survivor-header"><div class="survivor-portrait">${s.icon||'&#129489;'}</div><div class="survivor-info"><div class="survivor-name">${s.name}</div><div class="survivor-role">${s.role||'Überlebender'}${s.trait?' — '+s.trait:''}</div></div><span class="survivor-status" style="background:${statusColor}20;color:${statusColor}">${statusText}</span></div></div>`;
   }).join('');
   // Morale
   document.getElementById('morale-fill').style.width=com.morale+'%';
@@ -1449,25 +1799,25 @@ function buildSystemPrompt(){
   const activeClocks=w.worldClocks.filter(c=>c.current<c.max);
   const weather=WEATHER_TYPES[w.weather]||WEATHER_TYPES.cloudy;
 
-  const PHASE_NAMES={pre_outbreak:'VOR DEM AUSBRUCH — Welt noch intakt, erste Geruchte',outbreak:'AUSBRUCH — Chaos, Panik, Zusammenbruch der Ordnung',early_apocalypse:'FRUHE APOKALYPSE — Zivilisation zusammengebrochen',late_apocalypse:'JAHRE DANACH — Neue Weltordnung, Fraktionen, Natur erobert zuruck'};
+  const PHASE_NAMES={pre_outbreak:'VOR DEM AUSBRUCH — Welt noch intakt, erste Gerüchte',outbreak:'AUSBRUCH — Chaos, Panik, Zusammenbruch der Ordnung',early_apocalypse:'FRÜHE APOKALYPSE — Zivilisation zusammengebrochen',late_apocalypse:'JAHRE DANACH — Neue Weltordnung, Fraktionen, Natur erobert zurück'};
   const PHASE_RULES={
-    pre_outbreak:'PHASE-REGELN: Welt funktioniert noch! Strom, Wasser, Gesetze existieren. Keine Zombies sichtbar — nur Geruchte, Nachrichten, kranke Menschen. Polizei und Militar sind prasent. Alltagsszenen mit wachsendem Unbehagen. Geschaefte offen, Autos fahren, Menschen leben normal. Die Bedrohung ist subtil, unheimlich, schleichend. Horror kommt durch das Unbekannte.',
-    outbreak:'PHASE-REGELN: Chaos bricht aus! Sirenen, Explosionen, Schreie. Militar versucht Quarantane. Erste Zombies auf den Strassen. Strom flackert. Supermarkte werden gesturmt. Nachbarn verwandeln sich. Fluchtversuche. Nachrichten brechen ab. Panik uberall. Mix aus Normalitat und Grauen.',
-    early_apocalypse:'PHASE-REGELN: Zivilisation ist gefallen. Kein Strom, kein Wasser, keine Regierung. Strassen voller verlassener Autos und Zombies. Uberlebende misstrauisch. Jede Begegnung potenziell todlich. Klassische Zombie-Apokalypse.',
-    late_apocalypse:'PHASE-REGELN: Jahre nach dem Zusammenbruch. Natur uberwuchert Gebaude. Feste Siedlungen mit Mauern. Handelsrouten zwischen Gemeinschaften. Brutale Fraktionen (Raider, Kult, Militar-Reste). Zombies sind Alltag, MENSCHEN die grossere Gefahr. Ressourcen schwer zu finden, alles schon geplundert. Post-apokalyptische Gesellschaft mit eigenen Regeln und Machtkampfen.',
+    pre_outbreak:'PHASE-REGELN: Welt funktioniert noch! Strom, Wasser, Gesetze existieren. Keine Zombies sichtbar — nur Gerüchte, Nachrichten, kranke Menschen. Polizei und Militär sind präsent. Alltagsszenen mit wachsendem Unbehagen. Geschaefte offen, Autos fahren, Menschen leben normal. Die Bedrohung ist subtil, unheimlich, schleichend. Horror kommt durch das Unbekannte.',
+    outbreak:'PHASE-REGELN: Chaos bricht aus! Sirenen, Explosionen, Schreie. Militär versucht Quarantane. Erste Zombies auf den Strassen. Strom flackert. Supermarkte werden gestürmt. Nachbarn verwandeln sich. Fluchtversuche. Nachrichten brechen ab. Panik überall. Mix aus Normalität und Grauen.',
+    early_apocalypse:'PHASE-REGELN: Zivilisation ist gefallen. Kein Strom, kein Wasser, keine Regierung. Strassen voller verlassener Autos und Zombies. Überlebende misstrauisch. Jede Begegnung potenziell tödlich. Klassische Zombie-Apokalypse.',
+    late_apocalypse:'PHASE-REGELN: Jahre nach dem Zusammenbruch. Natur überwuchert Gebäude. Feste Siedlungen mit Mauern. Handelsrouten zwischen Gemeinschaften. Brutale Fraktionen (Raider, Kult, Militär-Reste). Zombies sind Alltag, MENSCHEN die größere Gefahr. Ressourcen schwer zu finden, alles schon geplündert. Post-apokalyptische Gesellschaft mit eigenen Regeln und Machtkämpfen.',
   };
 
   let p=`[DEUTSCH] Antworte IMMER auf Deutsch. GM im DEADZONE Zombie Survival RPG. State-of-Decay-Stil. KEIN KI-Assistent.
 WELT-PHASE: ${PHASE_NAMES[w.phase||'early_apocalypse']}
 ${PHASE_RULES[w.phase||'early_apocalypse']}
 
-REGELN: PC-POV only. NPCs wissen nur Logisches. Show don't tell. Realismus>Drama. NIEMALS PC-Aktionen narieren. PERMADEATH: Tote Uberlebende sind FUR IMMER tot. Jede Entscheidung hat Gewicht. d20+Mod vs DC.
+REGELN: PC-POV only. NPCs wissen nur Logisches. Show don't tell. Realismus>Drama. NIEMALS PC-Aktionen narieren. PERMADEATH: Tote Überlebende sind FÜR IMMER tot. Jede Entscheidung hat Gewicht. d20+Mod vs DC.
 
 TAG ${w.day} | ${formatGameDate(false)} | ${getTimeOfDayLabel()} | WETTER: ${weather.name} (${weather.effect})
 
 PC: ${c.name} (${c.specName}) Lv${c.level} XP:${c.xp}/${XP_TABLE[c.level]||'MAX'}
 HP:${c.health}/${c.maxHealth} STA:${c.stamina}/${c.maxStamina} INFEKTION:${c.infection}%
-MOODLES: Hunger:${c.moodles.hunger} Durst:${c.moodles.thirst} Mudigkeit:${c.moodles.fatigue} Schmerz:${c.moodles.pain} Langeweile:${c.moodles.boredom} Depression:${c.moodles.depression} Stress:${c.moodles.stress} Panik:${c.moodles.panic} Temp:${c.moodles.temperature}(50=ok,0=Frost,100=Hitze)
+MOODLES: Hunger:${c.moodles.hunger} Durst:${c.moodles.thirst} Müdigkeit:${c.moodles.fatigue} Schmerz:${c.moodles.pain} Langeweile:${c.moodles.boredom} Depression:${c.moodles.depression} Stress:${c.moodles.stress} Panik:${c.moodles.panic} Temp:${c.moodles.temperature}(50=ok,0=Frost,100=Hitze)
 Gewicht:${c.weight}kg(optimal:75-85) WachSeit:${c.hoursAwake}h Schlaf:${c.sleepQuality}
 ${c.background?'BG:'+c.background:''}
 NegTraits: ${c.negativeTraits.map(t=>t.name).join(',')||'keine'}
@@ -1480,7 +1830,7 @@ INFRASTRUKTUR: Strom:${w.electricityOn?'AN(Tag '+w.electricityShutoffDay+' Absch
 
 GEMEINSCHAFT: "${com.baseName}" Moral:${com.morale}% Bedrohung:${com.threatLevel}%
 Ressourcen: Nahrung:${com.resources.food} Medizin:${com.resources.medicine} Munition:${com.resources.ammo} Material:${com.resources.materials} Treibstoff:${com.resources.fuel}
-Uberlebende(${com.survivors.length}/${com.maxSurvivors}): ${com.survivors.map(s=>s.name+'('+s.role+(s.infected?',INFIZIERT':'')+(s.injured?',VERLETZT':'')+(s.dead?',TOT':'')+')').join(', ')||'keine'}
+Überlebende(${com.survivors.length}/${com.maxSurvivors}): ${com.survivors.map(s=>s.name+'('+s.role+(s.infected?',INFIZIERT':'')+(s.injured?',VERLETZT':'')+(s.dead?',TOT':'')+')').join(', ')||'keine'}
 Einrichtungen: ${com.facilities.map(f=>(FACILITY_TYPES[f.type]?.name||f.type)+' Lv'+f.level).join(', ')||'keine'}
 Fahrzeuge: ${com.vehicles.map(v=>v.name+' '+v.condition+'%').join(', ')||'keine'}
 
@@ -1497,12 +1847,12 @@ Erkundete Orte: ${discoveredLocs||'keine'}`;
 
   p+=`
 
-ZOMBIE-TYPEN: Shambler(langsam), Runner(schnell), Screamer(ruft Horde), Bloater(Giftgas), Feral(todlich schnell), Juggernaut(Panzer), Plague-Zombie(infiziert bei Biss), Horde(10-50 Zombies)
+ZOMBIE-TYPEN: Shambler(langsam), Runner(schnell), Screamer(ruft Horde), Bloater(Giftgas), Feral(tödlich schnell), Juggernaut(Panzer), Plague-Zombie(infiziert bei Biss), Horde(10-50 Zombies)
 
 SYSTEME:
 - diceCheck bei riskanten Aktionen: stat(combat/stealth/leadership/survival/mechanics/medicine), dc(8/12/15/18/22), context
 - combat.start bei Kampfbeginn, combat.end+result bei Ende
-- PERMADEATH: Uberlebende konnen STERBEN. Bei Tod: updateSurvivors mit dead:true. Spieler-Tod = Game Over.
+- PERMADEATH: Überlebende konnen STERBEN. Bei Tod: updateSurvivors mit dead:true. Spieler-Tod = Game Over.
 - NPCs via addNpcs/updateNpcs (name,role,bond,location,faction,description)
 - Equipment: equipItem{slot,item}/unequipSlot/removeItems
 - xpGain:5-25 bei bedeutsamen Aktionen
@@ -1512,41 +1862,41 @@ SYSTEME:
 - dayAdvance: true wenn ein Tag vergeht. Ressourcenverbrauch automatisch. Erosion steigt mit Tagen.
 - Infektionssystem: Biss von Plague-Zombie = infection+20-40. Bei 100% = Tod/Wendung. Heilbar mit spezieller Medizin.
 - Horden: Bedrohungslevel steigt mit Zeit. Bei 100% = Hordenangriff auf Basis.
-- addConsequences: Verzoegerte Effekte. Typen: horde_attack, survivor_conflict, raider_raid, resource_shortage, rescue_mission, trader_arrival, infection_outbreak, structural_damage, meta_event, utility_shutoff
+- addConsequences: Verzögerte Effekte. Typen: horde_attack, survivor_conflict, raider_raid, resource_shortage, rescue_mission, trader_arrival, infection_outbreak, structural_damage, meta_event, utility_shutoff
 
 MOODLE-SYSTEM (Project Zomboid inspiriert):
-- moodleChanges: DELTA fur jedes Moodle. Alle Werte 0-100, hoher=schlimmer (ausser temperature: 0=Frost,50=OK,100=Hitze).
+- moodleChanges: DELTA fürjedes Moodle. Alle Werte 0-100, hoher=schlimmer (ausser temperature: 0=Frost,50=OK,100=Hitze).
 - Hunger: steigt ohne Essen (+5-15/Aktion), Essen senkt ihn. Ab 60=Schwache, ab 80=HP-Verlust, 100=Verhungern.
 - Durst: steigt schneller als Hunger (+8-20). Ab 70=Desorientierung. Ab 90=kritisch. 100=Tod.
-- Mudigkeit: steigt mit Aktivitat und Wachzeit. Ab 50=langsamer, ab 70=Fehler, ab 90=Ohnmacht.
-- Schmerz: durch Verletzungen. Reduziert Kampffahigkeit. Sinkt langsam oder mit Schmerzmittel.
+- Müdigkeit: steigt mit Aktivität und Wachzeit. Ab 50=langsamer, ab 70=Fehler, ab 90=Ohnmacht.
+- Schmerz: durch Verletzungen. Reduziert Kampffähigkeit. Sinkt langsam oder mit Schmerzmittel.
 - Langeweile: steigt bei Inaktivitat drinnen. Erhoeht Depression. Sinkt draussen, beim Lesen, bei Aktivitaet.
 - Depression: steigt durch Langeweile, Stress, schlechtes Essen, Tod von Gefahrten. ALLE Aktionen dauern langer. Sinkt durch Komfortessen, Gesprache, Erfolge.
 - Stress: steigt nahe Zombies, bei Gefahr, bei Konflikten. Ab 60=Zittern, Kampfnachteile. Sinkt in Sicherheit.
-- Panik: steigt bei uberraschenden Zombie-Begegnungen. Ab 50=deutlich schlechtere Treffsicherheit. Sinkt mit Erfahrung.
+- Panik: steigt bei überraschenden Zombie-Begegnungen. Ab 50=deutlich schlechtere Treffsicherheit. Sinkt mit Erfahrung.
 - Temperatur: 50=optimal. Beeinflusst durch Wetter, Kleidung, drinnen/draussen. Extreme=HP-Verlust.
 
 NEGATIVE TRAITS des PC beachten! ${c.negativeTraits.map(t=>t.name+': '+t.desc).join('. ')||'Keine.'}
 - Raucher braucht Zigaretten oder Depression+Stress steigen
-- Klaustrophobiker: Panik in engen Raumen
-- Hamophob: Stress/Panik bei Blut
-- Schlaflos: Mudigkeit steigt schneller
+- Klaustrophobiker: Panik in engen Räumen
+- Hämophob: Stress/Panik bei Blut
+- Schlaflos: Müdigkeit steigt schneller
 - etc.
 
 SCHLAF-SYSTEM:
-- PC muss schlafen (hoursAwake tracken via sleepChange). Ab 16h=Mudigkeit steigt stark, ab 24h=Halluzinationen/Ohnmacht.
+- PC muss schlafen (hoursAwake tracken via sleepChange). Ab 16h=Müdigkeit steigt stark, ab 24h=Halluzinationen/Ohnmacht.
 - Schlafqualitat: Bett>Sofa>Boden. Sicherheit verbessert Schlaf. Schmerz/Stress verschlechtern.
-- Schlaf heilt HP und senkt Mudigkeit/Stress. Kann durch Zombies geweckt werden!
+- Schlaf heilt HP und senkt Müdigkeit/Stress. Kann durch Zombies geweckt werden!
 
-ERNAHRUNG/GEWICHT:
+ERNÄHRUNG/GEWICHT:
 - weightChange als DELTA in kg. Zu viel essen=zunehmen, zu wenig=abnehmen.
-- Unter 65kg: weniger Kraft, Ausdauerverlust. Uber 90kg: langsamer, weniger Ausdauer.
+- Unter 65kg: weniger Kraft, Ausdauerverlust. Über 90kg: langsamer, weniger Ausdauer.
 - Verschiedene Nahrung hat verschiedene Wirkung: Komfortessen senkt Depression, Protein hilft bei Heilung.
 
 STROM/WASSER-ABSCHALTUNG:
-- electricityOff/waterOff: true setzen wenn Abschaltung narrativ eintritt. Kuhlschranke stoppen, Licht geht aus, Wasserhahne versiegen.
-- In pre_outbreak/outbreak: Strom/Wasser noch an. Abschaltung als dramatischer Wendepunkt erzahlen!
-- utilityShutoff in addConsequences verwenden fur verzogerte Abschaltung.
+- electricityOff/waterOff: true setzen wenn Abschaltung narrativ eintritt. Kühlschränke stoppen, Licht geht aus, Wasserhahne versiegen.
+- In pre_outbreak/outbreak: Strom/Wasser noch an. Abschaltung als dramatischer Wendepunkt erzählen!
+- utilityShutoff in addConsequences verwenden für verzögerte Abschaltung.
 
 META-EVENTS:
 - Bei dayAdvance oder Zeitverlauf: Zufallsereignisse beschreiben (ferne Schusse, Schreie, Hundegebell, Motorengerausche).
@@ -1554,9 +1904,9 @@ META-EVENTS:
 - Zombie-Migration: Horden verschieben sich basierend auf Meta-Events.
 
 EROSION:
-- Mit jedem Tag/Woche: Natur erobert Zivilisation zuruck. Beschreibe zunehmend:
+- Mit jedem Tag/Woche: Natur erobert Zivilisation zurück. Beschreibe zunehmend:
   - Risse im Asphalt, Unkraut auf Strassen
-  - Efeu an Gebaudewanden, zerbrochene Fenster
+  - Efeu an Gebäudewanden, zerbrochene Fenster
   - Verwilderte Garten, zusammenbrechende Zaune
   - Uberwucherte Autos, moosige Dacher
 - Erosion-Level beeinflusst Beschreibungen: 0-20%=minimal, 20-50%=deutlich, 50-80%=stark, 80+%=Natur dominiert
@@ -1570,6 +1920,7 @@ Beende mit offener Situation die eine Entscheidung erfordert.${GS.settings.custo
 }
 
 async function callAI(msgs){
+  if(!GS.apiKey){addSystemMsg('Fehler: API Key fehlt. Bitte in Einstellungen eingeben.');return null;}
   try{
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Authorization':`Bearer ${GS.apiKey}`,'Content-Type':'application/json','HTTP-Referer':'http://localhost','X-Title':'DEADZONE'},body:JSON.stringify({model:GS.model,messages:msgs,temperature:GS.temperature,max_tokens:GS.settings.maxTokens||4096})});
     const data=await res.json();
@@ -1586,7 +1937,7 @@ async function sendOpeningPrompt(){
     pre_outbreak:`Die Welt ist noch normal. Mein Charakter lebt sein alltaegliches Leben in der Naehe von ${startLoc?.name||'der Stadt'}. Aber irgendetwas stimmt nicht. Nachrichten berichten von einer raetselhaften Krankheit. Das Krankenhaus ist ueberlastet. Auf dem Weg zur Arbeit/nach Hause bemerke ich seltsame Dinge.
 Beschreibe:
 - Meinen normalen Alltag der langsam unheimlich wird
-- Subtile Zeichen dass etwas Schreckliches kommt (kranke Menschen, Militarkonvois, gesperrte Strassen)
+- Subtile Zeichen dass etwas Schreckliches kommt (kranke Menschen, Militärkonvois, gesperrte Strassen)
 - Eine beunruhigende Begegnung die mich zum Nachdenken bringt
 - Die Stimmung: noch normal, aber die Luft vibriert vor Spannung
 Mach es wie den Anfang eines Zombie-Films — Normalitaet die langsam bricht.`,
@@ -1597,18 +1948,18 @@ Beschreibe:
 - Meine unmittelbare Gefahr — etwas das SOFORT meine Aufmerksamkeit erfordert
 - Die Entscheidung: wohin fliehen? Wen retten? Was mitnehmen?
 Purer Horror, Adrenalin, Ueberlebensdrang.`,
-    early_apocalypse:`Tag ${GS.world.day}. ${GS.character.name} (${GS.character.specName}) ${selections.start==='solo'?'ist vollig allein':'hat eine kleine Gruppe Uberlebender'} und befindet sich bei ${startLoc?.name||'einem unbekannten Ort'}. Die Zivilisation ist zusammengebrochen.
+    early_apocalypse:`Tag ${GS.world.day}. ${GS.character.name} (${GS.character.specName}) ${selections.start==='solo'?'ist vollig allein':'hat eine kleine Gruppe Überlebender'} und befindet sich bei ${startLoc?.name||'einem unbekannten Ort'}. Die Zivilisation ist zusammengebrochen.
 Beschreibe:
 - Die unmittelbare Umgebung, Geraeusche, Gerueche, Gefahr
 - Den Zustand der Gruppe und der Basis (oder das Fehlen einer Basis)
-- Zombie-Aktivitat in der Nahe
+- Zombie-Aktivität in der Nahe
 - Die dringendste Bedrohung oder Aufgabe
 - Eine Situation die eine sofortige Entscheidung erfordert
 Klassische Zombie-Apokalypse. State of Decay Atmosphare.`,
     late_apocalypse:`Jahr 3 nach dem Zusammenbruch. ${GS.character.name} (${GS.character.specName}) ${selections.start==='solo'?'ist ein Einzelgaenger der durch die Ruinen streift':'fuehrt eine etablierte Gruppe von Ueberlebenden'} in der Naehe von ${startLoc?.name||'den Ruinen'}. Die Welt hat sich veraendert — Natur erobert die Staedte zurueck, Fraktionen kaempfen um Gebiete.
 Beschreibe:
 - Die ueberwucherte, post-apokalyptische Landschaft — Natur vs. Ruinen
-- Hinweise auf andere Fraktionen in der Naehe (Handler, Raider, Kult)
+- Hinweise auf andere Fraktionen in der Naehe (Händler, Raider, Kult)
 - Den Alltag des Ueberlebens — Zombies sind Routine, Menschen die wahre Gefahr
 - Eine Begegnung oder Entdeckung die eine schwierige Entscheidung erfordert
 The Last of Us / Walking Dead spate Staffeln Atmosphare.`,
@@ -1676,7 +2027,7 @@ async function compressChat(){
   const compressPrompt=`Komprimiere diese Zombie-Survival Spielgeschichte in max 500 Worte auf Deutsch:
 1. HANDLUNG: Was ist bisher passiert?
 2. AKTUELLE SZENE: Wo ist der Charakter? Was passiert gerade?
-3. OFFENE FADEN: Ungeloste Konflikte, aktive Missionen
+3. OFFENE FADEN: Ungelöste Konflikte, aktive Missionen
 4. NPC-INTERAKTIONEN: Wer wurde getroffen? Beziehungsstatus?
 5. ENTSCHEIDUNGEN: Was hat der Spieler entschieden und welche Folgen hatte es?
 6. ZOMBIE-BEDROHUNG: Aktueller Zustand der Zombie-Gefahrenlage
@@ -1764,7 +2115,7 @@ function applyStateChanges(s){
     if(w.phase!=='pre_outbreak')w.erosion=Math.min(100,(w.erosion||0)+(w.phase==='late_apocalypse'?0.1:0.3));
     // Auto utility shutoff by day
     if(w.electricityOn&&w.day>=w.electricityShutoffDay&&w.phase!=='pre_outbreak'){
-      w.electricityOn=false;addSystemMsg('&#9889; STROM AUSGEFALLEN — Kuhlschranke, Licht, Elektronik funktionieren nicht mehr!');
+      w.electricityOn=false;addSystemMsg('&#9889; STROM AUSGEFALLEN — Kühlschränke, Licht, Elektronik funktionieren nicht mehr!');
       w.timeline.push({day:w.day,event:'Stromversorgung ist zusammengebrochen',type:'discovery'});
     }
     if(w.waterOn&&w.day>=w.waterShutoffDay&&w.phase!=='pre_outbreak'){
@@ -1856,6 +2207,7 @@ function saveGame(){
   const save={...GS,chatHistory:GS.chatHistory.slice(-20)};
   localStorage.setItem('deadzone_save',JSON.stringify(save));
   localStorage.setItem('deadzone_save_time',new Date().toISOString());
+  localStorage.setItem('deadzone_apikey',GS.apiKey);
   addSystemMsg('Spiel gespeichert.');
 }
 function checkSavedGame(){
@@ -1871,6 +2223,7 @@ function loadLastSave(){
   if(!save)return;
   const data=JSON.parse(save);
   Object.assign(GS,data);
+  if(!GS.apiKey){const stored=localStorage.getItem('deadzone_apikey');if(stored)GS.apiKey=stored;}
   document.getElementById('setup-screen').style.display='none';
   document.getElementById('game-screen').classList.add('active');
   const sel=document.getElementById('model-select-game');
@@ -1882,7 +2235,7 @@ function loadLastSave(){
 function showLoadModal(){
   const m=document.getElementById('load-modal');
   const c=document.getElementById('load-content');
-  c.innerHTML=`<h2>Spielstand laden</h2><p style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Lade einen gespeicherten Spielstand.</p><div class="btn-row"><button class="btn btn-danger" onclick="if(confirm('Spielstand loschen?')){localStorage.removeItem('deadzone_save');document.getElementById('load-modal').classList.remove('show')}">Spielstand loschen</button><button class="btn" onclick="document.getElementById('load-modal').classList.remove('show')">Schliessen</button></div>`;
+  c.innerHTML=`<h2>Spielstand laden</h2><p style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Lade einen gespeicherten Spielstand.</p><div class="btn-row"><button class="btn btn-danger" onclick="if(confirm('Spielstand löschen?')){localStorage.removeItem('deadzone_save');document.getElementById('load-modal').classList.remove('show')}">Spielstand löschen</button><button class="btn" onclick="document.getElementById('load-modal').classList.remove('show')">Schließen</button></div>`;
   m.classList.add('show');
 }
 function showSettingsModal(){
@@ -1890,22 +2243,43 @@ function showSettingsModal(){
   const c=document.getElementById('settings-content');
   c.innerHTML=`<h2>Einstellungen</h2>
   <div class="settings-section"><h3>KI</h3>
+    <div class="setting-row"><span class="setting-label">API Key</span><div><input type="password" style="width:180px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:11px;padding:4px 8px;font-family:var(--mono)" value="${GS.apiKey||''}" onchange="GS.apiKey=this.value;localStorage.setItem('deadzone_apikey',this.value)" placeholder="sk-or-v1-..."></div></div>
     <div class="setting-row"><span class="setting-label">Temperatur</span><div><input type="range" min="0.3" max="1.2" step="0.05" value="${GS.settings.temperature}" oninput="GS.settings.temperature=parseFloat(this.value);GS.temperature=parseFloat(this.value);this.nextElementSibling.textContent=this.value"><span class="setting-value">${GS.settings.temperature}</span></div></div>
     <div class="setting-row"><span class="setting-label">Max Tokens</span><div><input type="range" min="1024" max="8192" step="512" value="${GS.settings.maxTokens}" oninput="GS.settings.maxTokens=parseInt(this.value);this.nextElementSibling.textContent=this.value"><span class="setting-value">${GS.settings.maxTokens}</span></div></div>
   </div>
   <div class="settings-section"><h3>Anzeige</h3>
-    <div class="setting-row"><span class="setting-label">Schriftgroesse</span><div><input type="range" min="11" max="18" step="1" value="${GS.settings.fontSize}" oninput="GS.settings.fontSize=parseInt(this.value);document.documentElement.style.setProperty('--chat-font-size',this.value+'px');this.nextElementSibling.textContent=this.value+'px'"><span class="setting-value">${GS.settings.fontSize}px</span></div></div>
+    <div class="setting-row"><span class="setting-label">Schriftgröße</span><div><input type="range" min="11" max="18" step="1" value="${GS.settings.fontSize}" oninput="GS.settings.fontSize=parseInt(this.value);document.documentElement.style.setProperty('--chat-font-size',this.value+'px');this.nextElementSibling.textContent=this.value+'px'"><span class="setting-value">${GS.settings.fontSize}px</span></div></div>
   </div>
   <div class="settings-section"><h3>Eigener Systemprompt-Zusatz</h3>
-    <div class="form-group"><textarea style="width:100%;min-height:60px" placeholder="Zusatzliche Anweisungen..." oninput="GS.settings.customPrompt=this.value">${GS.settings.customPrompt||''}</textarea></div>
+    <div class="form-group"><textarea style="width:100%;min-height:60px" placeholder="Zusätzliche Anweisungen..." oninput="GS.settings.customPrompt=this.value">${GS.settings.customPrompt||''}</textarea></div>
   </div>
-  <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('settings-modal').classList.remove('show')">Schliessen</button></div>`;
+  <div class="btn-row"><button class="btn btn-primary" onclick="document.getElementById('settings-modal').classList.remove('show')">Schließen</button></div>`;
   m.classList.add('show');
 }
 function newChat(){
   if(!confirm('Neuen Chat starten? Der Spielstand bleibt erhalten.'))return;
   GS.chatHistory=[];document.getElementById('chat-messages').innerHTML='';
   addSystemMsg('Neuer Chat gestartet. Spielstand beibehalten.');
+}
+
+
+function showBuildModal(slotIndex){
+  const m=document.getElementById('settings-modal');
+  const c=document.getElementById('settings-content');
+  const built=GS.community.facilities.map(f=>f.type);
+  const available=Object.entries(FACILITY_TYPES).filter(([id])=>!built.includes(id));
+  if(!available.length){c.innerHTML='<h2>Keine Einrichtungen verfügbar</h2><p>Alle Plätze belegt oder alle Typen gebaut.</p><div class="btn-row"><button class="btn" onclick="document.getElementById(\'settings-modal\').classList.remove(\'show\')">Schließen</button></div>';m.classList.add('show');return;}
+  c.innerHTML='<h2>Einrichtung bauen</h2><p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Wähle eine Einrichtung für diesen Platz:</p>'+
+    available.map(([id,f])=>'<div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:6px;cursor:pointer" onclick="buildFacility(\''+id+'\')"><span style="font-size:18px">'+f.icon+'</span> <strong>'+f.name+'</strong><div style="font-size:10px;color:var(--text-muted)">'+f.desc+'</div></div>').join('')+
+    '<div class="btn-row"><button class="btn" onclick="document.getElementById(\'settings-modal\').classList.remove(\'show\')">Abbrechen</button></div>';
+  m.classList.add('show');
+}
+function buildFacility(typeId){
+  if(GS.community.facilities.length>=GS.community.maxFacilities){addSystemMsg('Kein Platz mehr!');return;}
+  GS.community.facilities.push({type:typeId,level:1,damaged:false});
+  document.getElementById('settings-modal').classList.remove('show');
+  updateBasePanel();
+  addSystemMsg('Einrichtung gebaut: '+(FACILITY_TYPES[typeId]?.name||typeId));
 }
 
 // Close modals on backdrop click
