@@ -70,6 +70,7 @@ html,body{width:100%;height:100%;font-family:var(--font);background:var(--bg-bas
 #game-screen.active{display:flex}
 #header{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:var(--bg-surface);border-bottom:1px solid var(--border);height:44px;flex-shrink:0}
 #header .logo{font-size:14px;font-weight:700;letter-spacing:3px;color:var(--danger);text-shadow:0 0 10px rgba(239,68,68,.2)}
+#mobile-info-bar{display:none}
 #header .header-center{display:flex;align-items:center;gap:10px}
 #header .header-right{display:flex;align-items:center;gap:6px}
 .header-select{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-family:var(--mono);font-size:11px;padding:3px 6px;outline:none}
@@ -349,7 +350,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   .btn-row{flex-direction:column}
   .btn-row .btn{width:100%;padding:12px;font-size:14px}
   #game-screen.active{display:flex;height:100dvh}
-  #main-content{flex-direction:column;height:calc(100dvh - 48px)}
+  #main-content{flex-direction:column;height:calc(100dvh - 72px)}
   #chat-panel{width:100%;flex:1;min-height:0}
   #right-panel{position:fixed;bottom:0;left:0;right:0;width:100%;min-width:unset;height:60vh;border-left:none;border-top:1px solid var(--border);border-radius:16px 16px 0 0;transform:translateY(calc(100% - 44px));transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:50;box-shadow:0 -4px 20px rgba(0,0,0,.5)}
   #right-panel.expanded{transform:translateY(0)}
@@ -359,6 +360,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   #action-bar>div:first-child{width:100%;justify-content:center;margin-bottom:4px}
   #chat-input{font-size:16px;max-height:150px}
   #chat-input-wrap{min-height:40px}
+  #mobile-info-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:4px 14px;background:var(--bg-surface);border-bottom:1px solid var(--border);font-size:10px;color:var(--text-muted);font-family:var(--mono);flex-shrink:0}
   #header .header-center{display:flex;flex:1;min-width:0}
   #header .header-center span{display:none}
   #header .header-center .header-select{flex:1;min-width:0;font-size:12px}
@@ -589,6 +591,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     <button class="btn btn-sm" onclick="showSettingsModal()">&#9881;</button>
   </div>
 </div>
+<div id="mobile-info-bar"><span id="mobile-day"></span><span id="mobile-date"></span></div>
 <div id="main-content">
   <div id="chat-panel">
     <div id="chat-messages"></div>
@@ -1842,9 +1845,13 @@ function updateCharPanel(){
   document.getElementById('weather-effect').textContent=w.effect;
   document.getElementById('day-counter').textContent='Tag '+GS.world.day+' — '+getTimeOfDayLabel();
   document.getElementById('game-date').textContent=formatGameDate(true);
-  document.getElementById('header-day').textContent='Tag '+GS.world.day+' — '+formatGameDate(true)+' — '+w.name;
+  const dayText='Tag '+GS.world.day+' — '+formatGameDate(true)+' — '+w.name;
+  const timeText=getTimeOfDayLabel();
+  document.getElementById('header-day').textContent=dayText;
   const hd=document.getElementById('header-date');
-  if(hd)hd.textContent=getTimeOfDayLabel();
+  if(hd)hd.textContent=timeText;
+  const md=document.getElementById('mobile-day');if(md)md.textContent=dayText;
+  const mt=document.getElementById('mobile-date');if(mt)mt.textContent=timeText;
   // Moodles
   const mg=document.getElementById('moodle-grid');
   if(mg){
