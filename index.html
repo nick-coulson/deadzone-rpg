@@ -2396,14 +2396,27 @@ Chat:\n${hist}`;
    ========================================================================= */
 function processAIResponse(text){
   let narrative=text;let stateChanges=null;
+  // Try ```json ... ``` blocks first
   const jsonMatch=text.match(/```json\s*([\s\S]*?)\s*```/);
   if(jsonMatch){
     try{
       const parsed=JSON.parse(jsonMatch[1]);
       stateChanges=parsed.stateChanges||parsed;
-      narrative=text.replace(/```json[\s\S]*?```/,'').trim();
+      narrative=text.replace(/```json[\s\S]*?```/g,'').trim();
     }catch(e){console.warn('JSON parse error:',e);}
   }
+  // Also try ``` ... ``` blocks containing JSON
+  if(!stateChanges){
+    const codeMatch=text.match(/```\s*([\s\S]*?)\s*```/);
+    if(codeMatch){try{const parsed=JSON.parse(codeMatch[1]);stateChanges=parsed.stateChanges||parsed;narrative=text.replace(/```[\s\S]*?```/g,'').trim();}catch(e){}}
+  }
+  // Also try raw JSON at end of message
+  if(!stateChanges){
+    const rawMatch=text.match(/(\{"stateChanges"[\s\S]*\})\s*$/);
+    if(rawMatch){try{const parsed=JSON.parse(rawMatch[1]);stateChanges=parsed.stateChanges||parsed;narrative=text.slice(0,rawMatch.index).trim();}catch(e){}}
+  }
+  // Clean any remaining JSON-like fragments from narrative
+  narrative=narrative.replace(/```[\s\S]*?```/g,'').replace(/\{"stateChanges"[\s\S]*$/,'').trim();
   // Add dice roll display if present
   if(stateChanges?.diceCheck?.stat){
     const dc=stateChanges.diceCheck;
