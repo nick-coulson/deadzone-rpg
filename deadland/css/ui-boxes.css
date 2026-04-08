@@ -1,0 +1,283 @@
+/* DEADZONE — UI Boxes — Zombie RPG Panels */
+
+/* === BASE UI BOX === */
+.ui-box {
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--border-bright);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  position: relative;
+  box-shadow: var(--shadow-card);
+}
+
+.ui-box-header {
+  font-family: var(--font-heading);
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-color);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.ui-box-content {
+  font-family: var(--font-body);
+}
+
+/* === SCENE HEADER === */
+.ui-scene {
+  border-left-color: var(--accent);
+  background: rgba(196,164,106,0.04);
+}
+
+.ui-scene .ui-box-header { color: var(--accent-amber); }
+
+/* === THREAT BANNER === */
+.ui-threat {
+  border-left-color: var(--danger);
+  background: rgba(184,58,58,0.06);
+  animation: threat-pulse 2s ease-in-out 2;
+}
+
+.ui-threat .ui-box-header { color: var(--danger); }
+
+.ui-threat[data-level="low"] {
+  border-left-color: var(--warning);
+  background: rgba(201,137,60,0.05);
+}
+
+.ui-threat[data-level="low"] .ui-box-header { color: var(--warning); }
+
+.ui-threat[data-level="high"],
+.ui-threat[data-level="extreme"] {
+  border-left-width: 6px;
+  border-left-color: var(--danger);
+  background: rgba(184,58,58,0.1);
+}
+
+@keyframes threat-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* === FOUND / LOOT === */
+.ui-found {
+  border-left-color: var(--accent-amber);
+  background: rgba(212,133,74,0.05);
+}
+
+.ui-found .ui-box-header { color: var(--accent-amber); }
+
+/* === NPC === */
+.ui-npc {
+  border-left-color: var(--info);
+  background: rgba(90,143,168,0.05);
+}
+
+.ui-npc .ui-box-header { color: var(--info); }
+
+/* === STATUS PANEL === */
+.ui-status {
+  border-left-color: var(--accent);
+  border-left-width: 5px;
+  background: rgba(196,164,106,0.05);
+}
+
+.ui-status .ui-box-header {
+  font-size: var(--font-size-sm);
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+
+/* === INVENTORY === */
+.ui-inventory {
+  border-left-color: var(--accent-amber);
+  background: rgba(212,133,74,0.04);
+}
+
+.ui-inventory .ui-box-header { color: var(--accent-amber); }
+
+/* === MAP === */
+.ui-map {
+  border-left-color: var(--accent-green);
+  background: rgba(90,122,74,0.05);
+}
+
+.ui-map .ui-box-header { color: var(--accent-green); }
+
+/* === GROUP === */
+.ui-group {
+  border-left-color: var(--info);
+  background: rgba(90,143,168,0.04);
+}
+
+.ui-group .ui-box-header { color: var(--info); }
+
+/* === BASE === */
+.ui-base {
+  border-left-color: var(--accent);
+  border-left-width: 5px;
+  background: rgba(196,164,106,0.04);
+}
+
+.ui-base .ui-box-header {
+  color: var(--accent);
+  font-size: var(--font-size-sm);
+}
+
+/* === TIME === */
+.ui-time {
+  border-left-color: var(--text-dim);
+  display: inline-block;
+}
+
+.ui-time .ui-box-header { color: var(--accent-amber); }
+
+/* === NOTEBOOK === */
+.ui-notebook {
+  border-left-color: var(--accent-amber);
+  background: rgba(212,133,74,0.04);
+}
+
+.ui-notebook .ui-box-header { color: var(--accent-amber); }
+
+.ui-notebook_update {
+  border: none;
+  border-left: 2px solid var(--accent-amber);
+  background: none;
+  padding: 4px 0 4px 12px;
+  color: var(--text-dim);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  box-shadow: none;
+}
+
+/* === COMBAT — ENEMY TURN === */
+.ui-combat_enemy {
+  border-left-color: var(--danger);
+  border-left-width: 5px;
+  background: rgba(184,58,58,0.08);
+  box-shadow: inset 0 0 24px rgba(184,58,58,0.04), var(--shadow-card);
+}
+
+.ui-combat_enemy .ui-box-header {
+  color: var(--danger);
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 3px;
+}
+
+/* === COMBAT — PLAYER TURN === */
+.ui-combat_player {
+  border-left-color: var(--accent-green);
+  border-left-width: 5px;
+  background: rgba(90,122,74,0.06);
+  box-shadow: inset 0 0 24px rgba(90,122,74,0.04), var(--shadow-card);
+}
+
+.ui-combat_player .ui-box-header {
+  color: var(--accent-green);
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 3px;
+}
+
+/* === COMBAT END === */
+.ui-combat_end {
+  border-left-color: var(--text-secondary);
+}
+
+.ui-combat_end .ui-box-header { color: var(--text-primary); }
+
+/* === TRADE === */
+.ui-trade {
+  border-left-color: var(--accent-amber);
+  background: rgba(212,133,74,0.05);
+}
+
+.ui-trade .ui-box-header { color: var(--accent-amber); }
+
+/* === RADIO === */
+.ui-radio {
+  border-left-color: var(--info);
+  background: rgba(90,143,168,0.05);
+}
+
+.ui-radio .ui-box-header { color: var(--info); }
+
+/* === SAVE === */
+.ui-save {
+  border-left-color: var(--accent-green);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--accent-green);
+}
+
+/* === ROLL === */
+.ui-roll {
+  border-left-color: var(--accent-amber);
+  display: inline-block;
+  min-width: 220px;
+}
+
+.ui-roll .ui-box-header { color: var(--accent-amber); }
+
+.ui-roll .roll-result {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 0;
+  letter-spacing: 1px;
+}
+
+.ui-roll .roll-critical-success {
+  color: var(--accent-green);
+  text-shadow: 0 0 12px rgba(90,122,74,0.5);
+}
+
+.ui-roll .roll-success { color: var(--accent-green); }
+.ui-roll .roll-failure { color: var(--danger); }
+
+.ui-roll .roll-critical-failure {
+  color: var(--danger);
+  text-shadow: 0 0 12px rgba(184,58,58,0.5);
+}
+
+/* === CHOICE === */
+.ui-choice {
+  border-left-color: var(--accent);
+  background: rgba(196,164,106,0.04);
+}
+
+.ui-choice .ui-box-header { color: var(--accent); }
+
+.ui-choice .choice-option {
+  padding: 6px 0;
+  color: var(--text-primary);
+  transition: color 0.1s;
+}
+
+.ui-choice .choice-option:hover {
+  color: var(--accent);
+}
+
+.ui-choice .choice-option .choice-key {
+  color: var(--accent);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* === FILL BAR === */
+.fill-bar { color: var(--accent); }
+.fill-bar.warn { color: var(--warning); }
+.fill-bar.danger { color: var(--danger); }

@@ -1,0 +1,152 @@
+/* DEADZONE — Responsive Design */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --font-size-base: 15px;
+    --max-width: 100%;
+  }
+
+  .setup-container {
+    padding: 32px 20px;
+  }
+
+  .game-output {
+    padding: 12px 18px 20px 18px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 14px;
+    --font-size-sm: 12px;
+    --top-bar-height: 40px;
+    --quick-buttons-height: 42px;
+  }
+
+  .ascii-title {
+    font-size: 7px;
+  }
+
+  .top-bar {
+    font-size: 11px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .top-bar__title {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .top-bar__separator { display: none; }
+
+  .setup-container {
+    padding: 20px 14px;
+  }
+
+  .game-output {
+    padding: 10px 14px 16px 14px;
+  }
+
+  .quick-buttons {
+    gap: 4px;
+    padding: 0 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+
+  .quick-btn {
+    font-size: 10px;
+    padding: 6px 10px;
+    min-height: 34px;
+    flex-shrink: 0;
+  }
+
+  .input-area {
+    padding: 8px 12px;
+  }
+
+  .game-input {
+    font-size: 16px; /* Prevent iOS zoom on focus */
+  }
+
+  .overlay-content {
+    width: 95%;
+    padding: 20px;
+    border-radius: 6px;
+  }
+
+  .model-option,
+  .phase-option {
+    padding: 10px;
+  }
+
+  .setup-buttons {
+    flex-direction: column;
+  }
+
+  .setup-buttons .terminal-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .ui-box {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .narrative-block {
+    font-size: 14px;
+  }
+
+  .user-message {
+    padding: 8px 12px;
+  }
+
+  .card-grid--2col {
+    grid-template-columns: 1fr;
+  }
+
+  .char-row {
+    flex-direction: column;
+  }
+
+  .preset-grid {
+    gap: 6px;
+  }
+
+  .preset-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .savegame-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .ascii-title {
+    font-size: 5.5px;
+  }
+
+  .top-bar__title {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .quick-btn {
+    font-size: 9px;
+    padding: 5px 8px;
+  }
+
+  .model-desc {
+    display: none;
+  }
+}

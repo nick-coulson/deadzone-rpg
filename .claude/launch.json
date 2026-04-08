@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "resistance-app",
-      "runtimeExecutable": "ruby",
-      "runtimeArgs": ["-run", "-e", "httpd", "/tmp/resistance-app", "-p", "8766"],
-      "port": 8766
+      "name": "deadland",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/deadland_serve.py"],
+      "port": 8780
     }
   ]
 }

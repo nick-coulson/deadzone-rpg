@@ -1,0 +1,81 @@
+/* DEADZONE — Visual Effects — Atmospheric */
+
+/* === FILM GRAIN (replaces CRT scanlines) === */
+body.scanlines::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* === FADE IN === */
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === SLIDE UP === */
+.slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === FLASH RED (threat) === */
+.flash-red {
+  animation: flashRed 0.6s ease-in-out 2;
+}
+
+@keyframes flashRed {
+  0%, 100% { border-left-color: var(--danger); }
+  50% { border-left-color: transparent; background: rgba(184,58,58,0.12); }
+}
+
+/* === GLOW TEXT === */
+.glow-text {
+  text-shadow: 0 0 8px rgba(196,164,106,0.5);
+}
+
+/* === PULSE ACCENT === */
+.pulse-accent {
+  animation: pulseAccent 2s ease-in-out infinite;
+}
+
+@keyframes pulseAccent {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* === SCREEN FLICKER (combat danger) === */
+.screen-flicker {
+  animation: screenFlicker 0.2s linear 3;
+}
+
+@keyframes screenFlicker {
+  0% { filter: none; }
+  50% { filter: brightness(0.85) saturate(1.3); }
+  100% { filter: none; }
+}
+
+/* === DANGER PULSE (for extreme threats) === */
+.danger-pulse {
+  animation: dangerPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dangerPulse {
+  0%, 100% { box-shadow: var(--shadow-card); }
+  50% { box-shadow: var(--shadow-card), 0 0 20px rgba(184,58,58,0.15); }
+}
