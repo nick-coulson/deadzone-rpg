@@ -452,7 +452,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     </select>
   </div>
   <div id="api-test-result" style="display:none;margin:10px 0;padding:10px;border-radius:var(--radius);font-size:11px;font-family:var(--mono);word-break:break-all"></div>
-  <div class="btn-row"><button class="btn" onclick="testApiKey()" id="test-api-btn">🔌 API testen</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
+  <div class="btn-row"><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
 </div>
 
 <!-- Step 1: Character -->
@@ -2217,35 +2217,7 @@ Beende mit offener Situation die eine Entscheidung erfordert.${GS.settings.custo
   return p;
 }
 
-async function testApiKey(){
-  const resultDiv=document.getElementById('api-test-result');
-  const btn=document.getElementById('test-api-btn');
-  const key=document.getElementById('api-key-input').value.trim();
-  resultDiv.style.display='block';
-  if(!key){resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';resultDiv.textContent='❌ Kein API Key eingegeben!';return;}
-  resultDiv.style.background='var(--bg-elevated)';resultDiv.style.color='var(--text-muted)';resultDiv.textContent='⏳ Teste Verbindung...';
-  btn.disabled=true;
-  try{
-    const res=await fetch('https://openrouter.ai/api/v1/auth/key',{
-      method:'GET',
-      headers:{'Authorization':'Bearer '+key}
-    });
-    if(res.status===200){
-      const data=await res.json();
-      const label=data?.data?.label||'OK';
-      resultDiv.style.background='rgba(16,185,129,.15)';resultDiv.style.color='var(--success)';
-      resultDiv.textContent='✅ API Key gültig! ('+label+')';
-    }else{
-      resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
-      resultDiv.textContent='❌ API Key ungültig (Status '+res.status+')';
-    }
-  }catch(err){
-    console.error('[API TEST] Fetch error:',err);
-    resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
-    resultDiv.textContent='❌ Netzwerkfehler: '+err.message;
-  }
-  btn.disabled=false;
-}
+
 
 async function callAI(msgs){
   // Ensure API key exists — try multiple sources
