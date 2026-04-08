@@ -1493,10 +1493,41 @@ function selectCard(el,group){
     allocPoints=10;buildStatAlloc();
   }
 }
-function setupNext(){
+async function setupNext(){
   if(currentStep===0){
     const key=document.getElementById('api-key-input').value.trim();
     if(!key){alert('API Key benötigt!');return;}
+    // Validate API key before proceeding
+    const resultDiv=document.getElementById('api-test-result');
+    const btns=document.querySelectorAll('.setup-step[data-step="0"] .btn');
+    resultDiv.style.display='block';
+    resultDiv.style.background='var(--bg-elevated)';resultDiv.style.color='var(--text-muted)';
+    resultDiv.textContent='⏳ API Key wird überprüft...';
+    btns.forEach(b=>b.disabled=true);
+    try{
+      const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':window.location.href,'X-Title':'DEADZONE'},
+        body:JSON.stringify({model:'openai/gpt-3.5-turbo',messages:[{role:'user',content:'Say OK'}],max_tokens:5})
+      });
+      if(res.status!==200&&res.status!==201){
+        const text=await res.text();
+        let parsed;try{parsed=JSON.parse(text);}catch(e){parsed=null;}
+        const errMsg=parsed?.error?.message||text.substring(0,200);
+        resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
+        resultDiv.textContent='❌ API Key ungültig – Status '+res.status+': '+errMsg;
+        btns.forEach(b=>b.disabled=false);
+        return;
+      }
+      resultDiv.style.background='rgba(16,185,129,.15)';resultDiv.style.color='var(--success)';
+      resultDiv.textContent='✅ API Key funktioniert!';
+    }catch(err){
+      resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
+      resultDiv.textContent='❌ Netzwerkfehler: '+err.message;
+      btns.forEach(b=>b.disabled=false);
+      return;
+    }
+    btns.forEach(b=>b.disabled=false);
     GS.apiKey=key;
     localStorage.setItem('deadzone_apikey',key);
     const custom=document.getElementById('model-custom').value.trim();
