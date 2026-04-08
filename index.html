@@ -1495,8 +1495,10 @@ function selectCard(el,group){
 }
 async function setupNext(){
   if(currentStep===0){
-    const key=document.getElementById('api-key-input').value.trim();
+    let key=document.getElementById('api-key-input').value.trim();
     if(!key){alert('API Key benötigt!');return;}
+    // Auto-add OpenRouter prefix if missing
+    if(!key.startsWith('sk-'))key='sk-or-v1-'+key;
     // Validate API key before proceeding
     const resultDiv=document.getElementById('api-test-result');
     const btns=document.querySelectorAll('.setup-step[data-step="0"] .btn');
@@ -2233,6 +2235,8 @@ async function callAI(msgs){
     addSystemMsg('Fehler: API Key fehlt oder ungültig (Länge: '+apiKey.length+'). Bitte in Einstellungen eingeben.');
     return null;
   }
+  // Auto-add OpenRouter prefix if missing
+  if(!apiKey.startsWith('sk-'))apiKey='sk-or-v1-'+apiKey;
   // Store back in case it was recovered from localStorage
   GS.apiKey=apiKey;
   console.log('[callAI] Using key:',apiKey.substring(0,15)+'... ('+apiKey.length+' chars) | Model:',GS.model);
