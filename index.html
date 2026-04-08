@@ -451,7 +451,8 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <option value="en">English</option>
     </select>
   </div>
-  <div class="btn-row"><button class="btn btn-primary btn-block" onclick="setupNext()">Weiter</button></div>
+  <div id="api-test-result" style="display:none;margin:10px 0;padding:10px;border-radius:var(--radius);font-size:11px;font-family:var(--mono);word-break:break-all"></div>
+  <div class="btn-row"><button class="btn" onclick="testApiKey()" id="test-api-btn">🔌 API testen</button><button class="btn btn-primary" onclick="setupNext()">Weiter</button></div>
 </div>
 
 <!-- Step 1: Character -->
@@ -2189,33 +2190,85 @@ Beende mit offener Situation die eine Entscheidung erfordert.${GS.settings.custo
   return p;
 }
 
-async function callAI(msgs){
-  // Ensure API key exists
-  if(!GS.apiKey){
-    const stored=localStorage.getItem('deadzone_apikey');
-    if(stored){GS.apiKey=stored;}
-    else{addSystemMsg('Fehler: API Key fehlt. Bitte in Einstellungen eingeben.');return null;}
-  }
-  const apiKey=GS.apiKey.trim();
-  if(!apiKey||apiKey.length<10){addSystemMsg('Fehler: API Key ungültig. Bitte in Einstellungen prüfen.');return null;}
+async function testApiKey(){
+  const resultDiv=document.getElementById('api-test-result');
+  const btn=document.getElementById('test-api-btn');
+  const key=document.getElementById('api-key-input').value.trim();
+  resultDiv.style.display='block';
+  if(!key){resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';resultDiv.textContent='❌ Kein API Key eingegeben!';return;}
+  resultDiv.style.background='var(--bg-elevated)';resultDiv.style.color='var(--text-muted)';resultDiv.textContent='⏳ Teste Verbindung...';
+  btn.disabled=true;
   try{
-    const headers={'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
-    // Add optional OpenRouter headers (may be stripped by browser but that's OK)
-    try{headers['HTTP-Referer']=window.location.href;}catch(e){}
-    try{headers['X-Title']='DEADZONE';}catch(e){}
+    console.log('[API TEST] Key length:',key.length,'Key start:',key.substring(0,15)+'...');
+    const testBody=JSON.stringify({model:'openai/gpt-3.5-turbo',messages:[{role:'user',content:'Say OK'}],max_tokens:5});
+    console.log('[API TEST] Sending request...');
+    console.log('[API TEST] Authorization header: Bearer '+key.substring(0,15)+'...('+key.length+' chars)');
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
-      headers:headers,
-      body:JSON.stringify({model:GS.model,messages:msgs,temperature:GS.temperature,max_tokens:GS.settings.maxTokens||4096})
+      headers:{
+        'Authorization':'Bearer '+key,
+        'Content-Type':'application/json'
+      },
+      body:testBody
     });
+    const status=res.status;
+    const text=await res.text();
+    console.log('[API TEST] Status:',status,'Response:',text.substring(0,500));
+    if(status===200||status===201){
+      resultDiv.style.background='rgba(16,185,129,.15)';resultDiv.style.color='var(--success)';
+      resultDiv.textContent='✅ API Key funktioniert! Verbindung OK. (Status: '+status+')';
+    }else{
+      resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
+      let parsed;try{parsed=JSON.parse(text);}catch(e){parsed=null;}
+      const errMsg=parsed?.error?.message||text.substring(0,200);
+      resultDiv.textContent='❌ Status '+status+': '+errMsg;
+    }
+  }catch(err){
+    console.error('[API TEST] Fetch error:',err);
+    resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
+    resultDiv.textContent='❌ Netzwerkfehler: '+err.message;
+  }
+  btn.disabled=false;
+}
+
+async function callAI(msgs){
+  // Ensure API key exists — try multiple sources
+  let apiKey=GS.apiKey;
+  if(!apiKey)apiKey=localStorage.getItem('deadzone_apikey')||'';
+  apiKey=String(apiKey).trim();
+  if(!apiKey||apiKey.length<10){
+    addSystemMsg('Fehler: API Key fehlt oder ungültig (Länge: '+apiKey.length+'). Bitte in Einstellungen eingeben.');
+    return null;
+  }
+  // Store back in case it was recovered from localStorage
+  GS.apiKey=apiKey;
+  console.log('[callAI] Using key:',apiKey.substring(0,15)+'... ('+apiKey.length+' chars) | Model:',GS.model);
+  try{
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{
+        'Authorization':'Bearer '+apiKey,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        model:GS.model,
+        messages:msgs,
+        temperature:GS.temperature,
+        max_tokens:GS.settings.maxTokens||4096
+      })
+    });
+    console.log('[callAI] Response status:',res.status);
     const data=await res.json();
     if(data.error){
-      const errMsg=data.error.message||JSON.stringify(data.error);
-      console.error('OpenRouter API Error:',data.error,'| Key length:',apiKey.length,'| Key prefix:',apiKey.substring(0,12)+'...');
-      throw new Error(errMsg);
+      console.error('[callAI] API error:',JSON.stringify(data.error));
+      throw new Error(data.error.message||JSON.stringify(data.error));
     }
     return data.choices[0].message.content;
-  }catch(err){console.error('AI Error:',err);addSystemMsg('KI-Fehler: '+err.message);return null;}
+  }catch(err){
+    console.error('[callAI] Error:',err);
+    addSystemMsg('KI-Fehler: '+err.message);
+    return null;
+  }
 }
 
 async function sendOpeningPrompt(){
