@@ -446,7 +446,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   </div>
   <div class="form-group"><label>Eigene Model-ID (optional)</label><input type="text" id="model-custom" placeholder="z.B. anthropic/claude-opus-4"></div>
   <div class="form-group"><label>Sprache / Language</label>
-    <select id="language-select">
+    <select id="language-select" onchange="GS.settings.language=this.value;applySetupLanguage();applyLanguage();">
       <option value="de">Deutsch</option>
       <option value="en">English</option>
     </select>
@@ -1239,6 +1239,146 @@ function applyLanguage(){
   }
 }
 
+function applySetupLanguage(){
+  const l=GS.settings.language||'de';
+  // Setup subtitle
+  const sub=document.querySelector('.setup-container .subtitle');
+  if(sub)sub.textContent=t('setupSubtitle');
+  // Continue button
+  const cb=document.getElementById('continue-btn');
+  if(cb)cb.innerHTML='&#9654; '+t('continueBtn').replace('▶ ','');
+  // Step titles
+  document.querySelectorAll('.setup-step').forEach(step=>{
+    const i=step.dataset.step;
+    const title=step.querySelector('.step-title');
+    if(title){
+      const map={'0':'step0Title','1':'step1Title','2':'step2Title','3':'step3Title','4':'step4Title','5':'step5Title','6':'step6Title'};
+      if(map[i])title.textContent=t(map[i]);
+    }
+  });
+  // All "Weiter"/"Next" and "Zurück"/"Back" buttons
+  document.querySelectorAll('.setup-step .btn-row .btn').forEach(btn=>{
+    if(btn.textContent.trim()==='Weiter'||btn.textContent.trim()==='Next')btn.textContent=t('next');
+    if(btn.textContent.trim()==='Zurück'||btn.textContent.trim()==='Back')btn.textContent=t('back');
+  });
+  // Start game button
+  document.querySelectorAll('.setup-step .btn-row .btn-primary').forEach(btn=>{
+    if(btn.textContent.includes('Überleben')||btn.textContent.includes('Survival')||btn.textContent.includes('Begin'))btn.innerHTML=t('startGame');
+  });
+  // Step 0 labels
+  const step0=document.querySelector('.setup-step[data-step="0"]');
+  if(step0){
+    const labels=step0.querySelectorAll('.form-group label');
+    if(labels[0])labels[0].textContent=t('apiKeyLabel');
+    if(labels[1])labels[1].textContent=t('modelLabel');
+    if(labels[2])labels[2].textContent=t('customModelLabel');
+    if(labels[3])labels[3].textContent=t('languageLabel');
+    const customInput=document.getElementById('model-custom');
+    if(customInput)customInput.placeholder=l==='en'?'e.g. anthropic/claude-opus-4':'z.B. anthropic/claude-opus-4';
+  }
+  // Step 1 labels
+  const step1=document.querySelector('.setup-step[data-step="1"]');
+  if(step1){
+    const labels=step1.querySelectorAll('.form-group label');
+    if(labels[0])labels[0].textContent=t('nameLabel');
+    if(labels[1])labels[1].textContent=t('backgroundLabel');
+    if(labels[2])labels[2].textContent=t('specLabel');
+    const nameInput=document.getElementById('char-name-input');
+    if(nameInput)nameInput.placeholder=l==='en'?'e.g. Marcus Cole':'z.B. Marcus Cole';
+    const bgInput=document.getElementById('char-bg-input');
+    if(bgInput)bgInput.placeholder=l==='en'?'Ex-soldier? Doctor? Mechanic? Farmer? Teacher?':'Ex-Soldat? Arzt? Mechaniker? Farmer? Lehrer?';
+    // Spec cards
+    const specMap={fighter:'specFighter',scout:'specScout',medic:'specMedic',engineer:'specEngineer',leader:'specLeader',scavenger:'specScavenger',farmer:'specFarmer',mechanic:'specMechanic',chemist:'specChemist'};
+    const specDescDE={fighter:'Nahkampf, Schusswaffen, Taktik',scout:'Schleichen, Aufklärung, Fallen',medic:'Heilung, Chirurgie, Krankheiten',engineer:'Bau, Reparatur, Fahrzeuge',leader:'Moral, Diplomatie, Organisation',scavenger:'Suche, Handel, Resourcen',farmer:'Nahrung, Tiere, Natur',mechanic:'Fahrzeuge, Generatoren, Waffen',chemist:'Medizin, Sprengstoff, Gifte'};
+    const specDescEN={fighter:'Melee, firearms, tactics',scout:'Stealth, recon, traps',medic:'Healing, surgery, diseases',engineer:'Building, repair, vehicles',leader:'Morale, diplomacy, organization',scavenger:'Scavenging, trading, resources',farmer:'Food, animals, nature',mechanic:'Vehicles, generators, weapons',chemist:'Medicine, explosives, poisons'};
+    step1.querySelectorAll('.option-card[data-spec]').forEach(card=>{
+      const spec=card.dataset.spec;
+      const nameEl=card.querySelector('.name');
+      const descEl=card.querySelector('.desc');
+      if(nameEl&&specMap[spec])nameEl.textContent=t(specMap[spec]);
+      if(descEl)descEl.textContent=(l==='en'?specDescEN:specDescDE)[spec]||'';
+    });
+  }
+  // Step 2
+  const step2=document.querySelector('.setup-step[data-step="2"]');
+  if(step2){
+    const pl=document.getElementById('points-remaining');
+    if(pl&&pl.parentNode)pl.parentNode.innerHTML=t('pointsLeft')+'<span id="points-remaining">'+allocPoints+'</span>';
+  }
+  // Step 3
+  const step3=document.querySelector('.setup-step[data-step="3"]');
+  if(step3){
+    const note=step3.querySelector('p');
+    if(note)note.textContent=t('traitNote');
+    const tpd=document.getElementById('trait-points-display');
+    if(tpd&&tpd.parentNode)tpd.parentNode.innerHTML=t('traitPoints')+'<span id="trait-points-display" style="color:var(--accent)">'+traitPoints+'</span>';
+    const negTitle=document.querySelector('#negative-traits-grid')?.previousElementSibling;
+    if(negTitle)negTitle.innerHTML=(l==='en'?'⚠ NEGATIVE TRAITS (give points)':'⚠ NEGATIVE EIGENSCHAFTEN (geben Punkte)');
+    const posTitle=document.querySelector('#positive-traits-grid')?.previousElementSibling;
+    if(posTitle)posTitle.innerHTML=(l==='en'?'✔ POSITIVE TRAITS (cost points)':'✔ POSITIVE EIGENSCHAFTEN (kosten Punkte)');
+  }
+  // Step 4 - phase cards
+  const step4=document.querySelector('.setup-step[data-step="4"]');
+  if(step4){
+    const note=step4.querySelector('p');
+    if(note)note.textContent=t('phaseNote');
+    const phaseMap={pre_outbreak:'phasePreOutbreak',outbreak:'phaseOutbreak',early_apocalypse:'phaseEarly',late_apocalypse:'phaseLate'};
+    const phaseDescDE={pre_outbreak:'Die Welt ist noch normal. Erste mysteriöse Berichte tauchen auf. Gerüchte, seltsame Krankheitsfalle. Niemand glaubt es — noch nicht. Du ahnst, dass etwas kommt.',outbreak:'Die Infektion breitet sich gerade aus. Chaos, Panik, zusammenbrechende Ordnung. Militär versucht zu kontrollieren. Nachrichtenblackouts. Tag 0 bis Tag 7.',early_apocalypse:'Wochen nach dem Ausbruch. Zivilisation ist zusammengebrochen. Strom fällt aus, Geschäfte geplündert. Überlebende bilden erste Gruppen. Zombies überall.',late_apocalypse:'Mehrere Jahre nach dem Zusammenbruch. Natur erobert Städte zurück. Feste Siedlungen, Händler-Routen, brutale Fraktionen. Zombies sind Alltag. Überleben ist Routine — Menschen die wahre Gefahr.'};
+    const phaseDescEN={pre_outbreak:'The world is still normal. First mysterious reports surface. Rumors, strange illness. Nobody believes it — not yet. You sense something is coming.',outbreak:'The infection is spreading now. Chaos, panic, collapsing order. Military tries to contain it. News blackouts. Day 0 to Day 7.',early_apocalypse:'Weeks after the outbreak. Civilization has collapsed. Power is out, stores looted. Survivors form first groups. Zombies everywhere.',late_apocalypse:'Several years after the collapse. Nature reclaims cities. Established settlements, trade routes, brutal factions. Zombies are routine. Survival is everyday — humans the real danger.'};
+    step4.querySelectorAll('.option-card[data-phase]').forEach(card=>{
+      const phase=card.dataset.phase;
+      const nameEl=card.querySelector('.name');
+      const descEl=card.querySelector('.desc');
+      if(nameEl&&phaseMap[phase])nameEl.textContent=t(phaseMap[phase]);
+      if(descEl)descEl.textContent=(l==='en'?phaseDescEN:phaseDescDE)[phase]||'';
+    });
+  }
+  // Step 5 - community config
+  const step5=document.querySelector('.setup-step[data-step="5"]');
+  if(step5){
+    const condLabel=step5.querySelector('.form-group label');
+    if(condLabel)condLabel.textContent=t('startCondition');
+    const resTitle=step5.querySelector('.sec-title');
+    if(resTitle)resTitle.textContent=t('resources');
+    // Resource config labels
+    const rcLabels=step5.querySelectorAll('.rc-label');
+    const rcKeys=['rFood','rMedicine','rAmmo','rMaterials'];
+    const rcExtra=l==='en'?'Vehicles':'Fahrzeuge';
+    rcLabels.forEach((rl,i)=>{if(rcKeys[i])rl.textContent=t(rcKeys[i]);if(i===4)rl.textContent=rcExtra;});
+    // Resource config options
+    const cfgFoodSel=document.getElementById('cfg-food');
+    if(cfgFoodSel){cfgFoodSel.options[0].text=l==='en'?'Starving':'Hungernd';cfgFoodSel.options[1].text=l==='en'?'Rationed':'Rationiert';cfgFoodSel.options[2].text=l==='en'?'Sufficient':'Ausreichend';}
+    const cfgMedsSel=document.getElementById('cfg-meds');
+    if(cfgMedsSel){cfgMedsSel.options[0].text=l==='en'?'None':'Keine';cfgMedsSel.options[1].text=l==='en'?'Basic':'Grundversorgung';cfgMedsSel.options[2].text=l==='en'?'Stocked':'Gut versorgt';}
+    const cfgAmmoSel=document.getElementById('cfg-ammo');
+    if(cfgAmmoSel){cfgAmmoSel.options[0].text=l==='en'?'Empty':'Leer';cfgAmmoSel.options[1].text=l==='en'?'Scarce':'Knapp';cfgAmmoSel.options[2].text=l==='en'?'Moderate':'Moderat';}
+    const cfgMatSel=document.getElementById('cfg-materials');
+    if(cfgMatSel){cfgMatSel.options[0].text=l==='en'?'None':'Keines';cfgMatSel.options[1].text=l==='en'?'Some':'Wenig';cfgMatSel.options[2].text=l==='en'?'Plenty':'Reichlich';}
+    const cfgVehSel=document.getElementById('cfg-vehicles');
+    if(cfgVehSel){cfgVehSel.options[0].text=l==='en'?'None':'Keine';cfgVehSel.options[1].text=l==='en'?'Wreck (repairable)':'Wrack (reparierbar)';cfgVehSel.options[2].text=l==='en'?'One Vehicle':'Ein Fahrzeug';}
+  }
+  // Update start type cards (also handles phase-adaptive text)
+  updateSetupForPhase();
+  // Step 6 - location
+  const step6=document.querySelector('.setup-step[data-step="6"]');
+  if(step6){
+    const note=step6.querySelector('p');
+    if(note)note.textContent=t('locationNote');
+    // Location card names and descriptions change based on phase, handled by updateSetupForPhase
+    const locNameDE={suburbia:'Vorstadt',rural:'Ländlich',industrial:'Industriegebiet',downtown:'Innenstadt',military:'Militärbasis',forest:'Waldgebiet',hospital:'Krankenhaus',shopping_mall:'Einkaufszentrum'};
+    const locNameEN={suburbia:'Suburbs',rural:'Rural',industrial:'Industrial Zone',downtown:'Downtown',military:'Military Base',forest:'Forest',hospital:'Hospital',shopping_mall:'Shopping Mall'};
+    const locDescDE={suburbia:'Wohngebiet, viele Häuser zum Plündern, moderate Zombies',rural:'Farmen, Scheunen, wenig Zombies, weite Wege',industrial:'Fabriken, Werkstätten, Materialien, viele Zombies',downtown:'Hochhäuser, extrem gefährlich, beste Beute',military:'Waffen, Munition, starke Zombies, Blockaden',forest:'Natur, Jagd, versteckt, wenig Vorräte',hospital:'Medizin, aber Zombie-Hotspot, Infektionsgefahr',shopping_mall:'Vorräte, Kleidung, verteidigbar, aber umzingelt'};
+    const locDescEN={suburbia:'Residential area, many houses to loot, moderate zombies',rural:'Farms, barns, few zombies, long distances',industrial:'Factories, workshops, materials, many zombies',downtown:'Skyscrapers, extremely dangerous, best loot',military:'Weapons, ammo, tough zombies, blockades',forest:'Nature, hunting, hidden, few supplies',hospital:'Medicine, but zombie hotspot, infection risk',shopping_mall:'Supplies, clothing, defensible, but surrounded'};
+    step6.querySelectorAll('.option-card[data-loc]').forEach(card=>{
+      const loc=card.dataset.loc;
+      const nameEl=card.querySelector('.name');
+      const descEl=card.querySelector('.desc');
+      if(nameEl)nameEl.textContent=(l==='en'?locNameEN:locNameDE)[loc]||'';
+      if(descEl)descEl.textContent=(l==='en'?locDescEN:locDescDE)[loc]||'';
+    });
+  }
+}
+
 let selections={spec:null,start:'small_group',loc:'suburbia',phase:'early_apocalypse'};
 let currentStep=0;
 let allocPoints=10;
@@ -1255,23 +1395,17 @@ function updateSetupForPhase(){
   if(!startCards||!locCards)return;
   if(phase==='pre_outbreak'){
     // Update community config for pre-outbreak
+    const cs=selections.start||'small_group';
     startCards.innerHTML=`
-      <div class="option-card" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128100;</div><div class="name">${t('startSoloPre')}</div><div class="desc">${t('startSoloPreDesc')}</div></div>
-      <div class="option-card selected" data-start="small_group" onclick="selectCard(this,'start')"><div class="icon">&#128101;</div><div class="name">${t('startSmallPre')}</div><div class="desc">${t('startSmallPreDesc')}</div></div>
-      <div class="option-card" data-start="established" onclick="selectCard(this,'start')"><div class="icon">&#127970;</div><div class="name">${t('startEstPre')}</div><div class="desc">${t('startEstPreDesc')}</div></div>`;
+      <div class="option-card${cs==='solo'?' selected':''}" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128100;</div><div class="name">${t('startSoloPre')}</div><div class="desc">${t('startSoloPreDesc')}</div></div>
+      <div class="option-card${cs==='small_group'?' selected':''}" data-start="small_group" onclick="selectCard(this,'start')"><div class="icon">&#128101;</div><div class="name">${t('startSmallPre')}</div><div class="desc">${t('startSmallPreDesc')}</div></div>
+      <div class="option-card${cs==='established'?' selected':''}" data-start="established" onclick="selectCard(this,'start')"><div class="icon">&#127970;</div><div class="name">${t('startEstPre')}</div><div class="desc">${t('startEstPreDesc')}</div></div>`;
     // Update location descriptions for pre-outbreak (no zombie references)
     locCards.querySelectorAll('.option-card').forEach(card=>{
       const loc=card.dataset.loc;
-      const preDescs={
-        suburbia:'Ruhiges Wohnviertel, gute Nachbarschaft',
-        rural:'Abgelegene Farmen, weite Felder, ruhig',
-        industrial:'Fabriken und Werkstätten, geschäftiges Treiben',
-        downtown:'Hochhäuser, belebte Straßen, viele Menschen',
-        military:'Militärstützpunkt, Sicherheitsbereich, Zugang beschränkt',
-        forest:'Waldgebiet, Wanderwege, Naturschutzgebiet',
-        hospital:'Krankenhaus, überlastet mit mysteriösen Patienten',
-        shopping_mall:'Einkaufszentrum, voller Menschen, normaler Betrieb',
-      };
+      const preDescsDE={suburbia:'Ruhiges Wohnviertel, gute Nachbarschaft',rural:'Abgelegene Farmen, weite Felder, ruhig',industrial:'Fabriken und Werkstätten, geschäftiges Treiben',downtown:'Hochhäuser, belebte Straßen, viele Menschen',military:'Militärstützpunkt, Sicherheitsbereich, Zugang beschränkt',forest:'Waldgebiet, Wanderwege, Naturschutzgebiet',hospital:'Krankenhaus, überlastet mit mysteriösen Patienten',shopping_mall:'Einkaufszentrum, voller Menschen, normaler Betrieb'};
+      const preDescsEN={suburbia:'Quiet residential area, good neighborhood',rural:'Remote farms, wide fields, peaceful',industrial:'Factories and workshops, busy activity',downtown:'Skyscrapers, bustling streets, many people',military:'Military base, restricted access, security zone',forest:'Forest area, hiking trails, nature reserve',hospital:'Hospital, overwhelmed with mysterious patients',shopping_mall:'Shopping mall, full of people, normal operations'};
+      const preDescs=(GS.settings.language==='en')?preDescsEN:preDescsDE;
       if(preDescs[loc]){
         const descEl=card.querySelector('.desc');
         if(descEl)descEl.textContent=preDescs[loc];
@@ -1279,10 +1413,11 @@ function updateSetupForPhase(){
     });
   }else{
     // Reset to default descriptions
+    const cs2=selections.start||'small_group';
     startCards.innerHTML=`
-      <div class="option-card" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128058;</div><div class="name">${t('startSolo')}</div><div class="desc">${t('startSoloDesc')}</div></div>
-      <div class="option-card selected" data-start="small_group" onclick="selectCard(this,'start')"><div class="icon">&#128101;</div><div class="name">${t('startSmall')}</div><div class="desc">${t('startSmallDesc')}</div></div>
-      <div class="option-card" data-start="established" onclick="selectCard(this,'start')"><div class="icon">&#127970;</div><div class="name">${t('startEstablished')}</div><div class="desc">${t('startEstDesc')}</div></div>`;
+      <div class="option-card${cs2==='solo'?' selected':''}" data-start="solo" onclick="selectCard(this,'start')"><div class="icon">&#128058;</div><div class="name">${t('startSolo')}</div><div class="desc">${t('startSoloDesc')}</div></div>
+      <div class="option-card${cs2==='small_group'?' selected':''}" data-start="small_group" onclick="selectCard(this,'start')"><div class="icon">&#128101;</div><div class="name">${t('startSmall')}</div><div class="desc">${t('startSmallDesc')}</div></div>
+      <div class="option-card${cs2==='established'?' selected':''}" data-start="established" onclick="selectCard(this,'start')"><div class="icon">&#127970;</div><div class="name">${t('startEstablished')}</div><div class="desc">${t('startEstDesc')}</div></div>`;
     const defaultDescs={
       suburbia:'Wohngebiet, viele Häuser zum Plündern, moderate Zombies',
       rural:'Farmen, Scheunen, wenig Zombies, weite Wege',
@@ -1303,12 +1438,31 @@ function updateSetupForPhase(){
   }
 }
 
+function updateResourceDefaults(startType){
+  const defaults={
+    solo:{food:'starving',meds:'none',ammo:'empty',materials:'none',vehicles:'none'},
+    small_group:{food:'rationed',meds:'basic',ammo:'scarce',materials:'some',vehicles:'working'},
+    established:{food:'sufficient',meds:'stocked',ammo:'moderate',materials:'plenty',vehicles:'working'},
+  };
+  const d=defaults[startType];
+  if(!d)return;
+  const cfgFood=document.getElementById('cfg-food');if(cfgFood)cfgFood.value=d.food;
+  const cfgMeds=document.getElementById('cfg-meds');if(cfgMeds)cfgMeds.value=d.meds;
+  const cfgAmmo=document.getElementById('cfg-ammo');if(cfgAmmo)cfgAmmo.value=d.ammo;
+  const cfgMat=document.getElementById('cfg-materials');if(cfgMat)cfgMat.value=d.materials;
+  const cfgVeh=document.getElementById('cfg-vehicles');if(cfgVeh)cfgVeh.value=d.vehicles;
+  // Show/hide community config for solo
+  const cc=document.getElementById('community-config');
+  if(cc)cc.style.display=startType==='solo'?'none':'block';
+}
+
 function selectCard(el,group){
   el.parentNode.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   const val=el.dataset.spec||el.dataset.start||el.dataset.loc||el.dataset.phase;
   selections[group]=val;
   if(group==='phase'){updateSetupForPhase();}
+  if(group==='start'){updateResourceDefaults(val);}
   if(group==='spec'){
     GS.character.stats={...SPEC_DEFAULTS[val]};
     allocPoints=10;buildStatAlloc();
@@ -1319,9 +1473,10 @@ function setupNext(){
     const key=document.getElementById('api-key-input').value.trim();
     if(!key){alert('API Key benötigt!');return;}
     GS.apiKey=key;
+    localStorage.setItem('deadzone_apikey',key);
     const custom=document.getElementById('model-custom').value.trim();
     GS.model=custom||document.getElementById('model-select-setup').value;
-    GS.settings.language=document.getElementById('language-select').value;applyLanguage();
+    GS.settings.language=document.getElementById('language-select').value;applySetupLanguage();applyLanguage();
   }
   if(currentStep===1){
     GS.character.name=document.getElementById('char-name-input').value.trim()||'Unbekannt';
@@ -1922,7 +2077,7 @@ Beende mit offener Situation die eine Entscheidung erfordert.${GS.settings.custo
 async function callAI(msgs){
   if(!GS.apiKey){addSystemMsg('Fehler: API Key fehlt. Bitte in Einstellungen eingeben.');return null;}
   try{
-    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Authorization':`Bearer ${GS.apiKey}`,'Content-Type':'application/json','HTTP-Referer':'http://localhost','X-Title':'DEADZONE'},body:JSON.stringify({model:GS.model,messages:msgs,temperature:GS.temperature,max_tokens:GS.settings.maxTokens||4096})});
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Authorization':`Bearer ${GS.apiKey}`,'Content-Type':'application/json','HTTP-Referer':window.location.origin||window.location.href,'X-Title':'DEADZONE'},body:JSON.stringify({model:GS.model,messages:msgs,temperature:GS.temperature,max_tokens:GS.settings.maxTokens||4096})});
     const data=await res.json();
     if(data.error)throw new Error(data.error.message||JSON.stringify(data.error));
     return data.choices[0].message.content;
@@ -2196,6 +2351,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(input){
     input.addEventListener('input',()=>{input.style.height='auto';input.style.height=Math.min(input.scrollHeight,100)+'px';});
     input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+  }
+  // Pre-fill API key from localStorage
+  const storedKey=localStorage.getItem('deadzone_apikey');
+  if(storedKey){
+    const apiInput=document.getElementById('api-key-input');
+    if(apiInput)apiInput.value=storedKey;
+    GS.apiKey=storedKey;
   }
   checkSavedGame();
 });
