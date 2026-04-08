@@ -909,29 +909,53 @@ const LOCATIONS=[
 ];
 
 const WEATHER_TYPES={
-  clear:{icon:'&#9728;&#65039;',name:'Klar',effect:'Gute Sicht, Zombies aktiver'},
-  cloudy:{icon:'&#9925;',name:'Bewölkt',effect:'Normale Bedingungen'},
-  rain:{icon:'&#127783;&#65039;',name:'Regen',effect:'-2 Sicht, Geräusche gedämpft, Zombies langsamer'},
-  storm:{icon:'&#9928;&#65039;',name:'Sturm',effect:'-4 Sicht, Lärm, Zombies desorientiert, Gefahrlich'},
-  fog:{icon:'&#127787;&#65039;',name:'Nebel',effect:'-5 Sicht, perfekt zum Schleichen, keine Fernsicht'},
-  snow:{icon:'&#127784;&#65039;',name:'Schnee',effect:'-2 Bewegung, Spuren sichtbar, Kalte-Schaden'},
-  heat:{icon:'&#127777;&#65039;',name:'Hitzewelle',effect:'-3 Ausdauer, Zombies aggressiver'},
-  night:{icon:'&#127769;',name:'Nacht',effect:'-6 Sicht, Zombies deutlich aktiver'},
+  clear:{icon:'&#9728;&#65039;',name:'Klar',effect:'Gute Sicht, Zombies aktiver',tempEffect:55},
+  cloudy:{icon:'&#9925;',name:'Bewölkt',effect:'Normale Bedingungen',tempEffect:50},
+  rain:{icon:'&#127783;&#65039;',name:'Regen',effect:'-2 Sicht, Geräusche gedämpft, Zombies langsamer',tempEffect:40},
+  storm:{icon:'&#9928;&#65039;',name:'Sturm',effect:'-4 Sicht, Lärm, Zombies desorientiert, Gefährlich',tempEffect:35},
+  fog:{icon:'&#127787;&#65039;',name:'Nebel',effect:'-5 Sicht, perfekt zum Schleichen, keine Fernsicht',tempEffect:42},
+  snow:{icon:'&#127784;&#65039;',name:'Schnee',effect:'-2 Bewegung, Spuren sichtbar, Kälte-Schaden',tempEffect:15},
+  heat:{icon:'&#127777;&#65039;',name:'Hitzewelle',effect:'-3 Ausdauer, Zombies aggressiver',tempEffect:85},
+  night:{icon:'&#127769;',name:'Nacht',effect:'-6 Sicht, Zombies deutlich aktiver',tempEffect:38},
 };
 
 const FACILITY_TYPES={
-  infirmary:{name:'Krankenstation',icon:'&#128137;',desc:'Heilt Verletzungen und Infektionen',maxLevel:3},
-  workshop:{name:'Werkstatt',icon:'&#128295;',desc:'Repariert Waffen und Fahrzeuge',maxLevel:3},
-  kitchen:{name:'Küche',icon:'&#127860;',desc:'Kocht Nahrung, reduziert Verbrauch',maxLevel:3},
-  watchtower:{name:'Wachturm',icon:'&#128065;&#65039;',desc:'Früherkennung von Horden',maxLevel:2},
-  garden:{name:'Garten',icon:'&#127793;',desc:'Produziert Nahrung taglich',maxLevel:3},
-  armory:{name:'Waffenkammer',icon:'&#128299;',desc:'Lagert und wartet Waffen',maxLevel:2},
-  generator:{name:'Generator',icon:'&#9889;',desc:'Strom für die Basis',maxLevel:2},
-  barricade:{name:'Barrikaden',icon:'&#129521;',desc:'Verteidigung gegen Angriffe',maxLevel:3},
-  storage:{name:'Lager',icon:'&#128230;',desc:'Erhöht Ressourcen-Kapazitat',maxLevel:2},
-  radio:{name:'Funkstation',icon:'&#128225;',desc:'Kontakt zu anderen Gruppen',maxLevel:2},
-  lab:{name:'Labor',icon:'&#128300;',desc:'Medizin und Heilmittel herstellen',maxLevel:2},
-  garage:{name:'Garage',icon:'&#128663;',desc:'Fahrzeugreparatur und -umbau',maxLevel:2},
+  infirmary:{name:'Krankenstation',icon:'&#128137;',desc:'Heilt Verletzungen und Infektionen',maxLevel:3,
+    cost:{1:{materials:8,medicine:5},2:{materials:12,medicine:8},3:{materials:20,medicine:15}},
+    buildDays:{1:2,2:3,3:5},refund:{materials:4,medicine:2}},
+  workshop:{name:'Werkstatt',icon:'&#128295;',desc:'Repariert Waffen und Fahrzeuge',maxLevel:3,
+    cost:{1:{materials:10},2:{materials:15,fuel:5},3:{materials:25,fuel:10}},
+    buildDays:{1:2,2:3,3:4},refund:{materials:5}},
+  kitchen:{name:'Küche',icon:'&#127860;',desc:'Kocht Nahrung, reduziert Verbrauch',maxLevel:3,
+    cost:{1:{materials:6,food:3},2:{materials:10,food:5},3:{materials:18,food:8}},
+    buildDays:{1:1,2:2,3:3},refund:{materials:3}},
+  watchtower:{name:'Wachturm',icon:'&#128065;&#65039;',desc:'Früherkennung von Horden',maxLevel:2,
+    cost:{1:{materials:12},2:{materials:20,ammo:5}},
+    buildDays:{1:3,2:4},refund:{materials:6}},
+  garden:{name:'Garten',icon:'&#127793;',desc:'Produziert Nahrung täglich',maxLevel:3,
+    cost:{1:{materials:4},2:{materials:8,food:3},3:{materials:15,food:5}},
+    buildDays:{1:2,2:3,3:5},refund:{materials:2}},
+  armory:{name:'Waffenkammer',icon:'&#128299;',desc:'Lagert und wartet Waffen',maxLevel:2,
+    cost:{1:{materials:10,ammo:5},2:{materials:18,ammo:10}},
+    buildDays:{1:2,2:3},refund:{materials:5,ammo:2}},
+  generator:{name:'Generator',icon:'&#9889;',desc:'Strom für die Basis',maxLevel:2,
+    cost:{1:{materials:15,fuel:10},2:{materials:25,fuel:15}},
+    buildDays:{1:3,2:5},refund:{materials:7,fuel:4}},
+  barricade:{name:'Barrikaden',icon:'&#129521;',desc:'Verteidigung gegen Angriffe',maxLevel:3,
+    cost:{1:{materials:8},2:{materials:14},3:{materials:22}},
+    buildDays:{1:1,2:2,3:3},refund:{materials:4}},
+  storage:{name:'Lager',icon:'&#128230;',desc:'Erhöht Ressourcen-Kapazität',maxLevel:2,
+    cost:{1:{materials:6},2:{materials:12}},
+    buildDays:{1:1,2:2},refund:{materials:3}},
+  radio:{name:'Funkstation',icon:'&#128225;',desc:'Kontakt zu anderen Gruppen',maxLevel:2,
+    cost:{1:{materials:10,fuel:3},2:{materials:18,fuel:5}},
+    buildDays:{1:2,2:4},refund:{materials:5}},
+  lab:{name:'Labor',icon:'&#128300;',desc:'Medizin und Heilmittel herstellen',maxLevel:2,
+    cost:{1:{materials:12,medicine:8},2:{materials:20,medicine:15}},
+    buildDays:{1:3,2:5},refund:{materials:6,medicine:3}},
+  garage:{name:'Garage',icon:'&#128663;',desc:'Fahrzeugreparatur und -umbau',maxLevel:2,
+    cost:{1:{materials:14,fuel:5},2:{materials:22,fuel:10}},
+    buildDays:{1:3,2:4},refund:{materials:7,fuel:2}},
 };
 
 const FACTIONS={
@@ -1794,7 +1818,7 @@ function updateCharPanel(){
       {key:'temperature',icon:'&#127777;&#65039;',name:'Temperatur',invert:false},
     ];
     mg.innerHTML=moodlesDef.map(m=>{
-      const v=c.moodles[m.key]||0;
+      const v=Math.round(c.moodles[m.key]||0);
       let severity='',valCls='ok',label='';
       if(m.key==='temperature'){
         if(v<=15){severity='danger';valCls='bad';label='Erfrierend';}
@@ -1806,9 +1830,10 @@ function updateCharPanel(){
         if(v>=80){severity='critical';valCls='crit';label='Kritisch';}
         else if(v>=60){severity='danger';valCls='bad';label='Hoch';}
         else if(v>=35){severity='warning';valCls='warn';label='Mittel';}
+        else if(v>=15){severity='';valCls='ok';label='Leicht';}
         else{severity='';valCls='ok';label='OK';}
       }
-      return`<div class="moodle-item ${severity}"><div class="moodle-icon">${m.icon}</div><div class="moodle-name">${m.name}</div><div class="moodle-val ${valCls}">${label}</div></div>`;
+      return`<div class="moodle-item ${severity}"><div class="moodle-icon">${m.icon}</div><div class="moodle-name">${m.name}</div><div class="moodle-val ${valCls}">${v} — ${label}</div></div>`;
     }).join('');
   }
   // Weight
@@ -1818,19 +1843,75 @@ function updateCharPanel(){
     const wtCls=wt<65?'underweight':wt>90?'overweight':'normal';
     wd.textContent=wt+' kg';wd.className='weight-val '+wtCls;
   }
-  // Sleep
+  // Sleep / Awake display
   const ad=document.getElementById('awake-display');
-  if(ad)ad.textContent=(c.hoursAwake||0)+'h';
+  if(ad){
+    const hrs=Math.round(c.hoursAwake||0);
+    let awakeStatus='';
+    if(hrs>=24)awakeStatus=' ⚠ Ohnmacht!';
+    else if(hrs>=20)awakeStatus=' ⚠ Halluz.';
+    else if(hrs>=16)awakeStatus=' ⚠ Übermüdet';
+    else if(hrs>=12)awakeStatus=' Müde';
+    ad.textContent=hrs+'h'+awakeStatus;
+    ad.style.color=hrs>=20?'var(--danger)':hrs>=16?'var(--warning)':'var(--text-muted)';
+  }
   // Utilities
   const pw=document.getElementById('util-power');
   const ww=document.getElementById('util-water');
   const er=document.getElementById('util-erosion');
-  if(pw){pw.textContent=GS.world.electricityOn?'Strom AN':'Strom AUS';pw.className=GS.world.electricityOn?'util-on':'util-off';}
-  if(ww){ww.textContent=GS.world.waterOn?'Wasser AN':'Wasser AUS';ww.className=GS.world.waterOn?'util-on':'util-off';}
+  if(pw){pw.textContent=GS.world.electricityOn?t('powerOn'):t('powerOff');pw.className=GS.world.electricityOn?'util-on':'util-off';}
+  if(ww){ww.textContent=GS.world.waterOn?t('waterOn'):t('waterOff');ww.className=GS.world.waterOn?'util-on':'util-off';}
   if(er)er.textContent='Erosion: '+Math.round(GS.world.erosion||0)+'%';
+}
+function getFacilityStatus(f){
+  if(!f)return null;
+  if(f.demolishDay){
+    const daysLeft=f.demolishDay-GS.world.day;
+    return daysLeft>0?{status:'demolishing',daysLeft}:{status:'demolished',daysLeft:0};
+  }
+  if(f.buildCompleteDay){
+    const daysLeft=f.buildCompleteDay-GS.world.day;
+    return daysLeft>0?{status:'building',daysLeft}:{status:'ready',daysLeft:0};
+  }
+  return{status:'built',daysLeft:0};
+}
+function checkFacilityCompletion(){
+  const com=GS.community;
+  let changed=false;
+  com.facilities=com.facilities.filter(f=>{
+    const s=getFacilityStatus(f);
+    if(s.status==='ready'&&f.buildCompleteDay){
+      delete f.buildCompleteDay;
+      const ft=FACILITY_TYPES[f.type]||{};
+      addSystemMsg('🏗️ '+ft.name+' (Stufe '+f.level+') fertiggestellt!');
+      changed=true;
+    }
+    if(s.status==='demolished'){
+      const ft=FACILITY_TYPES[f.type]||{};
+      // Refund resources
+      if(ft.refund){for(const[k,v] of Object.entries(ft.refund)){com.resources[k]=(com.resources[k]||0)+Math.round(v*f.level);}}
+      addSystemMsg('🔨 '+ft.name+' abgerissen. Materialien zurückgewonnen.');
+      changed=true;
+      return false; // remove from array
+    }
+    return true;
+  });
+  if(changed)updateBasePanel();
+}
+function canAfford(costs){
+  if(!costs)return false;
+  for(const[k,v] of Object.entries(costs)){if((GS.community.resources[k]||0)<v)return false;}
+  return true;
+}
+function formatCost(costs){
+  if(!costs)return'—';
+  const RES_ICONS={food:'🍞',medicine:'💊',ammo:'💣',materials:'🧱',fuel:'⛽'};
+  const RES_NAMES_S={food:'Nahrung',medicine:'Medizin',ammo:'Munition',materials:'Material',fuel:'Treibstoff'};
+  return Object.entries(costs).map(([k,v])=>`${RES_ICONS[k]||''} ${v} ${RES_NAMES_S[k]||k}`).join(', ');
 }
 function updateBasePanel(){
   const com=GS.community;
+  checkFacilityCompletion();
   document.getElementById('base-name').textContent=com.baseName||'Kein Lager';
   // Facilities
   const fg=document.getElementById('facility-grid');
@@ -1839,19 +1920,45 @@ function updateBasePanel(){
     const f=com.facilities[i];
     if(f){
       const ft=FACILITY_TYPES[f.type]||{};
-      fg.innerHTML+=`<div class="facility-slot built ${f.damaged?'damaged':''}"><span class="facility-icon">${ft.icon||'?'}</span><span class="facility-name">${ft.name||f.type}</span><span class="facility-level">Stufe ${f.level||1}/${ft.maxLevel||3}</span></div>`;
-    } else {
+      const s=getFacilityStatus(f);
+      const canUpgrade=s.status==='built'&&f.level<(ft.maxLevel||3);
+      const upgCost=canUpgrade?ft.cost?.[f.level+1]:null;
+      const upgDays=canUpgrade?ft.buildDays?.[f.level+1]:null;
+      const affordable=upgCost?canAfford(upgCost):false;
+      let statusHTML='';
+      if(s.status==='building'){
+        const total=ft.buildDays?.[f.level]||2;
+        const elapsed=total-s.daysLeft;
+        const pct=Math.round((elapsed/total)*100);
+        statusHTML=`<div style="margin-top:4px;font-size:9px;color:var(--warning)">🔨 Bau: ${s.daysLeft} Tag${s.daysLeft>1?'e':''} (Tag ${GS.world.day+s.daysLeft})</div><div style="height:4px;background:var(--bg-base);border-radius:2px;margin-top:3px;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--warning);border-radius:2px;transition:width .3s"></div></div>`;
+      }else if(s.status==='demolishing'){
+        statusHTML=`<div style="margin-top:4px;font-size:9px;color:var(--danger)">🔨 Abriss: ${s.daysLeft} Tag${s.daysLeft>1?'e':''}</div>`;
+      }else{
+        let btns='<div style="display:flex;gap:3px;margin-top:4px">';
+        if(canUpgrade){
+          btns+=`<button class="stat-btn" style="width:auto;padding:2px 6px;font-size:8px;${affordable?'':'opacity:.4;cursor:not-allowed'}" onclick="${affordable?`upgradeFacility(${i})`:'void(0)'}" title="${upgCost?formatCost(upgCost)+' | '+upgDays+' Tage':'Max'}">⬆ Stufe ${f.level+1}</button>`;
+        }
+        btns+=`<button class="stat-btn" style="width:auto;padding:2px 6px;font-size:8px;color:var(--danger)" onclick="demolishFacility(${i})" title="Abreißen (1 Tag)">✕</button></div>`;
+        statusHTML=btns;
+      }
+      fg.innerHTML+=`<div class="facility-slot built ${f.damaged?'damaged':''} ${s.status==='building'?'building':''}" style="${s.status==='building'?'border-style:dashed;opacity:.8':''}" ${s.status==='built'?`onclick="showFacilityInfo(${i})"`:''}>
+        <span class="facility-icon">${ft.icon||'?'}</span>
+        <span class="facility-name">${ft.name||f.type}</span>
+        <span class="facility-level">Stufe ${f.level||1}/${ft.maxLevel||3}</span>
+        ${statusHTML}
+      </div>`;
+    }else{
       fg.innerHTML+=`<div class="facility-slot" onclick="showBuildModal(${i})"><span class="facility-icon" style="opacity:.3">➕</span><span class="facility-name" style="color:var(--text-dim);font-size:9px">Bauen...</span></div>`;
     }
   }
   // Resources
   const rg=document.getElementById('resource-grid');
   const res=[
-    {key:'food',icon:'&#127838;',label:'Nahrung',color:'var(--success)'},
-    {key:'medicine',icon:'&#128138;',label:'Medizin',color:'var(--danger)'},
-    {key:'ammo',icon:'&#128163;',label:'Munition',color:'var(--warning)'},
-    {key:'materials',icon:'&#129521;',label:'Material',color:'var(--accent)'},
-    {key:'fuel',icon:'&#9981;',label:'Treibstoff',color:'var(--survivors)'},
+    {key:'food',icon:'&#127838;',label:t('rFood'),color:'var(--success)'},
+    {key:'medicine',icon:'&#128138;',label:t('rMedicine'),color:'var(--danger)'},
+    {key:'ammo',icon:'&#128163;',label:t('rAmmo'),color:'var(--warning)'},
+    {key:'materials',icon:'&#129521;',label:t('rMaterials'),color:'var(--accent)'},
+    {key:'fuel',icon:'&#9981;',label:t('rFuel'),color:'var(--survivors)'},
   ];
   rg.innerHTML=res.map(r=>{
     const v=com.resources[r.key]||0;
@@ -1859,14 +1966,14 @@ function updateBasePanel(){
     return`<div class="res-stat-card ${cls}"><span class="rsc-icon">${r.icon}</span><div class="rsc-val" style="color:${r.color}">${v}</div><div class="rsc-label">${r.label}</div></div>`;
   }).join('');
   // Threat
-  document.getElementById('threat-fill').style.width=com.threatLevel+'%';
-  const tLabels=['Sicher','Gering','Erhöht','Hoch','Kritisch','HORDE!'];
+  document.getElementById('threat-fill').style.width=Math.min(100,com.threatLevel)+'%';
+  const tLabels=[t('threatSafe'),t('threatLow'),t('threatMedium'),t('threatHigh'),t('threatCritical'),t('threatHorde')];
   document.getElementById('threat-label').textContent=tLabels[Math.min(5,Math.floor(com.threatLevel/20))];
   // Vehicles
   const vl=document.getElementById('vehicles-list');
   if(com.vehicles.length){
     vl.innerHTML=com.vehicles.map(v=>`<div style="background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius);padding:8px;margin-bottom:4px"><div style="font-size:12px;font-weight:600">&#128663; ${v.name}</div><div style="font-size:10px;color:var(--text-muted)">Zustand: ${v.condition}% | Treibstoff: ${v.fuel}/${v.maxFuel}</div></div>`).join('');
-  } else vl.innerHTML='<span style="color:var(--text-dim);font-size:11px">Keine Fahrzeuge</span>';
+  } else vl.innerHTML='<span style="color:var(--text-dim);font-size:11px">'+t('noVehicles')+'</span>';
 }
 function updateCommunityPanel(){
   const com=GS.community;
@@ -2002,34 +2109,36 @@ Erkundete Orte: ${discoveredLocs||'keine'}`;
 
   p+=`
 
-ZOMBIE-TYPEN: Shambler(langsam), Runner(schnell), Screamer(ruft Horde), Bloater(Giftgas), Feral(tödlich schnell), Juggernaut(Panzer), Plague-Zombie(infiziert bei Biss), Horde(10-50 Zombies)
+ZOMBIE-TYPEN: Shambler(langsam, häufig), Runner(schnell, selten), Screamer(ruft andere, sehr selten), Bloater(Giftgas, selten), Feral(tödlich schnell, extrem selten), Juggernaut(Panzer, extrem selten), Plague-Zombie(infiziert bei Biss, selten)
+WICHTIG — ZOMBIE-HÄUFIGKEIT: Einzelne Zombies oder kleine Gruppen (2-5) sind normal. Größere Gruppen (6-15) sind selten und nur an bestimmten Orten. HORDEN (20+ Zombies) sind EXTREM SELTEN und dürfen NUR bei sehr hohem Bedrohungslevel (80%+) oder als Resultat von Spielerentscheidungen (laute Aktionen, Screamer angelockt) auftreten. Der Spieler soll NICHT ständig mit Massen konfrontiert werden. Realismus: Die meiste Zeit gibt es Stille, Einsamkeit, gelegentliche einzelne Zombies. Spannung kommt durch die MÖGLICHKEIT der Gefahr, nicht durch ständige Überwältigung.
 
 SYSTEME:
 - diceCheck bei riskanten Aktionen: stat(combat/stealth/leadership/survival/mechanics/medicine), dc(8/12/15/18/22), context
 - combat.start bei Kampfbeginn, combat.end+result bei Ende
-- PERMADEATH: Überlebende konnen STERBEN. Bei Tod: updateSurvivors mit dead:true. Spieler-Tod = Game Over.
+- PERMADEATH: Überlebende können STERBEN. Bei Tod: updateSurvivors mit dead:true. Spieler-Tod = Game Over.
 - NPCs via addNpcs/updateNpcs (name,role,bond,location,faction,description)
 - Equipment: equipItem{slot,item}/unequipSlot/removeItems
 - xpGain:5-25 bei bedeutsamen Aktionen
-- communityUpdate: resources(food/medicine/ammo/materials/fuel als DELTA), morale(DELTA), threatLevel(DELTA), addSurvivors[], updateSurvivors[], addFacilities[], updateFacilities[], addVehicles[], updateVehicles[]
+- communityUpdate: resources(food/medicine/ammo/materials/fuel als DELTA), morale(DELTA), threatLevel(DELTA max +2 pro Interaktion!), addSurvivors[], updateSurvivors[], addFacilities[], updateFacilities[], addVehicles[], updateVehicles[]
 - factionReputation: DELTA pro Fraktion (military_remnants, raiders, traders, cult, other_survivors)
-- weatherChange: Wetter andern wenn narrativ sinnvoll (clear/cloudy/rain/storm/fog/snow/heat/night)
-- dayAdvance: true wenn ein Tag vergeht. Ressourcenverbrauch automatisch. Erosion steigt mit Tagen.
+- weatherChange: Wetter ändern wenn narrativ sinnvoll (clear/cloudy/rain/storm/fog/snow/heat/night)
+- dayAdvance: true wenn ein ganzer Tag vergeht (Schlaf, lange Reise). Nicht bei kurzen Aktionen! System verarbeitet: Ressourcenverbrauch, Baufortschritt, Moodle-Änderungen automatisch.
 - Infektionssystem: Biss von Plague-Zombie = infection+20-40. Bei 100% = Tod/Wendung. Heilbar mit spezieller Medizin.
-- Horden: Bedrohungslevel steigt mit Zeit. Bei 100% = Hordenangriff auf Basis.
-- addConsequences: Verzögerte Effekte. Typen: horde_attack, survivor_conflict, raider_raid, resource_shortage, rescue_mission, trader_arrival, infection_outbreak, structural_damage, meta_event, utility_shutoff
+- Horden-Realismus: Bedrohungslevel steigt LANGSAM (+0.5/Tag, +1-2 bei lauten Aktionen). Nur bei 80%+ echte Hordengefahr. Wachturm senkt Bedrohung. Horden sind ein seltenes Großereignis, NICHT Routine!
+- addConsequences: Verzögerte Effekte. Typen: horde_attack(NUR bei 80%+), survivor_conflict, raider_raid, resource_shortage, rescue_mission, trader_arrival, infection_outbreak, structural_damage, meta_event, utility_shutoff
 
-MOODLE-SYSTEM (Project Zomboid inspiriert):
-- moodleChanges: DELTA fürjedes Moodle. Alle Werte 0-100, hoher=schlimmer (ausser temperature: 0=Frost,50=OK,100=Hitze).
-- Hunger: steigt ohne Essen (+5-15/Aktion), Essen senkt ihn. Ab 60=Schwache, ab 80=HP-Verlust, 100=Verhungern.
-- Durst: steigt schneller als Hunger (+8-20). Ab 70=Desorientierung. Ab 90=kritisch. 100=Tod.
-- Müdigkeit: steigt mit Aktivität und Wachzeit. Ab 50=langsamer, ab 70=Fehler, ab 90=Ohnmacht.
-- Schmerz: durch Verletzungen. Reduziert Kampffähigkeit. Sinkt langsam oder mit Schmerzmittel.
-- Langeweile: steigt bei Inaktivitat drinnen. Erhoeht Depression. Sinkt draussen, beim Lesen, bei Aktivitaet.
-- Depression: steigt durch Langeweile, Stress, schlechtes Essen, Tod von Gefahrten. ALLE Aktionen dauern langer. Sinkt durch Komfortessen, Gesprache, Erfolge.
-- Stress: steigt nahe Zombies, bei Gefahr, bei Konflikten. Ab 60=Zittern, Kampfnachteile. Sinkt in Sicherheit.
-- Panik: steigt bei überraschenden Zombie-Begegnungen. Ab 50=deutlich schlechtere Treffsicherheit. Sinkt mit Erfahrung.
-- Temperatur: 50=optimal. Beeinflusst durch Wetter, Kleidung, drinnen/draussen. Extreme=HP-Verlust.
+REALISTISCHE MOODLE-SIMULATION (Project Zomboid inspiriert):
+WICHTIG: Moodles ändern sich AUTOMATISCH pro Interaktion. Du musst nur ZUSÄTZLICHE Änderungen durch narrativ relevante Ereignisse senden. Das System tickt Hunger(+2), Durst(+3), Müdigkeit, Panik-Recovery automatisch.
+- moodleChanges: DELTA für jedes Moodle. Alle Werte 0-100, höher=schlimmer (außer temperature: 0=Frost,50=OK,100=Hitze).
+- Hunger: Essen senkt ihn (-20 bis -40 je nach Mahlzeit). Ab 40=Knurren, ab 60=Schwäche(-2 auf Checks), ab 80=HP-Verlust, 100=Verhungern. Sende NUR Änderungen wenn PC isst oder besondere Situation.
+- Durst: Trinken senkt ihn (-25 bis -50). Ab 50=Kopfschmerzen, ab 70=Desorientierung(-3 auf Checks), ab 90=kritisch. Sende Änderungen bei Trinken/Dehydration.
+- Müdigkeit: Erhöht sich automatisch mit Wachzeit. Schlafen senkt drastisch (sleepChange:-hoursAwake, moodleChanges fatigue:-60 bis -80). Ab 50=langsamer, ab 70=Fehleranfällig, ab 90=Ohnmachtsgefahr.
+- Schmerz: NUR durch Verletzungen/Kampf. +10-30 bei Treffer. Sinkt automatisch langsam (-0.5/Tick). Schmerzmittel: -20 bis -40.
+- Langeweile: Steigt bei Inaktivität in der Basis(+3-5). Sinkt bei Erkundung(-5), Kampf(-10), soziale Interaktion(-5). Erhöht Depression wenn >60.
+- Depression: Steigt durch hohe Langeweile, Tod von Gefährten(+15-25), Hoffnungslosigkeit. Sinkt durch Erfolge(-5), Komfortessen(-3), gute Gespräche(-5).
+- Stress: Steigt bei Zombie-Nähe(+5-15), Kampf(+10), Konflikten(+5). Sinkt in sicherer Umgebung automatisch. Sende +Delta bei stressigen Ereignissen.
+- Panik: NUR bei überraschenden Begegnungen(+15-30). Sinkt automatisch schnell (-1/Tick, -5/Tag). Erfahrene Spieler (Level 3+) haben weniger Panik.
+- Temperatur: Beeinflusst durch Wetter. Drinnen näher an 50. Kleidung schützt. Sende nur Änderungen bei extremer Exposition.
 
 NEGATIVE TRAITS des PC beachten! ${c.negativeTraits.map(t=>t.name+': '+t.desc).join('. ')||'Keine.'}
 - Raucher braucht Zigaretten oder Depression+Stress steigen
@@ -2039,14 +2148,20 @@ NEGATIVE TRAITS des PC beachten! ${c.negativeTraits.map(t=>t.name+': '+t.desc).j
 - etc.
 
 SCHLAF-SYSTEM:
-- PC muss schlafen (hoursAwake tracken via sleepChange). Ab 16h=Müdigkeit steigt stark, ab 24h=Halluzinationen/Ohnmacht.
-- Schlafqualitat: Bett>Sofa>Boden. Sicherheit verbessert Schlaf. Schmerz/Stress verschlechtern.
-- Schlaf heilt HP und senkt Müdigkeit/Stress. Kann durch Zombies geweckt werden!
+- PC muss schlafen (WachSeit=${c.hoursAwake}h). Ab 16h=Müdigkeit steigt stark, ab 20h=Halluzinationen, ab 24h=Ohnmacht.
+- Bei Schlaf: sleepChange auf NEGATIVE Zahl setzen (z.B. -${c.hoursAwake} um Wachzeit zu resetten). Müdigkeit: fatigue:-60 bei gutem Schlaf, -40 bei mittlerem, -20 bei schlechtem.
+- Schlafqualität: Bett>Sofa>Boden. Sicherheit verbessert Schlaf. Schmerz/Stress verschlechtern.
+- Schlaf heilt HP(+10-20) und senkt Müdigkeit/Stress. Kann durch Zombies geweckt werden!
 
 ERNÄHRUNG/GEWICHT:
 - weightChange als DELTA in kg. Zu viel essen=zunehmen, zu wenig=abnehmen.
 - Unter 65kg: weniger Kraft, Ausdauerverlust. Über 90kg: langsamer, weniger Ausdauer.
 - Verschiedene Nahrung hat verschiedene Wirkung: Komfortessen senkt Depression, Protein hilft bei Heilung.
+
+BASISBAU (automatisch vom System verarbeitet):
+- Spieler baut/upgraded Einrichtungen über das UI. Du musst NICHT addFacilities/updateFacilities verwenden, es sei denn eine Einrichtung wird im Narrativ zerstört/beschädigt.
+- Aktive Baustellen: ${com.facilities.filter(f=>f.buildCompleteDay).map(f=>(FACILITY_TYPES[f.type]?.name||f.type)+' (fertig Tag '+f.buildCompleteDay+')').join(', ')||'keine'}
+- Einrichtungen beeinflussen das Gameplay: Küche spart Nahrung, Garten produziert, Wachturm warnt vor Horden, etc.
 
 STROM/WASSER-ABSCHALTUNG:
 - electricityOff/waterOff: true setzen wenn Abschaltung narrativ eintritt. Kühlschränke stoppen, Licht geht aus, Wasserhahne versiegen.
@@ -2075,11 +2190,30 @@ Beende mit offener Situation die eine Entscheidung erfordert.${GS.settings.custo
 }
 
 async function callAI(msgs){
-  if(!GS.apiKey){addSystemMsg('Fehler: API Key fehlt. Bitte in Einstellungen eingeben.');return null;}
+  // Ensure API key exists
+  if(!GS.apiKey){
+    const stored=localStorage.getItem('deadzone_apikey');
+    if(stored){GS.apiKey=stored;}
+    else{addSystemMsg('Fehler: API Key fehlt. Bitte in Einstellungen eingeben.');return null;}
+  }
+  const apiKey=GS.apiKey.trim();
+  if(!apiKey||apiKey.length<10){addSystemMsg('Fehler: API Key ungültig. Bitte in Einstellungen prüfen.');return null;}
   try{
-    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',headers:{'Authorization':`Bearer ${GS.apiKey}`,'Content-Type':'application/json','HTTP-Referer':window.location.origin||window.location.href,'X-Title':'DEADZONE'},body:JSON.stringify({model:GS.model,messages:msgs,temperature:GS.temperature,max_tokens:GS.settings.maxTokens||4096})});
+    const headers={'Content-Type':'application/json','Authorization':'Bearer '+apiKey};
+    // Add optional OpenRouter headers (may be stripped by browser but that's OK)
+    try{headers['HTTP-Referer']=window.location.href;}catch(e){}
+    try{headers['X-Title']='DEADZONE';}catch(e){}
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:headers,
+      body:JSON.stringify({model:GS.model,messages:msgs,temperature:GS.temperature,max_tokens:GS.settings.maxTokens||4096})
+    });
     const data=await res.json();
-    if(data.error)throw new Error(data.error.message||JSON.stringify(data.error));
+    if(data.error){
+      const errMsg=data.error.message||JSON.stringify(data.error);
+      console.error('OpenRouter API Error:',data.error,'| Key length:',apiKey.length,'| Key prefix:',apiKey.substring(0,12)+'...');
+      throw new Error(errMsg);
+    }
     return data.choices[0].message.content;
   }catch(err){console.error('AI Error:',err);addSystemMsg('KI-Fehler: '+err.message);return null;}
 }
@@ -2220,6 +2354,36 @@ function processAIResponse(text){
   }
   addChatMsg('gm',narrative);
   if(stateChanges)applyStateChanges(stateChanges);
+  tickMoodles(stateChanges);
+}
+
+// Realistic per-interaction moodle tick (runs after every AI response)
+function tickMoodles(stateChanges){
+  const c=GS.character;
+  const w=GS.world;
+  const hasDayAdvance=stateChanges?.dayAdvance;
+  // Skip if dayAdvance already handled the big moodle changes
+  if(hasDayAdvance){updateAllPanels();return;}
+  // Small increments per interaction (each AI turn ≈ 30min-1h of game time)
+  // Hunger: slow but steady (+2-3 per interaction)
+  c.moodles.hunger=Math.min(100,c.moodles.hunger+2);
+  // Thirst: faster than hunger (+3-4 per interaction)
+  c.moodles.thirst=Math.min(100,c.moodles.thirst+3);
+  // Hours awake: +1h per interaction roughly
+  c.hoursAwake=Math.max(0,c.hoursAwake+1);
+  // Fatigue based on hours awake
+  if(c.hoursAwake>20)c.moodles.fatigue=Math.min(100,c.moodles.fatigue+4);
+  else if(c.hoursAwake>16)c.moodles.fatigue=Math.min(100,c.moodles.fatigue+2);
+  else if(c.hoursAwake>12)c.moodles.fatigue=Math.min(100,c.moodles.fatigue+1);
+  // Stress recovery when safe (very slow per-interaction)
+  if(GS.community.threatLevel<20&&!GS.combat.active)c.moodles.stress=Math.max(0,c.moodles.stress-0.5);
+  // Panic natural slow recovery
+  c.moodles.panic=Math.max(0,c.moodles.panic-1);
+  // Pain slow natural recovery
+  if(c.moodles.pain>0)c.moodles.pain=Math.max(0,c.moodles.pain-0.5);
+  // Clamp all values
+  for(const k of Object.keys(c.moodles))c.moodles[k]=Math.max(0,Math.min(100,Math.round(c.moodles[k]*10)/10));
+  updateAllPanels();
 }
 
 function applyStateChanges(s){
@@ -2274,14 +2438,61 @@ function applyStateChanges(s){
       w.timeline.push({day:w.day,event:'Stromversorgung ist zusammengebrochen',type:'discovery'});
     }
     if(w.waterOn&&w.day>=w.waterShutoffDay&&w.phase!=='pre_outbreak'){
-      w.waterOn=false;addSystemMsg('&#128167; WASSERVERSORGUNG AUSGEFALLEN — Wasserhahne liefern kein Wasser mehr!');
+      w.waterOn=false;addSystemMsg('&#128167; WASSERVERSORGUNG AUSGEFALLEN — Wasserhähne liefern kein Wasser mehr!');
       w.timeline.push({day:w.day,event:'Wasserversorgung ist zusammengebrochen',type:'discovery'});
     }
-    // Moodle auto-increase per day
-    c.moodles.hunger=Math.min(100,c.moodles.hunger+8);
-    c.moodles.thirst=Math.min(100,c.moodles.thirst+12);
+    // === REALISTIC DAILY MOODLE CHANGES ===
+    // Hunger: ~3 meals/day needed, each 8h without food = +10-15
+    c.moodles.hunger=Math.min(100,c.moodles.hunger+12);
+    // Thirst: faster than hunger, ~every 4h need water
+    c.moodles.thirst=Math.min(100,c.moodles.thirst+18);
+    // Fatigue: a full day awake adds significant tiredness
     c.hoursAwake+=8;
-    if(c.hoursAwake>16)c.moodles.fatigue=Math.min(100,c.moodles.fatigue+15);
+    if(c.hoursAwake>=24)c.moodles.fatigue=Math.min(100,c.moodles.fatigue+25);
+    else if(c.hoursAwake>=16)c.moodles.fatigue=Math.min(100,c.moodles.fatigue+15);
+    else c.moodles.fatigue=Math.min(100,c.moodles.fatigue+5);
+    // Boredom: increases slowly in base, decreases with events
+    if(!GS.combat.active)c.moodles.boredom=Math.min(100,c.moodles.boredom+3);
+    // Stress: slight natural recovery in safe base (-2/day)
+    const hasTower=com.facilities.some(f=>f.type==='watchtower'&&!f.buildCompleteDay);
+    if(com.threatLevel<30&&hasTower)c.moodles.stress=Math.max(0,c.moodles.stress-3);
+    else if(com.threatLevel<30)c.moodles.stress=Math.max(0,c.moodles.stress-1);
+    // Pain: natural slow recovery (-3/day)
+    c.moodles.pain=Math.max(0,c.moodles.pain-3);
+    // Depression: influenced by morale, boredom, group presence
+    if(c.moodles.boredom>60)c.moodles.depression=Math.min(100,c.moodles.depression+2);
+    if(com.morale>60&&com.survivors.length>2)c.moodles.depression=Math.max(0,c.moodles.depression-2);
+    // Panic: natural recovery (-5/day, faster with experience)
+    c.moodles.panic=Math.max(0,c.moodles.panic-(c.level>=3?8:5));
+    // Temperature: shifts toward weather norm
+    const wt=WEATHER_TYPES[w.weather]||{};
+    const weatherTempTarget=wt.tempEffect||50;
+    if(c.moodles.temperature<weatherTempTarget)c.moodles.temperature=Math.min(weatherTempTarget,c.moodles.temperature+5);
+    else if(c.moodles.temperature>weatherTempTarget)c.moodles.temperature=Math.max(weatherTempTarget,c.moodles.temperature-5);
+    // Trait effects on daily moodles
+    if(c.negativeTraits?.some(t=>t.id==='sleepless'||t.name==='Schlaflos'))c.moodles.fatigue=Math.min(100,c.moodles.fatigue+5);
+    if(c.negativeTraits?.some(t=>t.id==='smoker'||t.name==='Raucher')){c.moodles.stress=Math.min(100,c.moodles.stress+4);c.moodles.depression=Math.min(100,c.moodles.depression+2);}
+    // === FACILITY DAILY EFFECTS ===
+    const hasKitchen=com.facilities.some(f=>f.type==='kitchen'&&!f.buildCompleteDay);
+    const hasGarden=com.facilities.some(f=>f.type==='garden'&&!f.buildCompleteDay);
+    const gardenLvl=com.facilities.find(f=>f.type==='garden'&&!f.buildCompleteDay)?.level||0;
+    const hasInfirmary=com.facilities.some(f=>f.type==='infirmary'&&!f.buildCompleteDay);
+    const hasGenerator=com.facilities.some(f=>f.type==='generator'&&!f.buildCompleteDay);
+    // Garden produces food
+    if(hasGarden)com.resources.food=(com.resources.food||0)+gardenLvl;
+    // Kitchen reduces food consumption
+    const dailyFoodCost=Math.max(1,Math.ceil(com.survivors.length*(hasKitchen?0.5:1)));
+    com.resources.food=Math.max(0,(com.resources.food||0)-dailyFoodCost);
+    // Infirmary: slow healing for injured survivors
+    if(hasInfirmary){com.survivors.forEach(sv=>{if(sv.injured&&Math.random()>0.6)sv.injured=false;});}
+    // Generator: power bonus
+    if(hasGenerator&&!w.electricityOn){/* generator provides limited power for base */}
+    // Daily resource consumption notification
+    if(com.resources.food<=3)addSystemMsg('⚠️ Nahrungsvorräte kritisch niedrig! ('+com.resources.food+' übrig)');
+    // === CHECK FACILITY COMPLETION ===
+    checkFacilityCompletion();
+    // Daily threat: very slow natural increase
+    com.threatLevel=Math.min(100,Math.max(0,com.threatLevel+(w.phase==='pre_outbreak'?0:0.5)));
   }
   if(s.timeOfDay)w.timeOfDay=s.timeOfDay;
   if(s.worldClocks)s.worldClocks.forEach(wc=>{const existing=w.worldClocks.find(x=>x.name===wc.name);if(existing){existing.current=wc.current;existing.max=wc.max;}else w.worldClocks.push(wc);});
@@ -2430,18 +2641,97 @@ function showBuildModal(slotIndex){
   const c=document.getElementById('settings-content');
   const built=GS.community.facilities.map(f=>f.type);
   const available=Object.entries(FACILITY_TYPES).filter(([id])=>!built.includes(id));
-  if(!available.length){c.innerHTML='<h2>Keine Einrichtungen verfügbar</h2><p>Alle Plätze belegt oder alle Typen gebaut.</p><div class="btn-row"><button class="btn" onclick="document.getElementById(\'settings-modal\').classList.remove(\'show\')">Schließen</button></div>';m.classList.add('show');return;}
-  c.innerHTML='<h2>Einrichtung bauen</h2><p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Wähle eine Einrichtung für diesen Platz:</p>'+
-    available.map(([id,f])=>'<div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:6px;cursor:pointer" onclick="buildFacility(\''+id+'\')"><span style="font-size:18px">'+f.icon+'</span> <strong>'+f.name+'</strong><div style="font-size:10px;color:var(--text-muted)">'+f.desc+'</div></div>').join('')+
-    '<div class="btn-row"><button class="btn" onclick="document.getElementById(\'settings-modal\').classList.remove(\'show\')">Abbrechen</button></div>';
+  if(!available.length){c.innerHTML=`<h2>${t('buildNoSlots')}</h2><p>${t('buildNoSlotsDesc')}</p><div class="btn-row"><button class="btn" onclick="document.getElementById('settings-modal').classList.remove('show')">${t('close')}</button></div>`;m.classList.add('show');return;}
+  c.innerHTML=`<h2>${t('buildTitle')}</h2><p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">${t('buildSelect')}</p>`+
+    available.map(([id,f])=>{
+      const cost=f.cost?.[1];
+      const days=f.buildDays?.[1]||2;
+      const afford=canAfford(cost);
+      const completionDay=GS.world.day+days;
+      const dateStr=getGameDateForDay(completionDay);
+      return`<div style="background:var(--bg-elevated);border:1px solid ${afford?'var(--border)':'var(--danger-dim)'};border-radius:var(--radius);padding:12px;margin-bottom:6px;cursor:${afford?'pointer':'not-allowed'};opacity:${afford?'1':'.5'};transition:all .2s" ${afford?`onclick="buildFacility('${id}',${slotIndex})" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'"`:''}><div style="display:flex;justify-content:space-between;align-items:center"><div><span style="font-size:18px">${f.icon}</span> <strong>${f.name}</strong></div><div style="font-size:9px;color:var(--text-muted)">Max Stufe ${f.maxLevel}</div></div><div style="font-size:10px;color:var(--text-muted);margin:4px 0">${f.desc}</div><div style="display:flex;justify-content:space-between;font-size:10px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border)"><span style="color:${afford?'var(--accent)':'var(--danger)'}">💰 ${formatCost(cost)}</span><span style="color:var(--text-muted)">🕐 ${days} Tag${days>1?'e':''} (fertig: ${dateStr})</span></div></div>`;
+    }).join('')+
+    `<div class="btn-row"><button class="btn" onclick="document.getElementById('settings-modal').classList.remove('show')">${t('cancel')}</button></div>`;
   m.classList.add('show');
 }
-function buildFacility(typeId){
-  if(GS.community.facilities.length>=GS.community.maxFacilities){addSystemMsg('Kein Platz mehr!');return;}
-  GS.community.facilities.push({type:typeId,level:1,damaged:false});
+function buildFacility(typeId,slotIndex){
+  const com=GS.community;
+  if(com.facilities.length>=com.maxFacilities){addSystemMsg(t('buildNoSpace'));return;}
+  const ft=FACILITY_TYPES[typeId];
+  if(!ft)return;
+  const cost=ft.cost?.[1];
+  if(!canAfford(cost)){addSystemMsg('Nicht genug Ressourcen!');return;}
+  // Deduct resources
+  for(const[k,v] of Object.entries(cost)){com.resources[k]=(com.resources[k]||0)-v;}
+  const days=ft.buildDays?.[1]||2;
+  com.facilities.push({type:typeId,level:1,damaged:false,buildCompleteDay:GS.world.day+days});
   document.getElementById('settings-modal').classList.remove('show');
   updateBasePanel();
-  addSystemMsg('Einrichtung gebaut: '+(FACILITY_TYPES[typeId]?.name||typeId));
+  const dateStr=getGameDateForDay(GS.world.day+days);
+  addSystemMsg(`🏗️ Bau gestartet: ${ft.name} — Kosten: ${formatCost(cost)} — Fertig am ${dateStr} (${days} Tag${days>1?'e':''})`);
+}
+function upgradeFacility(idx){
+  const com=GS.community;
+  const f=com.facilities[idx];
+  if(!f)return;
+  const ft=FACILITY_TYPES[f.type];
+  if(!ft)return;
+  const nextLvl=f.level+1;
+  if(nextLvl>(ft.maxLevel||3)){addSystemMsg('Maximale Stufe erreicht!');return;}
+  const cost=ft.cost?.[nextLvl];
+  if(!canAfford(cost)){addSystemMsg('Nicht genug Ressourcen für Upgrade!');return;}
+  for(const[k,v] of Object.entries(cost)){com.resources[k]=(com.resources[k]||0)-v;}
+  const days=ft.buildDays?.[nextLvl]||3;
+  f.level=nextLvl;
+  f.buildCompleteDay=GS.world.day+days;
+  updateBasePanel();
+  const dateStr=getGameDateForDay(GS.world.day+days);
+  addSystemMsg(`⬆️ Upgrade gestartet: ${ft.name} → Stufe ${nextLvl} — Kosten: ${formatCost(cost)} — Fertig am ${dateStr}`);
+}
+function demolishFacility(idx){
+  const f=GS.community.facilities[idx];
+  if(!f)return;
+  const ft=FACILITY_TYPES[f.type]||{};
+  const refundStr=ft.refund?formatCost(Object.fromEntries(Object.entries(ft.refund).map(([k,v])=>[k,Math.round(v*f.level)]))):' nichts';
+  if(!confirm(`${ft.name} (Stufe ${f.level}) abreißen?\nDauer: 1 Tag\nRückgewinn: ${refundStr}`))return;
+  f.demolishDay=GS.world.day+1;
+  delete f.buildCompleteDay;
+  updateBasePanel();
+  addSystemMsg(`🔨 Abriss gestartet: ${ft.name} — Fertig morgen (Tag ${GS.world.day+1})`);
+}
+function showFacilityInfo(idx){
+  const f=GS.community.facilities[idx];
+  if(!f)return;
+  const ft=FACILITY_TYPES[f.type]||{};
+  const m=document.getElementById('settings-modal');
+  const c=document.getElementById('settings-content');
+  const canUpg=f.level<(ft.maxLevel||3);
+  const upgCost=canUpg?ft.cost?.[f.level+1]:null;
+  const upgDays=canUpg?ft.buildDays?.[f.level+1]:null;
+  const afford=upgCost?canAfford(upgCost):false;
+  const refundAmt=ft.refund?Object.fromEntries(Object.entries(ft.refund).map(([k,v])=>[k,Math.round(v*f.level)])):null;
+  c.innerHTML=`<h2>${ft.icon} ${ft.name}</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">${ft.desc}</p>
+    <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--accent)">Stufe ${f.level} / ${ft.maxLevel||3}</div>
+      <div style="font-size:11px;color:${f.damaged?'var(--danger)':'var(--success)'}">${f.damaged?'⚠ Beschädigt':'✓ Intakt'}</div>
+    </div>
+    ${canUpg?`<div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:600;margin-bottom:4px">⬆️ Upgrade auf Stufe ${f.level+1}</div>
+      <div style="font-size:10px;color:var(--text-muted)">Kosten: ${formatCost(upgCost)}</div>
+      <div style="font-size:10px;color:var(--text-muted)">Bauzeit: ${upgDays} Tag${upgDays>1?'e':''}</div>
+      <button class="btn btn-sm ${afford?'btn-primary':''}" style="margin-top:6px" ${afford?`onclick="upgradeFacility(${idx});document.getElementById('settings-modal').classList.remove('show')"`:' disabled'}>${afford?'Upgrade starten':'Zu wenig Ressourcen'}</button>
+    </div>`:'<div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">✓ Maximale Stufe erreicht</div>'}
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-danger btn-sm" onclick="demolishFacility(${idx});document.getElementById('settings-modal').classList.remove('show')">🔨 Abreißen${refundAmt?' (→ '+formatCost(refundAmt)+')':''}</button>
+      <button class="btn btn-sm" onclick="document.getElementById('settings-modal').classList.remove('show')">${t('close')}</button>
+    </div>`;
+  m.classList.add('show');
+}
+function getGameDateForDay(day){
+  const base=new Date(GS.world.startDate||'2025-03-15');
+  const d=new Date(base);d.setDate(d.getDate()+(day-1));
+  return d.getDate()+'. '+(MONTHS_DE[d.getMonth()]||'?');
 }
 
 // Close modals on backdrop click
