@@ -2654,13 +2654,40 @@ function loadLastSave(){
   const data=JSON.parse(save);
   Object.assign(GS,data);
   if(!GS.apiKey){const stored=localStorage.getItem('deadzone_apikey');if(stored)GS.apiKey=stored;}
+  if(!GS.apiKey.startsWith('sk-'))GS.apiKey='sk-or-v1-'+GS.apiKey;
   document.getElementById('setup-screen').style.display='none';
   document.getElementById('game-screen').classList.add('active');
   const sel=document.getElementById('model-select-game');
   document.getElementById('model-select-setup').querySelectorAll('option').forEach(o=>{const no=document.createElement('option');no.value=o.value;no.textContent=o.textContent;sel.appendChild(no);});
   sel.value=GS.model;
   updateAllPanels();
-  (GS.chatHistory||[]).filter(m=>m.role!=='system').forEach(m=>addChatMsg(m.role==='user'?'player':'gm',m.content));
+  // Show last few chat messages for context
+  const recent=(GS.chatHistory||[]).filter(m=>m.role!=='system').slice(-6);
+  recent.forEach(m=>addChatMsg(m.role==='user'?'player':'gm',m.content));
+  // Send resume prompt to AI
+  sendResumePrompt();
+}
+async function sendResumePrompt(){
+  showTyping(true);
+  const sys=buildSystemPrompt();
+  const lastMsgs=(GS.chatHistory||[]).filter(m=>m.role!=='system').slice(-10);
+  const summaryText=GS.storySummary?'\n\nBISHERIGE ZUSAMMENFASSUNG:\n'+GS.storySummary:'';
+  const resumeMsg=`SPIELSTAND FORTSETZEN. Der Spieler hat einen gespeicherten Spielstand geladen.${summaryText}
+
+Mache folgendes:
+1. Gib eine kurze Zusammenfassung der bisherigen Ereignisse (2-3 Sätze, was bisher geschah)
+2. Beschreibe die aktuelle Situation: Wo ist ${GS.character.name}? Was passiert gerade? Wie ist die Lage?
+3. Fahre nahtlos dort fort wo die letzte Szene geendet hat
+4. Beende mit einer offenen Situation
+
+Schreibe es als ob der Spieler nach einer Pause zurückkehrt. Kein Tutorial, keine Erklärungen — direkt rein ins Geschehen.`;
+  const msgs=[{role:'system',content:sys},...lastMsgs,{role:'user',content:resumeMsg}];
+  const response=await callAI(msgs);
+  showTyping(false);
+  if(response){
+    processAIResponse(response);
+    GS.chatHistory.push({role:'user',content:resumeMsg},{role:'assistant',content:response});
+  }
 }
 function showLoadModal(){
   const m=document.getElementById('load-modal');
