@@ -1504,8 +1504,9 @@ async function setupNext(){
     const btns=document.querySelectorAll('.setup-step[data-step="0"] .btn');
     resultDiv.style.display='block';
     resultDiv.style.background='var(--bg-elevated)';resultDiv.style.color='var(--text-muted)';
-    resultDiv.textContent='⏳ API Key wird überprüft...';
+    resultDiv.innerHTML='⏳ API Key wird überprüft...';
     btns.forEach(b=>b.disabled=true);
+    let validationOk=false;
     try{
       const testModel=document.getElementById('model-custom').value.trim()||document.getElementById('model-select-setup').value;
       const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
@@ -1513,24 +1514,24 @@ async function setupNext(){
         headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
         body:JSON.stringify({model:testModel,messages:[{role:'user',content:'Hi'}],max_tokens:1})
       });
-      if(res.status!==200&&res.status!==201){
+      if(res.status===200||res.status===201){
+        validationOk=true;
+        resultDiv.style.background='rgba(16,185,129,.15)';resultDiv.style.color='var(--success)';
+        resultDiv.innerHTML='✅ API Key & Modell funktionieren!';
+      }else{
         const text=await res.text();
         let parsed;try{parsed=JSON.parse(text);}catch(e){parsed=null;}
         const errMsg=parsed?.error?.message||'Status '+res.status;
         resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
-        resultDiv.textContent='❌ '+errMsg;
-        btns.forEach(b=>b.disabled=false);
-        return;
+        resultDiv.innerHTML='❌ '+errMsg+'<br><button class="btn" style="margin-top:8px;font-size:11px" onclick="document.getElementById(\'api-test-result\').dataset.skip=\'1\';setupNext()">Trotzdem fortfahren →</button>';
       }
-      resultDiv.style.background='rgba(16,185,129,.15)';resultDiv.style.color='var(--success)';
-      resultDiv.textContent='✅ API Key & Modell funktionieren!';
     }catch(err){
       resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
-      resultDiv.textContent='❌ Netzwerkfehler: '+err.message;
-      btns.forEach(b=>b.disabled=false);
-      return;
+      resultDiv.innerHTML='❌ Netzwerkfehler: '+err.message+'<br><button class="btn" style="margin-top:8px;font-size:11px" onclick="document.getElementById(\'api-test-result\').dataset.skip=\'1\';setupNext()">Trotzdem fortfahren →</button>';
     }
     btns.forEach(b=>b.disabled=false);
+    if(!validationOk&&resultDiv.dataset.skip!=='1')return;
+    delete resultDiv.dataset.skip;
     GS.apiKey=key;
     localStorage.setItem('deadzone_apikey',key);
     const custom=document.getElementById('model-custom').value.trim();
