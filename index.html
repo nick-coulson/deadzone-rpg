@@ -1505,18 +1505,23 @@ async function setupNext(){
     resultDiv.textContent='⏳ API Key wird überprüft...';
     btns.forEach(b=>b.disabled=true);
     try{
-      const res=await fetch('https://openrouter.ai/api/v1/auth/key',{
-        method:'GET',
-        headers:{'Authorization':'Bearer '+key}
+      const testModel=document.getElementById('model-custom').value.trim()||document.getElementById('model-select-setup').value;
+      const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':window.location.href,'X-Title':'DEADZONE'},
+        body:JSON.stringify({model:testModel,messages:[{role:'user',content:'Hi'}],max_tokens:1})
       });
-      if(res.status!==200){
+      if(res.status!==200&&res.status!==201){
+        const text=await res.text();
+        let parsed;try{parsed=JSON.parse(text);}catch(e){parsed=null;}
+        const errMsg=parsed?.error?.message||'Status '+res.status;
         resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
-        resultDiv.textContent='❌ API Key ungültig (Status '+res.status+'). Bitte prüfen.';
+        resultDiv.textContent='❌ '+errMsg;
         btns.forEach(b=>b.disabled=false);
         return;
       }
       resultDiv.style.background='rgba(16,185,129,.15)';resultDiv.style.color='var(--success)';
-      resultDiv.textContent='✅ API Key gültig!';
+      resultDiv.textContent='✅ API Key & Modell funktionieren!';
     }catch(err){
       resultDiv.style.background='var(--danger-dim)';resultDiv.style.color='var(--danger)';
       resultDiv.textContent='❌ Netzwerkfehler: '+err.message;
