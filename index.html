@@ -2118,123 +2118,51 @@ function buildSystemPrompt(){
     late_apocalypse:'PHASE-REGELN: Jahre nach dem Zusammenbruch. Natur überwuchert Gebäude. Feste Siedlungen mit Mauern. Handelsrouten zwischen Gemeinschaften. Brutale Fraktionen (Raider, Kult, Militär-Reste). Zombies sind Alltag, MENSCHEN die größere Gefahr. Ressourcen schwer zu finden, alles schon geplündert. Post-apokalyptische Gesellschaft mit eigenen Regeln und Machtkämpfen.',
   };
 
-  let p=`[DEUTSCH] Antworte IMMER auf Deutsch. GM im DEADZONE Zombie Survival RPG. State-of-Decay-Stil. KEIN KI-Assistent.
-WELT-PHASE: ${PHASE_NAMES[w.phase||'early_apocalypse']}
+  // Dynamic state
+  let p=`[DEUTSCH] GM im DEADZONE Zombie Survival RPG. State-of-Decay-Stil.
+PHASE: ${PHASE_NAMES[w.phase||'early_apocalypse']}
 ${PHASE_RULES[w.phase||'early_apocalypse']}
+REGELN: PC-POV. Show don't tell. Realismus>Drama. NIEMALS PC-Aktionen narieren. PERMADEATH. d20+Mod vs DC.
 
-REGELN: PC-POV only. NPCs wissen nur Logisches. Show don't tell. Realismus>Drama. NIEMALS PC-Aktionen narieren. PERMADEATH: Tote Überlebende sind FÜR IMMER tot. Jede Entscheidung hat Gewicht. d20+Mod vs DC.
+TAG ${w.day}|${formatGameDate(true)}|${getTimeOfDayLabel()}|${weather.name}(${weather.effect})
+PC: ${c.name}(${c.specName}) Lv${c.level} HP:${c.health}/${c.maxHealth} STA:${c.stamina}/${c.maxStamina} INF:${c.infection}%
+Moodles: H:${c.moodles.hunger} D:${c.moodles.thirst} M:${c.moodles.fatigue} S:${c.moodles.pain} L:${c.moodles.boredom} Dep:${c.moodles.depression} Str:${c.moodles.stress} P:${c.moodles.panic} T:${c.moodles.temperature}
+${c.weight}kg|Wach:${c.hoursAwake}h|Stats:KPF${c.stats.combat}/SCHL${c.stats.stealth}/FHR${c.stats.leadership}/UBL${c.stats.survival}/MECH${c.stats.mechanics}/MED${c.stats.medicine}
+${c.negativeTraits.length?'Traits:'+c.negativeTraits.map(t=>t.name).join(',')+'. Beachte Trait-Effekte im Narrativ!':''}
+Equip:${Object.entries(c.equipment).filter(([,v])=>v).map(([k,v])=>k+':'+v.name).join(',')||'nichts'} Inv:${c.inventory.map(i=>i.name+'x'+i.qty).join(',')||'leer'}
 
-TAG ${w.day} | ${formatGameDate(false)} | ${getTimeOfDayLabel()} | WETTER: ${weather.name} (${weather.effect})
-
-PC: ${c.name} (${c.specName}) Lv${c.level} XP:${c.xp}/${XP_TABLE[c.level]||'MAX'}
-HP:${c.health}/${c.maxHealth} STA:${c.stamina}/${c.maxStamina} INFEKTION:${c.infection}%
-MOODLES: Hunger:${c.moodles.hunger} Durst:${c.moodles.thirst} Müdigkeit:${c.moodles.fatigue} Schmerz:${c.moodles.pain} Langeweile:${c.moodles.boredom} Depression:${c.moodles.depression} Stress:${c.moodles.stress} Panik:${c.moodles.panic} Temp:${c.moodles.temperature}(50=ok,0=Frost,100=Hitze)
-Gewicht:${c.weight}kg(optimal:75-85) WachSeit:${c.hoursAwake}h Schlaf:${c.sleepQuality}
-${c.background?'BG:'+c.background:''}
-NegTraits: ${c.negativeTraits.map(t=>t.name).join(',')||'keine'}
-Stats: KPF:${c.stats.combat} SCHL:${c.stats.stealth} FHR:${c.stats.leadership} UBL:${c.stats.survival} MECH:${c.stats.mechanics} MED:${c.stats.medicine}
-Tags: ${c.tags.map(t=>t.name).join(',')||'keine'}
-Equip: ${Object.entries(c.equipment).filter(([,v])=>v).map(([k,v])=>k+':'+v.name).join(', ')||'nichts'}
-Inv: ${c.inventory.map(i=>i.name+'x'+i.qty).join(',')||'leer'}
-
-INFRASTRUKTUR: Strom:${w.electricityOn?'AN(Tag '+w.electricityShutoffDay+' Abschaltung)':'AUS'} Wasser:${w.waterOn?'AN(Tag '+w.waterShutoffDay+' Abschaltung)':'AUS'} Erosion:${Math.round(w.erosion||0)}%
-
-GEMEINSCHAFT: "${com.baseName}" Moral:${com.morale}% Bedrohung:${com.threatLevel}%
-Ressourcen: Nahrung:${com.resources.food} Medizin:${com.resources.medicine} Munition:${com.resources.ammo} Material:${com.resources.materials} Treibstoff:${com.resources.fuel}
-Überlebende(${com.survivors.length}/${com.maxSurvivors}): ${com.survivors.map(s=>s.name+'('+s.role+(s.infected?',INFIZIERT':'')+(s.injured?',VERLETZT':'')+(s.dead?',TOT':'')+')').join(', ')||'keine'}
-Einrichtungen: ${com.facilities.map(f=>(FACILITY_TYPES[f.type]?.name||f.type)+' Lv'+f.level).join(', ')||'keine'}
-Fahrzeuge: ${com.vehicles.map(v=>v.name+' '+v.condition+'%').join(', ')||'keine'}
-
-FRAKTIONEN: ${Object.entries(FACTIONS).map(([fid,f])=>`${f.icon}${f.name}:${GS.factionRep[fid]||0}`).join(' | ')}
-${GS.consequences.length?'AUSSTEHENDE KONSEQUENZEN: '+GS.consequences.length:''}
-
-ORT: ${curLoc?.name||'?'} (${curLoc?.type||''}) Zombies:${curLoc?.zombieDensity||'?'}
-Erkundete Orte: ${discoveredLocs||'keine'}`;
-  if(npcList)p+=`\nNPCs: ${npcList}`;
-  if(activeMissions.length)p+=`\nMISSIONEN: ${activeMissions.map(m=>m.name+'['+m.status+']').join(', ')}`;
-  if(activeClocks.length)p+=`\nUHREN: ${activeClocks.map(c=>c.name+' '+c.current+'/'+c.max).join(', ')}`;
-  if(GS.combat.active)p+=`\nKAMPF: Runde ${GS.combat.round}`;
+Strom:${w.electricityOn?'AN':'AUS'} Wasser:${w.waterOn?'AN':'AUS'} Erosion:${Math.round(w.erosion||0)}%
+Basis:"${com.baseName}" Moral:${com.morale}% Bedrohung:${com.threatLevel}%
+Res: F:${com.resources.food} Med:${com.resources.medicine} Mun:${com.resources.ammo} Mat:${com.resources.materials} Fuel:${com.resources.fuel}
+${com.survivors.length?'Team('+com.survivors.length+'/'+com.maxSurvivors+'):'+com.survivors.map(s=>s.name+'('+s.role+(s.infected?'!INF':'')+(s.injured?'!VRL':'')+(s.dead?'!TOT':'')+')').join(',')+'\n':''}${com.facilities.length?'Facilities:'+com.facilities.map(f=>(FACILITY_TYPES[f.type]?.name||f.type)+'Lv'+f.level).join(',')+'\n':''}ORT:${curLoc?.name||'?'}(${curLoc?.zombieDensity||'?'}) Erkundet:${discoveredLocs||'keine'}`;
+  if(npcList)p+=`\nNPCs:${npcList}`;
+  if(activeMissions.length)p+=`\nMissionen:${activeMissions.map(m=>m.name+'['+m.status+']').join(',')}`;
+  if(activeClocks.length)p+=`\nUhren:${activeClocks.map(c=>c.name+' '+c.current+'/'+c.max).join(',')}`;
+  if(GS.combat.active)p+=`\nKAMPF Runde ${GS.combat.round}`;
   if(GS.storySummary)p+=`\n\nGESCHICHTE:\n${GS.storySummary}`;
 
+  // Static rules (compressed)
   p+=`
 
-ZOMBIE-TYPEN: Shambler(langsam, häufig), Runner(schnell, selten), Screamer(ruft andere, sehr selten), Bloater(Giftgas, selten), Feral(tödlich schnell, extrem selten), Juggernaut(Panzer, extrem selten), Plague-Zombie(infiziert bei Biss, selten)
-WICHTIG — ZOMBIE-HÄUFIGKEIT: Einzelne Zombies oder kleine Gruppen (2-5) sind normal. Größere Gruppen (6-15) sind selten und nur an bestimmten Orten. HORDEN (20+ Zombies) sind EXTREM SELTEN und dürfen NUR bei sehr hohem Bedrohungslevel (80%+) oder als Resultat von Spielerentscheidungen (laute Aktionen, Screamer angelockt) auftreten. Der Spieler soll NICHT ständig mit Massen konfrontiert werden. Realismus: Die meiste Zeit gibt es Stille, Einsamkeit, gelegentliche einzelne Zombies. Spannung kommt durch die MÖGLICHKEIT der Gefahr, nicht durch ständige Überwältigung.
+ZOMBIES: Shambler(häufig),Runner(selten),Screamer(sehr selten),Bloater(selten),Feral(extrem selten),Juggernaut(extrem selten),Plague-Zombie(Biss=+20-40 Infektion,selten). Einzelne/kleine Gruppen(2-5)=normal. Horden(20+) NUR bei Bedrohung 80%+. Meiste Zeit: Stille, Einsamkeit, Spannung durch MÖGLICHKEIT der Gefahr.
 
-SYSTEME:
-- diceCheck bei riskanten Aktionen: stat(combat/stealth/leadership/survival/mechanics/medicine), dc(8/12/15/18/22), context
-- combat.start bei Kampfbeginn, combat.end+result bei Ende
-- PERMADEATH: Überlebende können STERBEN. Bei Tod: updateSurvivors mit dead:true. Spieler-Tod = Game Over.
-- NPCs via addNpcs/updateNpcs (name,role,bond,location,faction,description)
-- Equipment: equipItem{slot,item}/unequipSlot/removeItems
-- xpGain:5-25 bei bedeutsamen Aktionen
-- communityUpdate: resources(food/medicine/ammo/materials/fuel als DELTA), morale(DELTA), threatLevel(DELTA max +2 pro Interaktion!), addSurvivors[], updateSurvivors[], addFacilities[], updateFacilities[], addVehicles[], updateVehicles[]
-- factionReputation: DELTA pro Fraktion (military_remnants, raiders, traders, cult, other_survivors)
-- weatherChange: Wetter ändern wenn narrativ sinnvoll (clear/cloudy/rain/storm/fog/snow/heat/night)
-- dayAdvance: true wenn ein ganzer Tag vergeht (Schlaf, lange Reise). Nicht bei kurzen Aktionen! System verarbeitet: Ressourcenverbrauch, Baufortschritt, Moodle-Änderungen automatisch.
-- Infektionssystem: Biss von Plague-Zombie = infection+20-40. Bei 100% = Tod/Wendung. Heilbar mit spezieller Medizin.
-- Horden-Realismus: Bedrohungslevel steigt LANGSAM (+0.5/Tag, +1-2 bei lauten Aktionen). Nur bei 80%+ echte Hordengefahr. Wachturm senkt Bedrohung. Horden sind ein seltenes Großereignis, NICHT Routine!
-- addConsequences: Verzögerte Effekte. Typen: horde_attack(NUR bei 80%+), survivor_conflict, raider_raid, resource_shortage, rescue_mission, trader_arrival, infection_outbreak, structural_damage, meta_event, utility_shutoff
+SYSTEME(alle Werte als DELTA):
+diceCheck:{stat,dc(8/12/15/18/22),context}|combat:{start/end}|PERMADEATH:dead=true=permanent
+equipItem:{slot(head/melee/body/ranged/legs),item}|addItems/removeItems|xpGain:5-25
+communityUpdate:{resources(DELTA),morale(DELTA),threatLevel(DELTA max+2),addSurvivors,updateSurvivors}
+factionReputation:DELTA(military_remnants/raiders/traders/cult/other_survivors)
+weatherChange(clear/cloudy/rain/storm/fog/snow/heat/night)|dayAdvance:true=ganzer Tag
+addConsequences:{type,title,description,delay}|Bedrohung steigt+0.5/Tag
 
-REALISTISCHE MOODLE-SIMULATION (Project Zomboid inspiriert):
-WICHTIG: Moodles ändern sich AUTOMATISCH pro Interaktion. Du musst nur ZUSÄTZLICHE Änderungen durch narrativ relevante Ereignisse senden. Das System tickt Hunger(+2), Durst(+3), Müdigkeit, Panik-Recovery automatisch.
-- moodleChanges: DELTA für jedes Moodle. Alle Werte 0-100, höher=schlimmer (außer temperature: 0=Frost,50=OK,100=Hitze).
-- Hunger: Essen senkt ihn (-20 bis -40 je nach Mahlzeit). Ab 40=Knurren, ab 60=Schwäche(-2 auf Checks), ab 80=HP-Verlust, 100=Verhungern. Sende NUR Änderungen wenn PC isst oder besondere Situation.
-- Durst: Trinken senkt ihn (-25 bis -50). Ab 50=Kopfschmerzen, ab 70=Desorientierung(-3 auf Checks), ab 90=kritisch. Sende Änderungen bei Trinken/Dehydration.
-- Müdigkeit: Erhöht sich automatisch mit Wachzeit. Schlafen senkt drastisch (sleepChange:-hoursAwake, moodleChanges fatigue:-60 bis -80). Ab 50=langsamer, ab 70=Fehleranfällig, ab 90=Ohnmachtsgefahr.
-- Schmerz: NUR durch Verletzungen/Kampf. +10-30 bei Treffer. Sinkt automatisch langsam (-0.5/Tick). Schmerzmittel: -20 bis -40.
-- Langeweile: Steigt bei Inaktivität in der Basis(+3-5). Sinkt bei Erkundung(-5), Kampf(-10), soziale Interaktion(-5). Erhöht Depression wenn >60.
-- Depression: Steigt durch hohe Langeweile, Tod von Gefährten(+15-25), Hoffnungslosigkeit. Sinkt durch Erfolge(-5), Komfortessen(-3), gute Gespräche(-5).
-- Stress: Steigt bei Zombie-Nähe(+5-15), Kampf(+10), Konflikten(+5). Sinkt in sicherer Umgebung automatisch. Sende +Delta bei stressigen Ereignissen.
-- Panik: NUR bei überraschenden Begegnungen(+15-30). Sinkt automatisch schnell (-1/Tick, -5/Tag). Erfahrene Spieler (Level 3+) haben weniger Panik.
-- Temperatur: Beeinflusst durch Wetter. Drinnen näher an 50. Kleidung schützt. Sende nur Änderungen bei extremer Exposition.
+MOODLES: Automatischer Tick pro Antwort(H+2,D+3,M+wachzeit). Sende NUR zusätzliche Änderungen bei Essen(-20/-40),Trinken(-25/-50),Verletzung(Schmerz+10-30),Schlaf(fatigue-60,sleepChange:-wachzeit),Stress-Events.
+Schlaf: Ab 16h=müde,20h=Halluzination,24h=Ohnmacht. Bett>Sofa>Boden.
+Gewicht: <65kg=schwach,75-85=optimal,>90kg=langsam. weightChange als DELTA.
 
-NEGATIVE TRAITS des PC beachten! ${c.negativeTraits.map(t=>t.name+': '+t.desc).join('. ')||'Keine.'}
-- Raucher braucht Zigaretten oder Depression+Stress steigen
-- Klaustrophobiker: Panik in engen Räumen
-- Hämophob: Stress/Panik bei Blut
-- Schlaflos: Müdigkeit steigt schneller
-- etc.
-
-SCHLAF-SYSTEM:
-- PC muss schlafen (WachSeit=${c.hoursAwake}h). Ab 16h=Müdigkeit steigt stark, ab 20h=Halluzinationen, ab 24h=Ohnmacht.
-- Bei Schlaf: sleepChange auf NEGATIVE Zahl setzen (z.B. -${c.hoursAwake} um Wachzeit zu resetten). Müdigkeit: fatigue:-60 bei gutem Schlaf, -40 bei mittlerem, -20 bei schlechtem.
-- Schlafqualität: Bett>Sofa>Boden. Sicherheit verbessert Schlaf. Schmerz/Stress verschlechtern.
-- Schlaf heilt HP(+10-20) und senkt Müdigkeit/Stress. Kann durch Zombies geweckt werden!
-
-ERNÄHRUNG/GEWICHT:
-- weightChange als DELTA in kg. Zu viel essen=zunehmen, zu wenig=abnehmen.
-- Unter 65kg: weniger Kraft, Ausdauerverlust. Über 90kg: langsamer, weniger Ausdauer.
-- Verschiedene Nahrung hat verschiedene Wirkung: Komfortessen senkt Depression, Protein hilft bei Heilung.
-
-BASISBAU (automatisch vom System verarbeitet):
-- Spieler baut/upgraded Einrichtungen über das UI. Du musst NICHT addFacilities/updateFacilities verwenden, es sei denn eine Einrichtung wird im Narrativ zerstört/beschädigt.
-- Aktive Baustellen: ${com.facilities.filter(f=>f.buildCompleteDay).map(f=>(FACILITY_TYPES[f.type]?.name||f.type)+' (fertig Tag '+f.buildCompleteDay+')').join(', ')||'keine'}
-- Einrichtungen beeinflussen das Gameplay: Küche spart Nahrung, Garten produziert, Wachturm warnt vor Horden, etc.
-
-STROM/WASSER-ABSCHALTUNG:
-- electricityOff/waterOff: true setzen wenn Abschaltung narrativ eintritt. Kühlschränke stoppen, Licht geht aus, Wasserhahne versiegen.
-- In pre_outbreak/outbreak: Strom/Wasser noch an. Abschaltung als dramatischer Wendepunkt erzählen!
-- utilityShutoff in addConsequences verwenden für verzögerte Abschaltung.
-
-META-EVENTS:
-- Bei dayAdvance oder Zeitverlauf: Zufallsereignisse beschreiben (ferne Schusse, Schreie, Hundegebell, Motorengerausche).
-- Diese erzeugen Entscheidungen: Untersuchen? Ignorieren? Gefahr oder Chance?
-- Zombie-Migration: Horden verschieben sich basierend auf Meta-Events.
-
-EROSION:
-- Mit jedem Tag/Woche: Natur erobert Zivilisation zurück. Beschreibe zunehmend:
-  - Risse im Asphalt, Unkraut auf Strassen
-  - Efeu an Gebäudewanden, zerbrochene Fenster
-  - Verwilderte Garten, zusammenbrechende Zaune
-  - Uberwucherte Autos, moosige Dacher
-- Erosion-Level beeinflusst Beschreibungen: 0-20%=minimal, 20-50%=deutlich, 50-80%=stark, 80+%=Natur dominiert
-
-JSON am Ende (nur geanderte Felder):
+JSON am Ende(NUR geänderte Felder, leere Felder WEGLASSEN):
 \`\`\`json
-{"stateChanges":{"health":0,"stamina":0,"infection":0,"moodleChanges":{"hunger":0,"thirst":0,"fatigue":0,"pain":0,"boredom":0,"depression":0,"stress":0,"panic":0,"temperature":0},"weightChange":0,"sleepChange":0,"sleepQuality":"good|normal|bad","electricityOff":false,"waterOff":false,"statsChange":{},"addItems":[{"name":"","icon":"","type":"weapon|armor|food|medicine|material|tool|ammo","desc":"","qty":1,"bonus":""}],"removeItems":[],"equipItem":{"slot":"head|melee|body|ranged|legs","item":{}},"unequipSlot":"","addTags":[{"name":"","type":"positive|negative|infection"}],"removeTags":[],"addNpcs":[{"name":"","role":"","bond":"hostile|neutral|friendly|loyal","location":"","faction":"","description":""}],"updateNpcs":[{"name":"","bond":"","notes":[]}],"discoverLocations":[],"currentLocation":"","communityUpdate":{"resources":{"food":0,"medicine":0,"ammo":0,"materials":0,"fuel":0},"morale":0,"threatLevel":0,"addSurvivors":[{"name":"","role":"","trait":"","icon":"","infected":false,"injured":false}],"updateSurvivors":[{"name":"","injured":false,"infected":false,"dead":false}],"removeSurvivors":[],"addFacilities":[{"type":"","level":1}],"updateFacilities":[{"type":"","level":0,"damaged":false}],"addVehicles":[{"name":"","type":"","fuel":0,"maxFuel":0,"condition":0}],"updateVehicles":[{"name":"","fuel":0,"condition":0}]},"xpGain":0,"weatherChange":"","dayAdvance":false,"timeOfDay":"morning|afternoon|evening|night","worldClocks":[{"name":"","current":0,"max":0}],"diceCheck":{"stat":"","dc":0,"context":""},"combat":{},"missions":[],"updateMissions":[],"factionReputation":{},"addConsequences":[{"type":"","title":"","description":"","delay":5}],"timelineEvent":{"event":"","type":"combat|death|discovery|horde|building|scavenge|meta_event"}}}
+{"stateChanges":{health,stamina,infection,moodleChanges:{hunger,thirst,fatigue,pain,boredom,depression,stress,panic,temperature},weightChange,sleepChange,sleepQuality,electricityOff,waterOff,statsChange,addItems:[{name,icon,type,desc,qty,bonus}],removeItems,equipItem:{slot,item},unequipSlot,addTags:[{name,type}],removeTags,addNpcs:[{name,role,bond,location,faction,description}],updateNpcs,discoverLocations,currentLocation,communityUpdate:{resources,morale,threatLevel,addSurvivors,updateSurvivors,removeSurvivors,addFacilities,updateFacilities,addVehicles,updateVehicles},xpGain,weatherChange,dayAdvance,timeOfDay,worldClocks,diceCheck:{stat,dc,context},combat,missions,updateMissions,factionReputation,addConsequences:[{type,title,description,delay}],timelineEvent:{event,type}}}
 \`\`\`
-Beende mit offener Situation die eine Entscheidung erfordert. NIEMALS Optionen oder Handlungsmöglichkeiten auflisten oder vorschlagen — der Spieler entscheidet selbst was er tut.${GS.settings.customPrompt?'\nEXTRA: '+GS.settings.customPrompt:''}`;
+Beende mit offener Situation. NIEMALS Optionen vorschlagen.${GS.settings.customPrompt?'\nEXTRA: '+GS.settings.customPrompt:''}`;
   return p;
 }
 
@@ -2254,31 +2182,36 @@ async function callAI(msgs){
   // Store back in case it was recovered from localStorage
   GS.apiKey=apiKey;
   console.log('[callAI] Using key:',apiKey.substring(0,15)+'... ('+apiKey.length+' chars) | Model:',GS.model);
-  try{
-    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
-      method:'POST',
-      headers:{
-        'Authorization':'Bearer '+apiKey,
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        model:GS.model,
-        messages:msgs,
-        temperature:GS.temperature,
-        max_tokens:GS.settings.maxTokens||4096
-      })
-    });
-    console.log('[callAI] Response status:',res.status);
-    const data=await res.json();
-    if(data.error){
-      console.error('[callAI] API error:',JSON.stringify(data.error));
-      throw new Error(data.error.message||JSON.stringify(data.error));
+  const maxRetries=3;
+  for(let attempt=0;attempt<maxRetries;attempt++){
+    try{
+      const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+        method:'POST',
+        headers:{
+          'Authorization':'Bearer '+apiKey,
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          model:GS.model,
+          messages:msgs,
+          temperature:GS.temperature,
+          max_tokens:GS.settings.maxTokens||4096
+        })
+      });
+      const data=await res.json();
+      if(data.error){
+        throw new Error(data.error.message||JSON.stringify(data.error));
+      }
+      return data.choices[0].message.content;
+    }catch(err){
+      console.warn('[callAI] Attempt '+(attempt+1)+' failed:',err.message);
+      if(attempt<maxRetries-1){
+        await new Promise(r=>setTimeout(r,(attempt+1)*2000));
+      }else{
+        addSystemMsg('KI-Fehler: '+err.message+' (nach '+maxRetries+' Versuchen)');
+        return null;
+      }
     }
-    return data.choices[0].message.content;
-  }catch(err){
-    console.error('[callAI] Error:',err);
-    addSystemMsg('KI-Fehler: '+err.message);
-    return null;
   }
 }
 
@@ -2332,7 +2265,7 @@ Mach es cinematic, immersiv, brutal ehrlich.`;
 /* =========================================================================
    CHAT
    ========================================================================= */
-const COMPRESS_THRESHOLD=25;
+const COMPRESS_THRESHOLD=15;
 
 async function sendMessage(){
   const input=document.getElementById('chat-input');
@@ -2342,7 +2275,7 @@ async function sendMessage(){
   const userMsgs=GS.chatHistory.filter(m=>m.role==='user').length;
   if(userMsgs>=COMPRESS_THRESHOLD)await compressChat();
   const sys=buildSystemPrompt();
-  const ctx=GS.chatHistory.filter(m=>m.role!=='system').slice(-14);
+  const ctx=GS.chatHistory.filter(m=>m.role!=='system').slice(-8);
   const msgs=[{role:'system',content:sys},...ctx,{role:'user',content:text}];
   showTyping(true);document.getElementById('send-btn').disabled=true;
   const response=await callAI(msgs);
