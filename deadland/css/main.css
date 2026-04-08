@@ -181,17 +181,23 @@ a:hover { text-decoration: underline; color: var(--accent); }
 }
 
 #screen-setup {
-  overflow: hidden;
+  overflow: hidden !important;
+  overflow-y: hidden !important;
   overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
   touch-action: none;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
 }
 
 #screen-setup .setup-container {
-  overflow: hidden;
-  overscroll-behavior: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: 100vh;
+  max-height: 100dvh;
 }
 
 .screen.active { display: flex; }
@@ -212,8 +218,8 @@ a:hover { text-decoration: underline; color: var(--accent); }
   line-height: 1.1;
   text-align: center;
   margin-bottom: 4px;
-  white-space: pre;
-  overflow-x: auto;
+  white-space: nowrap;
+  overflow: hidden;
   letter-spacing: 8px;
   text-transform: uppercase;
   text-shadow: 0 0 30px rgba(220,38,38,0.3);
