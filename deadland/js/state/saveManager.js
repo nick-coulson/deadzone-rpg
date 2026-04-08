@@ -1,6 +1,7 @@
 // DEADZONE — Save Manager (IndexedDB CRUD)
 
 import db from './database.js';
+import { i18n } from '../core/i18n.js';
 import {
   createInitialSummary, createInitialCharacter,
   createInitialNotebook, createInitialWorldState,
@@ -54,7 +55,7 @@ class SaveManager {
 
   async loadSave(saveId) {
     const save = await db.saves.get(saveId);
-    if (!save) throw new Error('Spielstand nicht gefunden');
+    if (!save) throw new Error(i18n.t('sys.saveNotFound'));
 
     this.currentSaveId = saveId;
 

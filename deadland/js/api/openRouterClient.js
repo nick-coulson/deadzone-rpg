@@ -3,6 +3,7 @@
 import { costTracker } from './costTracker.js';
 import { estimateTokens, estimateMessagesTokens } from '../prompt/tokenEstimator.js';
 import { eventBus } from '../core/eventBus.js';
+import { i18n } from '../core/i18n.js';
 
 const API_BASE = 'https://openrouter.ai/api/v1';
 
@@ -25,7 +26,7 @@ class OpenRouterClient {
   async validateKey(key) {
     // Client-side length check only — actual auth is validated on first game API call
     if (!key || key.length < 10) {
-      return { valid: false, error: 'API-Key zu kurz. Bitte prüfen.' };
+      return { valid: false, error: i18n.t('api.keyTooShort') };
     }
     return { valid: true };
   }
@@ -116,7 +117,7 @@ class OpenRouterClient {
     const inputTokens = estimateMessagesTokens(messages);
 
     if (!this.apiKey) {
-      throw new Error('Kein API-Key gesetzt. Bitte Key eingeben.');
+      throw new Error(i18n.t('api.noKeySet'));
     }
 
     const headers = {
@@ -163,13 +164,13 @@ class OpenRouterClient {
   getErrorMessage(status, data) {
     const msg = data?.error?.message || '';
     switch (status) {
-      case 401: return 'API-Key ungültig oder nicht erkannt. OpenRouter-Keys beginnen mit sk-or-v1-. Bitte prüfe deinen Key auf openrouter.ai/keys';
-      case 402: return 'Kein Guthaben auf OpenRouter. Bitte aufladen.';
-      case 429: return 'Server ausgelastet. Bitte kurz warten.';
+      case 401: return i18n.t('api.invalidKey');
+      case 402: return i18n.t('api.noCredit');
+      case 429: return i18n.t('api.rateLimit');
       case 500: case 502: case 503:
-        return 'OpenRouter nicht erreichbar. Spielstand ist gesichert.';
+        return i18n.t('api.serverDown');
       default:
-        return msg || `API-Fehler (HTTP ${status})`;
+        return msg || `${i18n.t('api.genericError')} (HTTP ${status})`;
     }
   }
 }

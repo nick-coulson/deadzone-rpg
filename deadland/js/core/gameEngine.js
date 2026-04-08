@@ -237,7 +237,7 @@ class GameEngine {
     });
 
     eventBus.on('cost:budget-exceeded', () => {
-      renderer.showError('Budget-Limit erreicht! Erhöhe das Limit in den Einstellungen oder exportiere deinen Spielstand.');
+      renderer.showError(i18n.t('sys.budgetExceeded'));
     });
 
     eventBus.on('time:updated', ({ time, tageszeit, dayAdvance }) => {
@@ -278,7 +278,7 @@ class GameEngine {
     const key = keyInput.value.trim();
 
     if (!key || key.length < 10) {
-      status.textContent = 'Bitte zuerst API-Key eingeben.';
+      status.textContent = i18n.t('sys.enterApiKey');
       status.className = 'status-message error';
       return;
     }
@@ -310,7 +310,7 @@ class GameEngine {
     const key = keyInput.value.trim();
 
     if (!key) {
-      status.textContent = 'Bitte API-Key eingeben.';
+      status.textContent = i18n.t('sys.enterApiKey');
       status.className = 'status-message error';
       return;
     }
@@ -342,7 +342,7 @@ class GameEngine {
     if (modelId === 'custom') {
       modelId = document.getElementById('custom-model-input').value.trim();
       if (!modelId) {
-        alert('Bitte Modell-ID eingeben.');
+        alert(i18n.t('sys.enterModelId'));
         return;
       }
     }
@@ -410,7 +410,7 @@ class GameEngine {
     });
     listEl.querySelectorAll('.btn-delete-save').forEach(btn => {
       btn.addEventListener('click', async () => {
-        if (confirm('Spielstand wirklich löschen?')) {
+        if (confirm(i18n.t('sys.confirmDelete'))) {
           await saveManager.deleteSave(btn.dataset.id);
           await this.goToSavegames();
         }
@@ -555,14 +555,9 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
       const is401 = err.message.includes('401');
       const keyHint = apiClient.apiKey ? ` (Key: ${apiClient.apiKey.substring(0, 8)}...)` : '';
       if (is401) {
-        alert(
-          'API-Key wird von OpenRouter abgelehnt.' + keyHint + '\n\n' +
-          'OpenRouter-Keys beginnen mit "sk-or-v1-...".\n' +
-          'Bitte prüfe deinen Key auf: openrouter.ai/keys\n\n' +
-          'Klicke OK und dann "Zurück" um einen neuen Key einzugeben.'
-        );
+        alert(i18n.t('api.invalidKey') + keyHint);
       } else {
-        alert('Fehler beim Spielstart: ' + err.message);
+        alert(i18n.t('sys.startFailed') + ': ' + err.message);
       }
       return;
     }
@@ -617,10 +612,10 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
       // Update top bar
       this.updateTopBar();
 
-      renderer.showSystemMessage(`Spielstand geladen: ${save.characterName}, Tag ${save.currentDay || '?'}`);
+      renderer.showSystemMessage(`${i18n.t('sys.gameLoaded')}: ${save.characterName}, ${i18n.t('topbar.day')} ${save.currentDay || '?'}`);
 
     } catch (err) {
-      renderer.showError('Fehler beim Laden: ' + err.message);
+      renderer.showError(i18n.t('sys.loadFailed') + ': ' + err.message);
     } finally {
       hideLoading();
     }
@@ -762,7 +757,7 @@ Vergiss nicht den <state_update> Block am Ende.`
       // Clear conversation in DB
       await saveManager.clearConversation();
 
-      renderer.showSystemMessage('Kontext rotiert. Session zusammengefasst. Neuer Kontext geladen.');
+      renderer.showSystemMessage(i18n.t('sys.contextRotated'));
     }
 
     this.inputLine.setEnabled(true);
@@ -790,26 +785,26 @@ Vergiss nicht den <state_update> Block am Ende.`
         break;
       case 'minimal':
         typewriter.setEnabled(false);
-        renderer.showSystemMessage('Minimaler UI-Modus aktiviert.');
+        renderer.showSystemMessage(i18n.t('sys.minimalMode'));
         break;
       case 'voll':
         typewriter.setEnabled(true);
-        renderer.showSystemMessage('Voller UI-Modus aktiviert.');
+        renderer.showSystemMessage(i18n.t('sys.fullMode'));
         break;
       default:
-        renderer.showSystemMessage(`Unbekannter Befehl: ${cmd}`);
+        renderer.showSystemMessage(`${i18n.t('sys.unknownCommand')}: ${cmd}`);
     }
   }
 
   async manualSave() {
     if (!saveManager.currentSaveId) return;
-    showLoading('Speichere...');
+    showLoading(i18n.t('sys.saving'));
     try {
       await saveManager.updateSaveMeta({});
       await saveManager.setState('cost_tracker', costTracker.getSnapshot());
-      renderer.showSystemMessage('Spielstand gespeichert.');
+      renderer.showSystemMessage(i18n.t('sys.gameSaved'));
     } catch (err) {
-      renderer.showError('Speichern fehlgeschlagen: ' + err.message);
+      renderer.showError(i18n.t('sys.saveFailed') + ': ' + err.message);
     } finally {
       hideLoading();
     }
@@ -819,9 +814,9 @@ Vergiss nicht den <state_update> Block am Ende.`
     if (!saveManager.currentSaveId) return;
     try {
       await exportSave(saveManager.currentSaveId);
-      renderer.showSystemMessage('Spielstand exportiert.');
+      renderer.showSystemMessage(i18n.t('sys.gameExported'));
     } catch (err) {
-      renderer.showError('Export fehlgeschlagen: ' + err.message);
+      renderer.showError(i18n.t('sys.exportFailed') + ': ' + err.message);
     }
   }
 
@@ -829,14 +824,14 @@ Vergiss nicht den <state_update> Block am Ende.`
     const file = event.target.files?.[0];
     if (!file) return;
 
-    showLoading('Importiere Spielstand...');
+    showLoading(i18n.t('sys.importing'));
     try {
       const { importSave } = await import('../state/exportImport.js');
       const save = await importSave(file);
-      renderer.showSystemMessage(`Spielstand importiert: ${save.characterName}`);
+      renderer.showSystemMessage(`${i18n.t('sys.gameImported')}: ${save.characterName}`);
       await this.goToSavegames();
     } catch (err) {
-      renderer.showError('Import fehlgeschlagen: ' + err.message);
+      renderer.showError(i18n.t('sys.importFailed') + ': ' + err.message);
     } finally {
       hideLoading();
       event.target.value = '';

@@ -34,9 +34,6 @@ class StateUpdater {
       if (data.szene && Object.keys(data.szene).length > 0) {
         await this.updateScene(data.szene);
         await this.advanceGameTime(data.szene);
-        if (data.szene.wetter) {
-          await this.updateWeather(data.szene.wetter);
-        }
       }
 
       // Update notebook entries
@@ -47,6 +44,11 @@ class StateUpdater {
       // Update world clocks
       if (data.world_clocks && Object.keys(data.world_clocks).length > 0) {
         await this.updateWorldClocks(data.world_clocks);
+      }
+
+      // Update NPCs
+      if (data.npcs && data.npcs.length > 0) {
+        await this.updateNPCs(data.npcs);
       }
 
     } catch (err) {
@@ -92,6 +94,8 @@ class StateUpdater {
   }
 
   async advanceGameTime(scene) {
+    let timeUpdated = false;
+
     // Prefer absolute time from AI if provided (e.g. uhrzeit: "21:55")
     const absoluteTime = scene.uhrzeit;
     if (absoluteTime && /^\d{1,2}:\d{2}$/.test(absoluteTime.trim())) {
@@ -118,60 +122,55 @@ class StateUpdater {
         }
 
         eventBus.emit('time:updated', { time: newTime, tageszeit: getTimeOfDay(absH), dayAdvance });
+        timeUpdated = true;
+      }
+    }
 
-        // Update weather if provided
-        if (scene.wetter) {
-          await this.updateWeather(scene.wetter);
+    // Fallback: relative time from zeit_verbraucht (only if absolute time wasn't used)
+    if (!timeUpdated) {
+      const elapsed = scene.zeit_verbraucht;
+      if (elapsed) {
+        // Parse elapsed time: "30min", "1h", "2h30min", "1 Stunde", etc.
+        let minutes = 0;
+        const hMatch = elapsed.match(/(\d+)\s*h/i);
+        const sMatch = elapsed.match(/(\d+)\s*stunde/i);
+        const mMatch = elapsed.match(/(\d+)\s*min/i);
+        if (hMatch) minutes += parseInt(hMatch[1]) * 60;
+        if (sMatch) minutes += parseInt(sMatch[1]) * 60;
+        if (mMatch) minutes += parseInt(mMatch[1]);
+
+        if (minutes > 0) {
+          const currentTime = await saveManager.getState('game_time') || '08:00';
+          const [h, m] = currentTime.split(':').map(Number);
+          let totalMin = h * 60 + m + minutes;
+
+          let dayAdvance = 0;
+          while (totalMin >= 1440) {
+            totalMin -= 1440;
+            dayAdvance++;
+          }
+
+          const newH = Math.floor(totalMin / 60);
+          const newM = totalMin % 60;
+          const newTime = `${String(newH).padStart(2, '0')}:${String(newM).padStart(2, '0')}`;
+
+          await saveManager.setState('game_time', newTime);
+          await saveManager.setState('tageszeit', getTimeOfDay(newH));
+
+          if (dayAdvance > 0) {
+            const save = await saveManager.getCurrentSave();
+            if (save) {
+              const newDay = (save.currentDay || 1) + dayAdvance;
+              await saveManager.updateSaveMeta({ currentDay: newDay });
+            }
+          }
+
+          eventBus.emit('time:updated', { time: newTime, tageszeit: getTimeOfDay(newH), dayAdvance });
         }
-        return;
       }
     }
 
-    // Fallback: relative time from zeit_verbraucht
-    const elapsed = scene.zeit_verbraucht;
-    if (!elapsed) return;
-
-    // Parse elapsed time: "30min", "1h", "2h30min", "1 Stunde", etc.
-    let minutes = 0;
-    const hMatch = elapsed.match(/(\d+)\s*h/i);
-    const sMatch = elapsed.match(/(\d+)\s*stunde/i);
-    const mMatch = elapsed.match(/(\d+)\s*min/i);
-    if (hMatch) minutes += parseInt(hMatch[1]) * 60;
-    if (sMatch) minutes += parseInt(sMatch[1]) * 60;
-    if (mMatch) minutes += parseInt(mMatch[1]);
-    if (minutes === 0) return;
-
-    // Load current time
-    const currentTime = await saveManager.getState('game_time') || '08:00';
-    const [h, m] = currentTime.split(':').map(Number);
-    let totalMin = h * 60 + m + minutes;
-
-    // Check for day rollover
-    let dayAdvance = 0;
-    while (totalMin >= 1440) {
-      totalMin -= 1440;
-      dayAdvance++;
-    }
-
-    const newH = Math.floor(totalMin / 60);
-    const newM = totalMin % 60;
-    const newTime = `${String(newH).padStart(2, '0')}:${String(newM).padStart(2, '0')}`;
-
-    await saveManager.setState('game_time', newTime);
-    await saveManager.setState('tageszeit', getTimeOfDay(newH));
-
-    // Advance day counter if needed
-    if (dayAdvance > 0) {
-      const save = await saveManager.getCurrentSave();
-      if (save) {
-        const newDay = (save.currentDay || 1) + dayAdvance;
-        await saveManager.updateSaveMeta({ currentDay: newDay });
-      }
-    }
-
-    eventBus.emit('time:updated', { time: newTime, tageszeit: getTimeOfDay(newH), dayAdvance });
-
-    // Update weather if provided
+    // Always update weather if provided (independent of time)
     if (scene.wetter) {
       await this.updateWeather(scene.wetter);
     }
@@ -205,6 +204,12 @@ class StateUpdater {
     const current = await saveManager.getState('world_clocks') || '';
     const entries = Object.entries(clocks).map(([k, v]) => `${k}: ${v}`).join('\n');
     await saveManager.setState('world_clocks', entries);
+  }
+
+  async updateNPCs(npcs) {
+    const current = await saveManager.getState('npcs') || '';
+    const newEntries = npcs.join('\n');
+    await saveManager.setState('npcs', current ? current + '\n' + newEntries : newEntries);
   }
 }
 

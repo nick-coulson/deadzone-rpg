@@ -2,10 +2,11 @@
 
 import db from './database.js';
 import { saveManager } from './saveManager.js';
+import { i18n } from '../core/i18n.js';
 
 export async function exportSave(saveId) {
   const save = await db.saves.get(saveId);
-  if (!save) throw new Error('Spielstand nicht gefunden');
+  if (!save) throw new Error(i18n.t('sys.saveNotFound'));
 
   const states = await db.gameState.where('saveId').equals(saveId).toArray();
   const archive = await db.sessionArchive.where('saveId').equals(saveId).toArray();
