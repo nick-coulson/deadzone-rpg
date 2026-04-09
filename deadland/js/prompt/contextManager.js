@@ -6,7 +6,7 @@ import { eventBus } from '../core/eventBus.js';
 class ContextManager {
   constructor() {
     this.messageCount = 0;
-    this.maxMessages = 30;
+    this.maxMessages = 20;
     this.sessionNumber = 1;
     this.conversationHistory = [];
   }

@@ -15,6 +15,8 @@ import { exportSave } from '../state/exportImport.js';
 import { PHASE_LABELS } from '../state/stateSchema.js';
 import { parseResponse } from '../ui/responseParser.js';
 import { i18n } from './i18n.js';
+import { bgMusic } from '../ui/bgMusic.js';
+
 
 // Game states
 const STATE = {
@@ -43,6 +45,22 @@ class GameEngine {
 
     // Wire up event listeners
     this.setupEventListeners();
+
+    // Sync character stats updates to prompt builder
+    eventBus.on('characterstats:updated', (stats) => {
+      promptBuilder.setCharacterStats(stats);
+    });
+
+    // Sync world clocks updates to prompt builder + UI panel
+    eventBus.on('worldclocks:updated', (clocks) => {
+      promptBuilder.setWorldClocks(clocks);
+      this.renderWorldClocksPanel(clocks);
+    });
+
+    // Sync infrastructure updates to prompt builder
+    eventBus.on('infrastructure:updated', (infra) => {
+      promptBuilder.setInfrastructure(infra);
+    });
 
     // Check for saved API key
     const savedKey = localStorage.getItem('deadzone_api_key');
@@ -116,6 +134,9 @@ class GameEngine {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.gender-preset').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        // Auto-fill random name on gender change
+        const nameInput = document.getElementById('character-name-input');
+        if (nameInput) nameInput.value = this._pickRandomName();
       });
     });
 
@@ -138,6 +159,12 @@ class GameEngine {
       });
     });
 
+    // === FAQ ===
+    this._on('btn-faq-start', 'click', () => showOverlay('overlay-faq'));
+    this._on('btn-faq-settings', 'click', () => { hideOverlay('overlay-settings'); showOverlay('overlay-faq'); });
+    this._on('btn-close-faq', 'click', () => hideOverlay('overlay-faq'));
+    this._on('overlay-faq', 'click', (e) => { if (e.target.id === 'overlay-faq') hideOverlay('overlay-faq'); });
+
     // === SETTINGS ===
     this._on('btn-settings', 'click', () => showOverlay('overlay-settings'));
     this._on('btn-close-settings', 'click', () => this.closeSettings());
@@ -158,6 +185,26 @@ class GameEngine {
     this._on('budget-limit-input', 'change', (e) => {
       costTracker.setBudgetLimit(parseFloat(e.target.value) || 0);
     });
+
+    // === MUSIC SETTINGS ===
+    this._on('settings-music-toggle', 'change', () => {
+      bgMusic.toggle();
+    });
+    this._on('settings-music-volume', 'input', (e) => {
+      const vol = parseInt(e.target.value) / 100;
+      bgMusic.setVolume(vol);
+      document.getElementById('music-volume-display').textContent = e.target.value + '%';
+    });
+
+    // Restore music settings on init
+    const musicToggle = document.getElementById('settings-music-toggle');
+    const musicVolume = document.getElementById('settings-music-volume');
+    if (musicToggle) musicToggle.checked = bgMusic.isEnabled();
+    if (musicVolume) {
+      const vol = Math.round(bgMusic.getVolume() * 100);
+      musicVolume.value = vol;
+      document.getElementById('music-volume-display').textContent = vol + '%';
+    }
 
     // Language switcher — setup screen buttons
     document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -213,6 +260,12 @@ class GameEngine {
           this.inputLine.setCommand(fKeys[e.key]);
           this.inputLine.submit();
         }
+      }
+
+      // F7: Toggle World Clocks panel
+      if (e.key === 'F7') {
+        e.preventDefault();
+        this.toggleWorldClocksPanel();
       }
 
       if (e.key === 'Escape') {
@@ -424,6 +477,20 @@ class GameEngine {
     this.showScreen('screen-newgame');
   }
 
+  _pickRandomName() {
+    const NAMES_MALE = [
+      'Marcus Weber', 'Jonas Richter', 'Erik Brandt', 'Liam Vogt', 'Tobias Krüger',
+      'Niklas Schäfer', 'David Hartmann', 'Finn Lehmann', 'Leon Baumann', 'Maximilian Wolff'
+    ];
+    const NAMES_FEMALE = [
+      'Elena Fischer', 'Mira Hoffmann', 'Sophie Engel', 'Lena Schreiber', 'Nina Kessler',
+      'Johanna Ritter', 'Clara Neumann', 'Emilia Berger', 'Freya Seidel', 'Alina Wendt'
+    ];
+    const gender = document.querySelector('.gender-preset.active')?.dataset.value;
+    const pool = gender === 'weiblich' ? NAMES_FEMALE : NAMES_MALE;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
   wizardGoTo(step) {
     document.querySelectorAll('.wizard-page').forEach(p => p.classList.remove('active'));
     const page = document.querySelector(`.wizard-page[data-step="${step}"]`);
@@ -435,6 +502,14 @@ class GameEngine {
       if (dotStep === step) dot.classList.add('active');
       else if (dotStep < step) dot.classList.add('done');
     });
+
+    // Pre-fill random name when entering character step
+    if (step === 3) {
+      const nameInput = document.getElementById('character-name-input');
+      if (nameInput && !nameInput.value.trim()) {
+        nameInput.value = this._pickRandomName();
+      }
+    }
 
     // Scroll to top of newgame screen
     document.getElementById('screen-newgame')?.scrollTo(0, 0);
@@ -484,7 +559,7 @@ Erstelle aus den Spieler-Angaben ein Charakter-Blatt. Der Hintergrund beeinfluss
 Antworte NUR mit dem Charakter-Blatt, kein weiterer Text.
 
 Hintergrund-Einflüsse:
-- Ex-Soldat: Kampferfahrung, Waffen-Kenntnis, taktisches Denken, aber PTBS-Risiko
+- Soldat: Kampferfahrung, Waffen-Kenntnis, taktisches Denken, aber PTBS-Risiko
 - Arzt: Medizinisches Wissen, Wundversorgung, aber körperlich schwächer
 - Mechaniker: Reparatur, Improvisation, handwerklich begabt, robust
 - Lehrer: Führungsqualitäten, Allgemeinwissen, aber keine Kampferfahrung
@@ -536,6 +611,19 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
         const outbreakDay = Math.floor(Math.random() * 5) + 4; // 4-8
         await saveManager.setState('outbreak_day', outbreakDay);
         promptBuilder.setOutbreakDay(outbreakDay);
+      }
+
+      // Initialize character stats
+      const initialStats = { gesundheit: 10, hunger: 0, durst: 0, müdigkeit: 0, psyche: 10 };
+      await saveManager.setState('character_stats', JSON.stringify(initialStats));
+      promptBuilder.setCharacterStats(initialStats);
+
+      // Initialize infrastructure state (only for pre_outbreak and outbreak)
+      if (phase === 'pre_outbreak' || phase === 'outbreak') {
+        const { INFRASTRUCTURE_DEFAULTS } = await import('../state/stateSchema.js');
+        const infra = INFRASTRUCTURE_DEFAULTS[phase];
+        await saveManager.setState('infrastructure', JSON.stringify(infra));
+        promptBuilder.setInfrastructure(infra);
       }
 
       // Setup prompt builder
@@ -596,6 +684,32 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
         promptBuilder.setOutbreakDay(parseInt(outbreakDay));
       }
 
+      // Restore infrastructure state
+      const infraRaw = stateMap['infrastructure'];
+      if (infraRaw) {
+        try {
+          promptBuilder.setInfrastructure(JSON.parse(infraRaw));
+        } catch (e) { /* ignore parse error */ }
+      }
+
+      // Restore character stats
+      const statsRaw = stateMap['character_stats'];
+      if (statsRaw) {
+        try {
+          promptBuilder.setCharacterStats(JSON.parse(statsRaw));
+        } catch (e) {}
+      }
+
+      // Restore world clocks
+      const clocksRaw = stateMap['world_clocks'];
+      if (clocksRaw) {
+        try {
+          const clocks = JSON.parse(clocksRaw);
+          promptBuilder.setWorldClocks(clocks);
+          this.renderWorldClocksPanel(clocks);
+        } catch (e) { /* ignore parse error */ }
+      }
+
       // Enter game mode
       await this.enterGameMode();
 
@@ -630,6 +744,20 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
     document.getElementById('input-area').classList.remove('hidden');
     document.getElementById('quick-buttons').classList.remove('hidden');
 
+    // World clocks toggle button
+    const wcToggle = document.getElementById('btn-world-clocks');
+    if (wcToggle && !wcToggle._bound) {
+      wcToggle.addEventListener('click', () => this.toggleWorldClocksPanel());
+      wcToggle._bound = true;
+    }
+    const wcClose = document.getElementById('btn-wc-close');
+    if (wcClose && !wcClose._bound) {
+      wcClose.addEventListener('click', () => {
+        document.getElementById('world-clocks-panel')?.classList.add('hidden');
+      });
+      wcClose._bound = true;
+    }
+
     // Init input line
     if (!this.inputLine) {
       this.inputLine = new InputLine(
@@ -654,7 +782,9 @@ Startort: ${location}
 Charakter:
 ${charSheet}
 
-Generiere die Eröffnungsszene. Beschreibe die unmittelbare Umgebung, die Atmosphäre, und die Situation des Charakters. Verwende einen <ui:scene> Tag für den Szenen-Header. Ende mit einer offenen Frage: "Was tust du?"
+Generiere die Eröffnungsszene. Beschreibe die unmittelbare Umgebung, die Atmosphäre, und die Situation des Charakters.
+${phase === 'pre_outbreak' ? 'WICHTIG: Vor dem Ausbruch! Der Startort ist AKTIV, BEVÖLKERT und im NORMALBETRIEB. Nichts ist verlassen, zerstört oder apokalyptisch. Beschreibe einen normalen Alltag mit Menschen, Betrieb und Routine — nur mit minimalen, subtilen Hinweisen dass etwas nicht stimmt.' : ''}
+Verwende einen <ui:scene> Tag für den Szenen-Header. Ende mit einer offenen Frage: "Was tust du?"
 
 Vergiss nicht den <state_update> Block am Ende.`
       }
@@ -878,6 +1008,55 @@ Vergiss nicht den <state_update> Block am Ende.`
     document.getElementById('api-key-input').value = '';
     document.getElementById('api-key-status').textContent = 'API-Key wurde vergessen.';
     document.getElementById('api-key-status').className = 'status-message';
+  }
+
+  renderWorldClocksPanel(clocks) {
+    const panel = document.getElementById('world-clocks-panel');
+    const list = document.getElementById('world-clocks-list');
+    if (!panel || !list) return;
+
+    const entries = Object.entries(clocks || {});
+    if (entries.length === 0) {
+      panel.classList.add('hidden');
+      return;
+    }
+
+    panel.classList.remove('hidden');
+    list.innerHTML = '';
+
+    for (const [key, value] of entries) {
+      const item = document.createElement('div');
+      item.className = 'wc-item';
+
+      const label = document.createElement('div');
+      label.className = 'wc-label';
+      // Convert snake_case to readable: militaer_konvoi → Militär Konvoi
+      label.textContent = key.replace(/_/g, ' ');
+
+      const desc = document.createElement('div');
+      desc.className = 'wc-desc';
+      desc.textContent = value;
+
+      item.appendChild(label);
+      item.appendChild(desc);
+      list.appendChild(item);
+    }
+  }
+
+  toggleWorldClocksPanel() {
+    const panel = document.getElementById('world-clocks-panel');
+    if (!panel) return;
+
+    // If hidden (no clocks yet), show it anyway with empty message
+    if (panel.classList.contains('hidden')) {
+      const list = document.getElementById('world-clocks-list');
+      if (list && list.children.length === 0) {
+        list.innerHTML = `<div class="wc-empty">${i18n.t('worldClocks.empty')}</div>`;
+      }
+      panel.classList.remove('hidden');
+    } else {
+      panel.classList.add('hidden');
+    }
   }
 
   async updateTopBar() {

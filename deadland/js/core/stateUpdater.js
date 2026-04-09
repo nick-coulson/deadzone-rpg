@@ -34,6 +34,7 @@ class StateUpdater {
       if (data.szene && Object.keys(data.szene).length > 0) {
         await this.updateScene(data.szene);
         await this.advanceGameTime(data.szene);
+
       }
 
       // Update notebook entries
@@ -51,22 +52,44 @@ class StateUpdater {
         await this.updateNPCs(data.npcs);
       }
 
+      // Update infrastructure status
+      if (data.infrastruktur && Object.keys(data.infrastruktur).length > 0) {
+        await this.updateInfrastructure(data.infrastruktur);
+      }
+
     } catch (err) {
       console.error('State update failed:', err);
     }
   }
 
   async updateCharacter(changes) {
-    const current = await saveManager.getState('charakter') || '';
-
-    // Simple YAML append for tracking changes
-    // In a production system we'd parse and merge YAML properly
-    // For now, we track the latest state update as metadata
+    // Store general character updates as notes
     const updateNote = `\n# Letztes Update\n${Object.entries(changes).map(([k, v]) => `${k}: ${v}`).join('\n')}`;
-
-    // We append change notes but keep original structure
-    // The AI will read the full charakter.yaml and apply changes narratively
     await saveManager.setState('charakter_updates', updateNote);
+
+    // Extract and persist numeric stats separately
+    const STAT_KEYS = ['gesundheit', 'hunger', 'durst', 'müdigkeit', 'psyche'];
+    const hasStats = STAT_KEYS.some(k => changes[k] !== undefined);
+
+    if (hasStats) {
+      const currentRaw = await saveManager.getState('character_stats');
+      let current = { gesundheit: 10, hunger: 0, durst: 0, müdigkeit: 0, psyche: 10 };
+      if (currentRaw) {
+        try { current = JSON.parse(currentRaw); } catch (e) {}
+      }
+
+      for (const key of STAT_KEYS) {
+        if (changes[key] !== undefined) {
+          const val = parseInt(changes[key]);
+          if (!isNaN(val) && val >= 0 && val <= 10) {
+            current[key] = val;
+          }
+        }
+      }
+
+      await saveManager.setState('character_stats', JSON.stringify(current));
+      eventBus.emit('characterstats:updated', current);
+    }
   }
 
   async updateScene(scene) {
@@ -201,15 +224,45 @@ class StateUpdater {
   }
 
   async updateWorldClocks(clocks) {
-    const current = await saveManager.getState('world_clocks') || '';
-    const entries = Object.entries(clocks).map(([k, v]) => `${k}: ${v}`).join('\n');
-    await saveManager.setState('world_clocks', entries);
+    // Load existing clocks as JSON
+    const currentRaw = await saveManager.getState('world_clocks');
+    let current = {};
+    if (currentRaw) {
+      try { current = JSON.parse(currentRaw); } catch (e) { current = {}; }
+    }
+
+    // Merge new clocks into existing
+    const merged = { ...current };
+    for (const [key, value] of Object.entries(clocks)) {
+      const lower = value.toLowerCase().trim();
+      // Remove completed clocks
+      if (lower === 'abgeschlossen' || lower === 'erledigt' || lower === 'completed' || lower === 'done') {
+        delete merged[key];
+      } else {
+        merged[key] = value;
+      }
+    }
+
+    await saveManager.setState('world_clocks', JSON.stringify(merged));
+    eventBus.emit('worldclocks:updated', merged);
   }
 
   async updateNPCs(npcs) {
     const current = await saveManager.getState('npcs') || '';
     const newEntries = npcs.join('\n');
     await saveManager.setState('npcs', current ? current + '\n' + newEntries : newEntries);
+  }
+
+  async updateInfrastructure(infra) {
+    // Merge with existing infrastructure state
+    const currentRaw = await saveManager.getState('infrastructure');
+    let current = {};
+    if (currentRaw) {
+      try { current = JSON.parse(currentRaw); } catch (e) { current = {}; }
+    }
+    const merged = { ...current, ...infra };
+    await saveManager.setState('infrastructure', JSON.stringify(merged));
+    eventBus.emit('infrastructure:updated', merged);
   }
 }
 

@@ -277,7 +277,70 @@
   font-size: 14px;
 }
 
-/* === FILL BAR === */
+/* === STATUS BARS === */
+.status-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  white-space: normal;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.stat-label {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.stat-bar-track {
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 6px rgba(255,255,255,0.1);
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.stat-desc {
+  grid-column: 2 / -1;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: -2px;
+}
+
+.stat-text {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* === FILL BAR (legacy) === */
 .fill-bar { color: var(--accent); }
 .fill-bar.warn { color: var(--warning); }
 .fill-bar.danger { color: var(--danger); }

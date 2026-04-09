@@ -16,6 +16,14 @@
   }
 }
 
+/* World Clocks panel - tablet: narrower */
+@media (max-width: 1024px) {
+  .wc-panel { width: 240px; }
+  body:has(.wc-panel:not(.hidden):not(.collapsed)) .game-output {
+    padding-right: 256px;
+  }
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   :root {
@@ -26,13 +34,16 @@
   }
 
   .ascii-title {
-    font-size: 7px;
+    font-size: 32px;
+    letter-spacing: 4px;
   }
 
   .top-bar {
     font-size: 11px;
     padding: 0 10px;
     gap: 6px;
+    flex-wrap: nowrap;
+    overflow: hidden;
   }
 
   .top-bar__title {
@@ -41,6 +52,17 @@
   }
 
   .top-bar__separator { display: none; }
+
+  .top-bar__weather {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #top-bar-weather-text {
+    display: none;
+  }
 
   .setup-container {
     padding: 20px 14px;
@@ -128,17 +150,50 @@
     align-items: flex-start;
     gap: 10px;
   }
+
+  .faq-scroll {
+    max-height: 55vh;
+  }
+
+  .faq-content {
+    max-width: 100%;
+  }
+
+  /* World Clocks: overlay on mobile instead of sidebar */
+  .wc-panel {
+    width: 85%;
+    max-width: 300px;
+    left: auto;
+    right: 0;
+    border-left: 2px solid var(--border-color);
+    box-shadow: -6px 0 24px rgba(0,0,0,0.5);
+  }
+
+  body:has(.wc-panel:not(.hidden):not(.collapsed)) .game-output {
+    padding-right: 24px !important;
+  }
+
+  .lang-selector {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 /* Very small screens */
 @media (max-width: 400px) {
   .ascii-title {
-    font-size: 5.5px;
+    font-size: 26px;
+    letter-spacing: 3px;
   }
 
   .top-bar__title {
     font-size: 11px;
     letter-spacing: 1px;
+  }
+
+  .top-bar__day,
+  .top-bar__cost {
+    font-size: 10px;
   }
 
   .quick-btn {
@@ -148,5 +203,22 @@
 
   .model-desc {
     display: none;
+  }
+
+  .faq-content {
+    padding: 16px;
+  }
+
+  .faq-section h3 {
+    font-size: 13px;
+  }
+
+  .faq-section p {
+    font-size: 12px;
+  }
+
+  .overlay-content {
+    width: 98%;
+    padding: 16px;
   }
 }

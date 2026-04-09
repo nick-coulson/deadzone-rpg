@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>DEADZONE — AI Zombie Survival RPG</title>
-  <link rel="stylesheet" href="css/main.css?v=2">
-  <link rel="stylesheet" href="css/ui-boxes.css">
-  <link rel="stylesheet" href="css/effects.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/main.css?v=3">
+  <link rel="stylesheet" href="css/ui-boxes.css?v=2">
+  <link rel="stylesheet" href="css/effects.css?v=2">
+  <link rel="stylesheet" href="css/responsive.css?v=2">
   <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 </head>
 <body>
@@ -55,8 +52,9 @@
           </div>
           <div id="api-key-status" class="status-message"></div>
           <div class="setup-buttons">
-            <button type="button" id="btn-resume" class="terminal-btn primary hidden" data-i18n="setup.resume">Letzten Spielstand fortsetzen</button>
+            <button type="button" id="btn-resume" class="terminal-btn resume hidden" data-i18n="setup.resume">Letzten Spielstand fortsetzen</button>
             <button type="button" id="btn-start" class="terminal-btn primary" data-i18n="setup.newGame">Neues Spiel / Modell wählen</button>
+            <button type="button" id="btn-faq-start" class="terminal-btn faq-btn" data-i18n="faq.button">❓ FAQ</button>
           </div>
         </div>
       </div>
@@ -216,56 +214,56 @@
               <div class="card-option__inner">
                 <span class="card-option__icon">🏠</span>
                 <span class="card-option__title" data-i18n="loc.suburb">Vorstadt</span>
-                <span class="card-option__desc" data-i18n="loc.suburb.desc">Wohngebiet, viele Häuser zum Plündern, moderate Zombies</span>
+                <span class="card-option__desc" data-i18n="loc.suburb.desc">Ruhiges Wohngebiet, Einfamilienhäuser, Nachbarschaften</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Ländlich">
               <div class="card-option__inner">
                 <span class="card-option__icon">🌾</span>
                 <span class="card-option__title" data-i18n="loc.rural">Ländlich</span>
-                <span class="card-option__desc" data-i18n="loc.rural.desc">Farmen, Scheunen, wenig Zombies, weite Wege</span>
+                <span class="card-option__desc" data-i18n="loc.rural.desc">Bauernhöfe, Scheunen, weite Felder, abgelegen</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Industriegebiet">
               <div class="card-option__inner">
                 <span class="card-option__icon">🏭</span>
                 <span class="card-option__title" data-i18n="loc.industrial">Industriegebiet</span>
-                <span class="card-option__desc" data-i18n="loc.industrial.desc">Fabriken, Werkstätten, Materialien, viele Zombies</span>
+                <span class="card-option__desc" data-i18n="loc.industrial.desc">Fabriken, Lagerhallen, Werkstätten, Gleisanschluss</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Innenstadt">
               <div class="card-option__inner">
                 <span class="card-option__icon">🏙️</span>
                 <span class="card-option__title" data-i18n="loc.downtown">Innenstadt</span>
-                <span class="card-option__desc" data-i18n="loc.downtown.desc">Hochhäuser, extrem gefährlich, beste Beute</span>
+                <span class="card-option__desc" data-i18n="loc.downtown.desc">Hochhäuser, Büros, dichter Verkehr, viele Menschen</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Militärbasis">
               <div class="card-option__inner">
                 <span class="card-option__icon">🎯</span>
                 <span class="card-option__title" data-i18n="loc.military">Militärbasis</span>
-                <span class="card-option__desc" data-i18n="loc.military.desc">Waffen, Munition, starke Zombies, Blockaden</span>
+                <span class="card-option__desc" data-i18n="loc.military.desc">Kasernen, Übungsplätze, Waffenlager, Sicherheitszonen</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Waldgebiet">
               <div class="card-option__inner">
                 <span class="card-option__icon">🌲</span>
                 <span class="card-option__title" data-i18n="loc.forest">Waldgebiet</span>
-                <span class="card-option__desc" data-i18n="loc.forest.desc">Natur, Jagd, versteckt, wenig Vorräte</span>
+                <span class="card-option__desc" data-i18n="loc.forest.desc">Dichter Wald, Wanderwege, Jagdhütten, Natur pur</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Krankenhaus">
               <div class="card-option__inner">
                 <span class="card-option__icon">🏥</span>
                 <span class="card-option__title" data-i18n="loc.hospital">Krankenhaus</span>
-                <span class="card-option__desc" data-i18n="loc.hospital.desc">Medizin, aber Zombie-Hotspot, Infektionsgefahr</span>
+                <span class="card-option__desc" data-i18n="loc.hospital.desc">Großklinik, Notaufnahme, Labore, viel Betrieb</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn location-card" data-value="Einkaufszentrum">
               <div class="card-option__inner">
                 <span class="card-option__icon">🛒</span>
                 <span class="card-option__title" data-i18n="loc.mall">Einkaufszentrum</span>
-                <span class="card-option__desc" data-i18n="loc.mall.desc">Vorräte, Kleidung, verteidigbar, aber umzingelt</span>
+                <span class="card-option__desc" data-i18n="loc.mall.desc">Geschäfte, Food Court, Parkhaus, immer belebt</span>
               </div>
             </button>
           </div>
@@ -296,11 +294,11 @@
           <h3 class="section-label" style="margin-top: 20px;" data-i18n="char.background">Hintergrund wählen</h3>
           <p class="section-desc" data-i18n="char.backgroundDesc">Dein Beruf vor dem Ausbruch beeinflusst Stärken, Schwächen und Startausrüstung.</p>
           <div class="card-grid card-grid--2col">
-            <button type="button" class="card-option card-option--btn background-card active" data-value="ex_soldat">
+            <button type="button" class="card-option card-option--btn background-card active" data-value="soldat">
               <div class="card-option__inner">
                 <span class="card-option__icon">🎖️</span>
-                <span class="card-option__title" data-i18n="bg.exSoldier">Ex-Soldat</span>
-                <span class="card-option__desc" data-i18n="bg.exSoldier.desc">Kampferfahrung, Waffen, taktisches Denken</span>
+                <span class="card-option__title" data-i18n="bg.soldier">Soldat</span>
+                <span class="card-option__desc" data-i18n="bg.soldier.desc">Kampferfahrung, Waffen, taktisches Denken</span>
               </div>
             </button>
             <button type="button" class="card-option card-option--btn background-card" data-value="arzt">
@@ -374,6 +372,15 @@
     </div>
   </main>
 
+  <!-- World Clocks Panel (right sidebar) -->
+  <aside id="world-clocks-panel" class="wc-panel hidden">
+    <div class="wc-header">
+      <span class="wc-title" data-i18n="worldClocks.title">🌍 Welt-Ereignisse</span>
+      <button type="button" id="btn-wc-close" class="wc-close" title="Schließen">✕</button>
+    </div>
+    <div id="world-clocks-list" class="wc-list"></div>
+  </aside>
+
   <!-- Input Area (game mode) -->
   <div id="input-area" class="input-area hidden">
     <div class="input-line">
@@ -391,6 +398,7 @@
     <button type="button" class="quick-btn" data-cmd="Gruppe" title="F4" data-i18n="quick.group">Gruppe</button>
     <button type="button" class="quick-btn" data-cmd="Basis" title="F5" data-i18n="quick.base">Basis</button>
     <button type="button" class="quick-btn" data-cmd="Notizbuch" title="F6" data-i18n="quick.notebook">Notizbuch</button>
+    <button type="button" class="quick-btn wc-toggle-btn" id="btn-world-clocks" title="F7" data-i18n="quick.worldClocks">🌍 Welt</button>
     <button type="button" class="quick-btn settings-btn" id="btn-settings" title="Esc" data-i18n="quick.settings">Einstellungen</button>
   </nav>
 
@@ -422,6 +430,20 @@
         </label>
       </div>
       <div class="settings-group">
+        <h3 data-i18n="settings.music">🎵 Musik</h3>
+        <div class="music-controls">
+          <label class="music-toggle">
+            <input type="checkbox" id="settings-music-toggle" checked>
+            <span data-i18n="settings.musicEnabled">Hintergrundmusik aktiv</span>
+          </label>
+          <label class="music-volume">
+            <span data-i18n="settings.musicVolume">Lautstärke:</span>
+            <input type="range" id="settings-music-volume" min="0" max="100" value="15" class="volume-slider">
+            <span id="music-volume-display">15%</span>
+          </label>
+        </div>
+      </div>
+      <div class="settings-group">
         <h3 data-i18n="settings.saveSection">Spielstand</h3>
         <button type="button" id="btn-save-game" class="terminal-btn" data-i18n="settings.save">Speichern</button>
         <button type="button" id="btn-export-game" class="terminal-btn" data-i18n="settings.export">Exportieren (.deadzone)</button>
@@ -431,7 +453,58 @@
         <h3 data-i18n="settings.sessionInfo">Session-Info</h3>
         <div id="session-info-display" class="session-info"></div>
       </div>
+      <button type="button" id="btn-faq-settings" class="terminal-btn faq-btn" data-i18n="faq.button">❓ FAQ</button>
       <button type="button" id="btn-close-settings" class="terminal-btn primary" data-i18n="settings.close">Schließen</button>
+    </div>
+  </div>
+
+  <!-- FAQ Overlay -->
+  <div id="overlay-faq" class="overlay hidden">
+    <div class="overlay-content faq-content">
+      <h2 class="overlay-title" data-i18n="faq.title">❓ FAQ</h2>
+      <div class="faq-scroll">
+        <div class="faq-section">
+          <h3 data-i18n="faq.whatIsTitle">Was ist DEADZONE?</h3>
+          <p data-i18n="faq.whatIsText">DEADZONE ist ein textbasiertes AI Zombie Survival RPG. Eine KI übernimmt die Rolle des Spielleiters und erzählt deine Geschichte in Echtzeit. Jeder Durchlauf ist einzigartig.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.apiKeyTitle">Was ist ein API-Key?</h3>
+          <p data-i18n="faq.apiKeyText">Du brauchst einen OpenRouter API-Key um zu spielen. OpenRouter verbindet dich mit verschiedenen KI-Modellen. Erstelle einen kostenlosen Account auf openrouter.ai/keys und kopiere deinen Key.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.costTitle">Was kostet das Spiel?</h3>
+          <p data-i18n="faq.costText">DEADZONE selbst ist kostenlos. Du zahlst nur die API-Kosten an OpenRouter — typisch $0.01–0.05 pro Nachricht je nach Modell. Mit Llama 3.3 (Free) ist es komplett kostenlos. Die aktuellen Kosten siehst du oben rechts im Spiel.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.modelsTitle">Welches Modell soll ich wählen?</h3>
+          <p data-i18n="faq.modelsText">DeepSeek V3.2 bietet das beste Preis-Leistungs-Verhältnis. Llama 3.3 ist komplett kostenlos, aber etwas weniger kreativ. Für das beste Rollenspiel-Erlebnis empfehlen wir Qwen 3.6 Plus oder Aion-RP.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.featuresTitle">Features</h3>
+          <p data-i18n-html="faq.featuresText"><b>🎭 Dynamische Story</b> — Jede Entscheidung beeinflusst die Handlung<br><b>⏰ Echtzeit-Zeitverlauf</b> — Uhrzeit, Wetter und Tageszeit ändern sich realistisch<br><b>🎒 Inventar & Status</b> — Hunger, Müdigkeit, Verletzungen werden getrackt<br><b>👥 NPCs & Gruppen</b> — Triff Überlebende, bilde Gruppen, handle<br><b>🗺️ Karte & Orte</b> — Erkunde verschiedene Locations<br><b>📓 Notizbuch</b> — Wichtige Entdeckungen werden automatisch gespeichert<br><b>🌍 DE/EN</b> — Vollständig auf Deutsch und Englisch spielbar</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.quickButtonsTitle">Quick Buttons</h3>
+          <p data-i18n="faq.quickButtonsText">Die Buttons unter dem Chat (Status, Inventar, Karte, Gruppe, Basis, Notizbuch) senden automatisch den passenden Befehl an die KI. Du kannst aber auch frei tippen was du willst.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.saveTitle">Speichern & Laden</h3>
+          <p data-i18n="faq.saveText">Dein Spielstand wird automatisch nach jeder Nachricht gespeichert (IndexedDB im Browser). Über die Einstellungen kannst du manuell speichern, exportieren (.deadzone Datei) oder mehrere Spielstände verwalten.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.contextTitle">🔧 Context Rotation (technisch)</h3>
+          <p data-i18n="faq.contextText">KI-Modelle haben begrenzte Kontextfenster. Nach 20 Nachrichten wird die bisherige Konversation von der KI zusammengefasst und als „Master Summary" gespeichert. Dann startet ein neuer Kontext mit dieser Zusammenfassung. So bleibt die KI performant und vergisst trotzdem nichts Wichtiges. Dieser Vorgang passiert automatisch im Hintergrund.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.outbreakTitle">Vor dem Ausbruch — Modus</h3>
+          <p data-i18n="faq.outbreakText">Wenn du „Vor dem Ausbruch" wählst, startet die Welt noch normal. Der Zombie-Ausbruch beginnt zufällig zwischen Tag 4–8. Du weißt nicht genau wann — aber die Spannung steigt jeden Tag.</p>
+        </div>
+        <div class="faq-section">
+          <h3 data-i18n="faq.privacyTitle">Datenschutz</h3>
+          <p data-i18n="faq.privacyText">Alle Daten bleiben lokal in deinem Browser (IndexedDB + localStorage). DEADZONE hat keinen eigenen Server. Dein API-Key wird nur direkt an OpenRouter gesendet.</p>
+        </div>
+      </div>
+      <button type="button" id="btn-close-faq" class="terminal-btn primary" data-i18n="settings.close">Schließen</button>
     </div>
   </div>
 

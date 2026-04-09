@@ -107,11 +107,14 @@ class Renderer {
       .replace(/>/g, '&gt;');
     // Then apply markdown formatting
     return escaped
+      .replace(/(\d+h)(\d)/g, '$1 $2')  // "2h30min" → "2h 30min"
       .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
       .replace(/`(.+?)`/g, '<code>$1</code>')
-      .replace(/\n/g, '<br>');
+      .replace(/^\*\*\s*$/gm, '')        // Remove orphan ** on their own line
+      .replace(/\n/g, '<br>')
+      .replace(/(<br>\s*){3,}/g, '<br><br>');  // Collapse excessive breaks
   }
 
   // Render parsed segments

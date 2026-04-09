@@ -3,6 +3,7 @@
 import { loadGenesisPrompt } from './prompt/genesisPrompt.js';
 import { gameEngine } from './core/gameEngine.js';
 import { i18n } from './core/i18n.js';
+import { bgMusic } from './ui/bgMusic.js';
 import './core/stateUpdater.js'; // Initialize state updater (side effect)
 
 async function boot() {
@@ -13,6 +14,9 @@ async function boot() {
 
     // Apply translations
     i18n.applyAll();
+
+    // Initialize background music
+    bgMusic.init();
 
     // Initialize game engine
     await gameEngine.init();

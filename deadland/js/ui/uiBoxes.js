@@ -3,11 +3,14 @@
 function mdToHtml(text) {
   return text
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/(\d+h)(\d)/g, '$1 $2')  // "2h30min" → "2h 30min"
     .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code>$1</code>')
-    .replace(/\n/g, '<br>');
+    .replace(/^\*\*\s*$/gm, '')        // Remove orphan ** on their own line
+    .replace(/\n/g, '<br>')
+    .replace(/(<br>\s*){3,}/g, '<br><br>');  // Collapse excessive line breaks
 }
 
 const BOX_HEADERS = {
@@ -134,6 +137,133 @@ const BOX_RENDERERS = {
     const div = document.createElement('div');
     div.className = 'ui-box-content';
     div.innerHTML = mdToHtml(content);
+    return div;
+  },
+
+  status(content, attrs) {
+    const div = document.createElement('div');
+    div.className = 'ui-box-content status-bars';
+
+    // Split on --- separator: bars section vs text section
+    const parts = content.split(/^---$/m);
+    const barSection = parts[0] || '';
+    const textSection = parts.slice(1).join('---');
+
+    // Parse lines with "key: X/10 | description" format
+    const STAT_CONFIG = {
+      gesundheit: { label: '❤️ Gesundheit', invert: false, colorHigh: '#4ade50', colorMid: '#f59e0b', colorLow: '#dc2626' },
+      hunger:     { label: '🍖 Hunger',     invert: true,  colorHigh: '#dc2626', colorMid: '#f59e0b', colorLow: '#4ade50' },
+      durst:      { label: '💧 Durst',      invert: true,  colorHigh: '#dc2626', colorMid: '#f59e0b', colorLow: '#4ade50' },
+      müdigkeit:  { label: '😴 Müdigkeit',  invert: true,  colorHigh: '#dc2626', colorMid: '#f59e0b', colorLow: '#4ade50' },
+      psyche:     { label: '🧠 Psyche',     invert: false, colorHigh: '#4ade50', colorMid: '#f59e0b', colorLow: '#dc2626' }
+    };
+
+    const lines = barSection.split('\n').filter(l => l.trim());
+    let hasBar = false;
+
+    for (const line of lines) {
+      const match = line.match(/^(\w+):\s*(\d+)\s*\/\s*(\d+)\s*\|\s*(.+)/);
+      if (match) {
+        const [, key, valStr, maxStr, desc] = match;
+        const val = parseInt(valStr);
+        const max = parseInt(maxStr);
+        const config = STAT_CONFIG[key.toLowerCase()];
+        if (!config) continue;
+
+        const pct = Math.round((val / max) * 100);
+        // For inverted stats (hunger etc), color is based on how BAD it is
+        let barColor;
+        if (config.invert) {
+          barColor = pct <= 30 ? config.colorLow : pct <= 60 ? config.colorMid : config.colorHigh;
+        } else {
+          barColor = pct >= 70 ? config.colorHigh : pct >= 40 ? config.colorMid : config.colorLow;
+        }
+
+        const row = document.createElement('div');
+        row.className = 'stat-row';
+        row.innerHTML = `
+          <span class="stat-label">${config.label}</span>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width:${pct}%;background:${barColor}"></div>
+          </div>
+          <span class="stat-value">${val}/${max}</span>
+          <span class="stat-desc">${desc.trim()}</span>
+        `;
+        div.appendChild(row);
+        hasBar = true;
+      }
+    }
+
+    // If no X/10 bars parsed, try parsing old █-block format
+    if (!hasBar) {
+      const blockLines = content.split('\n').filter(l => l.trim());
+      for (const line of blockLines) {
+        // Match: "Label: ██████▌ (description)" or "Label: █▌ (description)"
+        const blockMatch = line.match(/^([^:]+):\s*([█▌░▒▓■□]+)\s*\((.+?)\)/);
+        if (blockMatch) {
+          const [, rawLabel, blocks, desc] = blockMatch;
+          const label = rawLabel.trim();
+
+          // Count full blocks (█) and half blocks (▌)
+          const fullBlocks = (blocks.match(/█/g) || []).length;
+          const halfBlocks = (blocks.match(/▌/g) || []).length;
+          const totalFill = fullBlocks + halfBlocks * 0.5;
+          const maxBlocks = 10; // assume 10-block scale
+          const pct = Math.min(100, Math.round((totalFill / maxBlocks) * 100));
+
+          // Determine stat type and colors
+          const lowerLabel = label.toLowerCase();
+          let emoji;
+          if (lowerLabel.includes('hunger')) emoji = '🍖';
+          else if (lowerLabel.includes('durst')) emoji = '💧';
+          else if (lowerLabel.includes('müdigkeit') || lowerLabel.includes('mudigkeit')) emoji = '😴';
+          else if (lowerLabel.includes('gesundheit') || lowerLabel.includes('health')) emoji = '❤️';
+          else if (lowerLabel.includes('psyche')) emoji = '🧠';
+          else emoji = '📊';
+
+          // Old █ format: blocks represent "how much resource remains"
+          // More blocks = better for ALL stats (full bar = satt/ausgeruht/gesund)
+          let barColor;
+          barColor = pct >= 70 ? '#4ade50' : pct >= 40 ? '#f59e0b' : '#dc2626';
+
+          const row = document.createElement('div');
+          row.className = 'stat-row';
+          row.innerHTML = `
+            <span class="stat-label">${emoji} ${label}</span>
+            <div class="stat-bar-track">
+              <div class="stat-bar-fill" style="width:${pct}%;background:${barColor}"></div>
+            </div>
+            <span class="stat-value">${Math.round(totalFill)}/${maxBlocks}</span>
+            <span class="stat-desc">${desc.trim()}</span>
+          `;
+          div.appendChild(row);
+          hasBar = true;
+        } else if (!hasBar) {
+          // Non-bar text before any bars found: skip or accumulate
+        } else {
+          // Text after bars: treat as extra info
+          const extra = document.createElement('div');
+          extra.className = 'stat-text';
+          extra.innerHTML = mdToHtml(line);
+          div.appendChild(extra);
+        }
+      }
+
+      // Still nothing matched? Pure fallback to text
+      if (!hasBar) {
+        div.innerHTML = mdToHtml(content);
+        return div;
+      }
+    }
+
+    // Render text section after bars
+    if (textSection.trim()) {
+      const textDiv = document.createElement('div');
+      textDiv.className = 'stat-text';
+      textDiv.innerHTML = mdToHtml(textSection.trim());
+      div.appendChild(textDiv);
+    }
+
     return div;
   }
 };
