@@ -67,6 +67,20 @@ class GameEngine {
       promptBuilder.setInventory(items);
     });
 
+    // Sync time, weather, scene, notebook to prompt builder
+    eventBus.on('time:updated', ({ time, tageszeit }) => {
+      promptBuilder.setGameTime(`${time} (${tageszeit})`);
+    });
+    eventBus.on('weather:updated', ({ wetter }) => {
+      promptBuilder.setWeather(wetter);
+    });
+    eventBus.on('scene:updated', (scene) => {
+      promptBuilder.setCurrentScene(scene);
+    });
+    eventBus.on('notizbuch:updated', (notebook) => {
+      promptBuilder.setNotebook(notebook);
+    });
+
     // Check for saved API key
     const savedKey = localStorage.getItem('deadzone_api_key');
     if (savedKey) {
@@ -710,6 +724,22 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
       if (invRaw) {
         try { promptBuilder.setInventory(JSON.parse(invRaw)); } catch (e) {}
       }
+
+      // Restore notebook
+      const notebookRaw = stateMap['notizbuch'];
+      if (notebookRaw) {
+        promptBuilder.setNotebook(notebookRaw);
+      }
+
+      // Restore game time, weather, current scene
+      const gameTime = stateMap['game_time'];
+      if (gameTime) promptBuilder.setGameTime(gameTime);
+
+      const weather = stateMap['wetter'];
+      if (weather) promptBuilder.setWeather(weather);
+
+      const scene = stateMap['szene_aktuell'];
+      if (scene) promptBuilder.setCurrentScene(scene);
 
       // Restore world clocks
       const clocksRaw = stateMap['world_clocks'];

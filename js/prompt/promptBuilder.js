@@ -18,6 +18,10 @@ class PromptBuilder {
     this.worldClocks = null;
     this.characterStats = null;
     this.inventory = null;
+    this.notebook = null;
+    this.gameTime = null;
+    this.weather = null;
+    this.currentScene = null;
   }
 
   setPhase(phase) { this.phase = phase; }
@@ -27,6 +31,10 @@ class PromptBuilder {
   setWorldClocks(clocks) { this.worldClocks = clocks; }
   setCharacterStats(stats) { this.characterStats = stats; }
   setInventory(items) { this.inventory = items; }
+  setNotebook(entries) { this.notebook = entries; }
+  setGameTime(time) { this.gameTime = time; }
+  setWeather(weather) { this.weather = weather; }
+  setCurrentScene(scene) { this.currentScene = scene; }
   setMasterSummary(summary) { this.masterSummary = summary; }
   setCharacterData(data) { this.characterData = data; }
   setGroupData(data) { this.groupData = data; }
@@ -107,6 +115,20 @@ Der Zombie-Ausbruch MUSS an Tag ${this.outbreakDay} beginnen. Das ist NICHT opti
     if (this.inventory && this.inventory.length > 0) {
       const itemList = this.inventory.map(i => `- ${i}`).join('\n');
       parts.push(`## AKTUELLES INVENTAR\nDer Spieler besitzt GENAU diese Gegenstände. Nicht mehr, nicht weniger. Verwende inventar_add/inventar_remove im state_update um Änderungen zu tracken.\n\n${itemList}`);
+    }
+
+    // 5d. Current time, weather, location
+    if (this.gameTime || this.weather || this.currentScene) {
+      let statusLines = [];
+      if (this.gameTime) statusLines.push(`Uhrzeit: ${this.gameTime}`);
+      if (this.weather) statusLines.push(`Wetter: ${this.weather}`);
+      if (this.currentScene) statusLines.push(`Ort: ${this.currentScene}`);
+      parts.push(`## AKTUELLE SZENE\nDiese Werte spiegeln den JETZIGEN Zustand wider. Führe sie fort.\n\n${statusLines.join('\n')}`);
+    }
+
+    // 5e. Notebook
+    if (this.notebook) {
+      parts.push(`## NOTIZBUCH\nDer Spieler hat diese Einträge gesammelt. Referenziere sie bei Bedarf.\n\n${this.notebook}`);
     }
 
     // 6. Group data

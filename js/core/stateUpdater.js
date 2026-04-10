@@ -120,6 +120,7 @@ class StateUpdater {
   async updateScene(scene) {
     const entries = Object.entries(scene).map(([k, v]) => `${k}: "${v}"`).join('\n');
     await saveManager.setState('szene_aktuell', entries);
+    eventBus.emit('scene:updated', entries);
 
     // Sync day counter from AI if provided
     if (scene.tag) {
@@ -137,8 +138,9 @@ class StateUpdater {
   async updateNotebook(entries) {
     const current = await saveManager.getState('notizbuch') || '';
     const newEntries = entries.join('\n');
-    // Append new entries
-    await saveManager.setState('notizbuch', current + '\n' + newEntries);
+    const updated = (current + '\n' + newEntries).trim();
+    await saveManager.setState('notizbuch', updated);
+    eventBus.emit('notizbuch:updated', updated);
   }
 
   async advanceGameTime(scene) {
