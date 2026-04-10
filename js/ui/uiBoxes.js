@@ -125,6 +125,7 @@ const BOX_RENDERERS = {
       // Click to insert option text into chat input
       const plainText = line.trim();
       opt.addEventListener('click', () => {
+        if (opt.classList.contains('disabled')) return;
         const input = document.getElementById('game-input');
         if (input) {
           input.value = plainText;

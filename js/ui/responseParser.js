@@ -1,6 +1,9 @@
 // DEADZONE — Response Parser (KI output → segments)
 
+// Strict: opening and closing tag names must match
 const UI_TAG_REGEX = /<ui:(\w+)(?:\s+([^>]*?))?>([\s\S]*?)<\/ui:\1>/g;
+// Tolerant: accepts any </ui:xxx> as closing tag (handles AI typos like </ui:nav> instead of </ui:npc>)
+const UI_TAG_TOLERANT_REGEX = /<ui:(\w+)(?:\s+([^>]*?))?>([\s\S]*?)<\/ui:\w+>/g;
 const STATE_UPDATE_REGEX = /<state_update>([\s\S]*?)<\/state_update>/g;
 
 export function parseResponse(rawResponse) {
@@ -11,15 +14,28 @@ export function parseResponse(rawResponse) {
     return '';
   });
 
-  // Parse remaining content into segments
+  // Try strict regex first, fall back to tolerant if it finds more matches
+  const segments = _parseUITags(cleaned, UI_TAG_REGEX);
+  const tolerantSegments = _parseUITags(cleaned, UI_TAG_TOLERANT_REGEX);
+
+  // Use whichever found more UI tags (tolerant catches AI typos)
+  const uiCountStrict = segments.filter(s => s.type === 'ui').length;
+  const uiCountTolerant = tolerantSegments.filter(s => s.type === 'ui').length;
+
+  return {
+    segments: uiCountTolerant > uiCountStrict ? tolerantSegments : segments,
+    stateUpdates
+  };
+}
+
+function _parseUITags(cleaned, regex) {
   const segments = [];
   let lastIndex = 0;
 
-  // Reset regex
-  UI_TAG_REGEX.lastIndex = 0;
+  regex.lastIndex = 0;
 
   let match;
-  while ((match = UI_TAG_REGEX.exec(cleaned)) !== null) {
+  while ((match = regex.exec(cleaned)) !== null) {
     // Text before the tag → narrative block
     if (match.index > lastIndex) {
       const text = cleaned.slice(lastIndex, match.index).trim();
@@ -28,7 +44,7 @@ export function parseResponse(rawResponse) {
       }
     }
 
-    // The UI tag itself
+    // The UI tag itself (component name from the OPENING tag)
     segments.push({
       type: 'ui',
       component: match[1],
@@ -45,7 +61,7 @@ export function parseResponse(rawResponse) {
     segments.push({ type: 'narrative', content: remaining });
   }
 
-  return { segments, stateUpdates };
+  return segments;
 }
 
 function parseAttributes(attrString) {

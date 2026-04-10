@@ -277,6 +277,13 @@
   background: rgba(74, 222, 128, 0.15);
 }
 
+.ui-choice .choice-option.disabled {
+  color: var(--text-dim);
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .ui-choice .choice-option .choice-key {
   color: var(--accent);
   font-family: var(--font-heading);

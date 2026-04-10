@@ -82,6 +82,10 @@ class Renderer {
   // Start streaming — buffer silently, show loading overlay
   startStreaming() {
     this.isStreaming = true;
+    // Disable all previous choice options
+    this.outputEl.querySelectorAll('.choice-option:not(.disabled)').forEach(opt => {
+      opt.classList.add('disabled');
+    });
     this.showLoading();
     // Return a compat object for legacy callers
     return { element: document.createElement('div'), append() {}, finish() {} };
