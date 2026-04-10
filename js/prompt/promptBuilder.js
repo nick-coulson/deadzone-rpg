@@ -228,12 +228,13 @@ World Clocks sind parallele Handlungsstränge, die UNABHÄNGIG vom Spieler ablau
 - Erstelle World Clocks für: NPC-Aktivitäten, nahende Bedrohungen, Wetter-Fronten, Gruppen-Bewegungen, Infrastruktur-Verfall, Gerüchte, Militär-Operationen etc.
 - AKTUALISIERE bestehende Clocks bei jeder Antwort wenn sich etwas ändert (auch wenn der Spieler nicht direkt involviert ist — die Welt bewegt sich weiter!)
 - ENTFERNE erledigte Clocks mit dem Wert "ABGESCHLOSSEN" oder "ERLEDIGT"
-- Format im state_update: kurzer_name: "Kompakte Status-Beschreibung mit Zeitbezug"
+- Format im state_update: kurzer_name: "[Tag X, HH:MM] Kompakte Status-Beschreibung"
+- WICHTIG: JEDE Clock MUSS mit [Tag X, HH:MM] beginnen — der Zeitpunkt wann das Ereignis zuletzt aktualisiert wurde oder stattfindet
 - Beispiele:
   world_clocks:
-    nachbar_flucht: "Tag 3: Familie Müller packt heimlich, Abreise geplant morgen früh"
-    militaer_konvoi: "Konvoi passiert Autobahn A3 Richtung Süden, ETA 6h"
-    stromausfall_bezirk: "Bezirk Ost seit 2h ohne Strom, Reparatur unklar"
+    nachbar_flucht: "[Tag 3, 14:30] Familie Müller packt heimlich, Abreise geplant morgen früh"
+    militaer_konvoi: "[Tag 2, 08:00] Konvoi passiert Autobahn A3 Richtung Süden, ETA 6h"
+    stromausfall_bezirk: "[Tag 3, 12:15] Bezirk Ost seit 2h ohne Strom, Reparatur unklar"
     wolfsrudel: "ABGESCHLOSSEN"
 - Clocks mit "ABGESCHLOSSEN" werden aus dem Panel entfernt
 - Halte 3-8 aktive Clocks gleichzeitig für eine dynamische Welt
