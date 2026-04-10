@@ -3,7 +3,7 @@
 import { apiClient } from '../api/openRouterClient.js';
 import { costTracker } from '../api/costTracker.js';
 import { promptBuilder } from '../prompt/promptBuilder.js';
-import { contextManager } from '../prompt/contextManager.js';
+import { contextManager, trimRollingSummary } from '../prompt/contextManager.js';
 import { saveManager } from '../state/saveManager.js';
 import { renderer } from '../ui/renderer.js';
 import { typewriter } from '../ui/typewriter.js';
@@ -927,17 +927,20 @@ Vergiss nicht den <state_update> Block am Ende.`
     renderer.showAutoSave();
     this.inputLine.setEnabled(false);
 
-    const summary = await contextManager.rotate();
+    const narrativeSummary = await contextManager.rotate();
 
-    if (summary) {
-      // Update master summary
+    if (narrativeSummary) {
+      // Append narrative summary to rolling history, trim to last 3 sessions
       const currentSummary = await saveManager.getState('zusammenfassung') || '';
-      const updatedSummary = currentSummary + '\n\n---\n\n' + summary;
-      await saveManager.setState('zusammenfassung', updatedSummary);
-      promptBuilder.setMasterSummary(updatedSummary);
+      const combined = currentSummary
+        ? currentSummary + '\n\n---\n\n' + narrativeSummary
+        : narrativeSummary;
+      const trimmed = trimRollingSummary(combined);
+      await saveManager.setState('zusammenfassung', trimmed);
+      promptBuilder.setMasterSummary(trimmed);
 
       // Archive session
-      await saveManager.archiveSession(contextManager.sessionNumber - 1, summary);
+      await saveManager.archiveSession(contextManager.sessionNumber - 1, narrativeSummary);
 
       // Clear conversation in DB
       await saveManager.clearConversation();

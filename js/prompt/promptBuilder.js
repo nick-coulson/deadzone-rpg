@@ -94,25 +94,29 @@ Der Zombie-Ausbruch MUSS an Tag ${this.outbreakDay} beginnen. Das ist NICHT opti
       parts.push(`## WORLD CLOCKS\n${clockLines}`);
     }
 
-    // 4. Master summary (rolling history)
+    // 4. NARRATIVE SUMMARY (rolling history — story only, no state data)
     if (this.masterSummary) {
-      parts.push(`## ZUSAMMENFASSUNG\n${this.masterSummary}`);
+      parts.push(`## BISHERIGE GESCHICHTE\n${this.masterSummary}`);
     }
+
+    // === STRUCTURED STATE (authoritative, from IndexedDB) ===
+    // This data is persisted separately and ALWAYS accurate.
+    // The AI must use these values, not invent or guess them.
 
     // 5. Character data
     if (this.characterData) {
       parts.push(`## CHARAKTER\n${this.characterData}`);
     }
 
-    // 5b. Character stats (numeric values)
+    // 5b. Character stats
     if (this.characterStats) {
       const s = this.characterStats;
-      parts.push(`## STATS\nHP:${s.gesundheit ?? 10} HU:${s.hunger ?? 0} DU:${s.durst ?? 0} MÜ:${s.müdigkeit ?? 0} PS:${s.psyche ?? 10} (je 0-10)`);
+      parts.push(`## STATS (AKTUELL — verwende exakt diese Werte)\nHP:${s.gesundheit ?? 10} HU:${s.hunger ?? 0} DU:${s.durst ?? 0} MÜ:${s.müdigkeit ?? 0} PS:${s.psyche ?? 10} (je 0-10)`);
     }
 
     // 5c. Inventory
     if (this.inventory && this.inventory.length > 0) {
-      parts.push(`## INVENTAR (EXAKT)\n${this.inventory.join(', ')}`);
+      parts.push(`## INVENTAR (EXAKT — nur diese Items existieren)\n${this.inventory.join(', ')}`);
     }
 
     // 5d. Current time, weather, location
@@ -121,10 +125,10 @@ Der Zombie-Ausbruch MUSS an Tag ${this.outbreakDay} beginnen. Das ist NICHT opti
       if (this.gameTime) statusParts.push(this.gameTime);
       if (this.weather) statusParts.push(this.weather);
       if (this.currentScene) statusParts.push(this.currentScene);
-      parts.push(`## SZENE\n${statusParts.join(' | ')}`);
+      parts.push(`## SZENE (AKTUELL)\n${statusParts.join(' | ')}`);
     }
 
-    // 5e. Notebook (cap at last 15 entries to save tokens)
+    // 5e. Notebook (cap at last 15 entries)
     if (this.notebook) {
       let nb = this.notebook;
       const lines = nb.split('\n').filter(l => l.trim());
