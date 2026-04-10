@@ -811,7 +811,7 @@ Vergiss nicht den <state_update> Block am Ende.`
         this.inputLine.focus();
       },
       onError: (err) => {
-        if (streamTarget) streamTarget.finish();
+        renderer.hideLoading();
         renderer.showError(err, () => this.generateIntroScene(phase, location, charSheet));
         this.isProcessing = false;
         this.inputLine.setEnabled(true);
@@ -861,6 +861,7 @@ Vergiss nicht den <state_update> Block am Ende.`
         this.updateTopBar();
       },
       onError: (err) => {
+        renderer.hideLoading();
         renderer.showError(err, () => this.handlePlayerInput(input));
         this.isProcessing = false;
         this.inputLine.setEnabled(true);

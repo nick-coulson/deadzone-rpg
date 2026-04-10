@@ -10,7 +10,7 @@ class Renderer {
     this.outputEl = null;
     this.streamTarget = null;
     this.isStreaming = false;
-    this.streamBuffer = '';  // Full raw response during streaming
+    this.loadingOverlay = null;
   }
 
   init() {
@@ -56,79 +56,51 @@ class Renderer {
     this.scrollToBottom();
   }
 
-  // Start streaming — create target for incoming tokens
+  // Show loading overlay with blur
+  showLoading() {
+    if (this.loadingOverlay) return;
+    this.loadingOverlay = document.createElement('div');
+    this.loadingOverlay.className = 'stream-loading-overlay';
+    this.loadingOverlay.innerHTML = `
+      <div class="stream-loading-spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-text">Generating...</div>
+      </div>
+    `;
+    this.outputEl.appendChild(this.loadingOverlay);
+    this.scrollToBottom();
+  }
+
+  // Remove loading overlay
+  hideLoading() {
+    if (this.loadingOverlay && this.loadingOverlay.parentNode) {
+      this.loadingOverlay.remove();
+    }
+    this.loadingOverlay = null;
+  }
+
+  // Start streaming — buffer silently, show loading overlay
   startStreaming() {
     this.isStreaming = true;
-    this.streamBuffer = '';
-    this.streamTarget = typewriter.createStreamTarget(this.outputEl);
-    this.scrollToBottom();
-    return this.streamTarget;
+    this.showLoading();
+    // Return a compat object for legacy callers
+    return { element: document.createElement('div'), append() {}, finish() {} };
   }
 
-  // Append streaming token — filter out <ui:...> and <state_update> tags
+  // Append streaming token — no-op visually (buffered in apiClient)
   appendStreamToken(token) {
-    if (!this.streamTarget) return;
-
-    this.streamBuffer += token;
-
-    // Build the visible text: strip all <ui:...>...</ui:...> and <state_update>...</state_update>
-    // Also strip incomplete tags at the end (still being streamed)
-    const visible = this._getVisibleStreamText(this.streamBuffer);
-    this.streamTarget.setText(visible);
-    this.scrollToBottom();
+    // Tokens are buffered by the API client, nothing to display
   }
 
-  // Extract only the narrative text that should be shown during streaming
-  _getVisibleStreamText(raw) {
-    let text = raw;
-
-    // Remove complete <state_update>...</state_update> blocks
-    text = text.replace(/<state_update>[\s\S]*?<\/state_update>/g, '');
-
-    // Remove complete <ui:xyz ...>...</ui:xyz> blocks
-    text = text.replace(/<ui:(\w+)(?:\s+[^>]*?)?>[\s\S]*?<\/ui:\1>/g, '');
-
-    // Hide incomplete <state_update> at the end (started but not closed)
-    const stateStart = text.indexOf('<state_update>');
-    if (stateStart !== -1) {
-      text = text.slice(0, stateStart);
-    }
-
-    // Hide incomplete <ui: tag at the end (started but not closed)
-    // Find the last <ui: that doesn't have a matching </ui:
-    const lastUiOpen = text.lastIndexOf('<ui:');
-    if (lastUiOpen !== -1) {
-      // Check if there's a closing tag after it
-      const afterOpen = text.slice(lastUiOpen);
-      const nameMatch = afterOpen.match(/^<ui:(\w+)/);
-      if (nameMatch) {
-        const closingTag = `</ui:${nameMatch[1]}>`;
-        if (!afterOpen.includes(closingTag)) {
-          text = text.slice(0, lastUiOpen);
-        }
-      } else {
-        // Tag name not even complete yet
-        text = text.slice(0, lastUiOpen);
-      }
-    }
-
-    return text.trim();
-  }
-
-  // Finish streaming — parse and re-render properly
+  // Finish streaming — remove loading, parse and render properly
   finishStreaming(fullResponse) {
     this.isStreaming = false;
+    this.hideLoading();
 
-    if (this.streamTarget) {
-      this.streamTarget.finish();
-
-      // Remove the raw stream element
-      if (this.streamTarget.element.parentNode) {
-        this.streamTarget.element.remove();
-      }
-    }
-    this.streamTarget = null;
-    this.streamBuffer = '';
+    // Mark where new content starts
+    const marker = document.createElement('div');
+    marker.className = 'response-start-marker';
+    this.outputEl.appendChild(marker);
 
     // Parse and render the complete response
     const { segments, stateUpdates } = parseResponse(fullResponse);
@@ -140,7 +112,11 @@ class Renderer {
       eventBus.emit('state:update', parsed);
     }
 
-    this.scrollToBottom();
+    // Scroll to the top of the new response, not the bottom
+    requestAnimationFrame(() => {
+      marker.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      marker.remove();
+    });
   }
 
   // Convert basic markdown to safe HTML

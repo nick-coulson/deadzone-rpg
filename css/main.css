@@ -1304,6 +1304,54 @@ body:has(.wc-panel:not(.hidden):not(.collapsed)) .game-output {
   padding-right: 296px;
 }
 
+/* === STREAM LOADING OVERLAY === */
+.stream-loading-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  animation: loadingFadeIn 0.3s ease;
+}
+
+@keyframes loadingFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.stream-loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.spinner-ring {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spinnerRotate 0.9s linear infinite;
+}
+
+@keyframes spinnerRotate {
+  to { transform: rotate(360deg); }
+}
+
+.spinner-text {
+  color: var(--text-secondary);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: spinnerPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spinnerPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 /* === SCROLLBAR === */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
