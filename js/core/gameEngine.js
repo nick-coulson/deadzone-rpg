@@ -62,6 +62,11 @@ class GameEngine {
       promptBuilder.setInfrastructure(infra);
     });
 
+    // Sync inventory updates to prompt builder
+    eventBus.on('inventar:updated', (items) => {
+      promptBuilder.setInventory(items);
+    });
+
     // Check for saved API key
     const savedKey = localStorage.getItem('deadzone_api_key');
     if (savedKey) {
@@ -698,6 +703,12 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
         try {
           promptBuilder.setCharacterStats(JSON.parse(statsRaw));
         } catch (e) {}
+      }
+
+      // Restore inventory
+      const invRaw = stateMap['inventar'];
+      if (invRaw) {
+        try { promptBuilder.setInventory(JSON.parse(invRaw)); } catch (e) {}
       }
 
       // Restore world clocks

@@ -17,6 +17,7 @@ class PromptBuilder {
     this.infrastructure = null;
     this.worldClocks = null;
     this.characterStats = null;
+    this.inventory = null;
   }
 
   setPhase(phase) { this.phase = phase; }
@@ -25,6 +26,7 @@ class PromptBuilder {
   setInfrastructure(infra) { this.infrastructure = infra; }
   setWorldClocks(clocks) { this.worldClocks = clocks; }
   setCharacterStats(stats) { this.characterStats = stats; }
+  setInventory(items) { this.inventory = items; }
   setMasterSummary(summary) { this.masterSummary = summary; }
   setCharacterData(data) { this.characterData = data; }
   setGroupData(data) { this.groupData = data; }
@@ -101,6 +103,12 @@ Der Zombie-Ausbruch MUSS an Tag ${this.outbreakDay} beginnen. Das ist NICHT opti
       parts.push(`## AKTUELLE CHARAKTER-WERTE\nDiese Werte sind die aktuellen numerischen Stats. Verwende sie als Basis für Beschreibungen und aktualisiere sie im state_update.\n\n${statsText}`);
     }
 
+    // 5c. Inventory
+    if (this.inventory && this.inventory.length > 0) {
+      const itemList = this.inventory.map(i => `- ${i}`).join('\n');
+      parts.push(`## AKTUELLES INVENTAR\nDer Spieler besitzt GENAU diese Gegenstände. Nicht mehr, nicht weniger. Verwende inventar_add/inventar_remove im state_update um Änderungen zu tracken.\n\n${itemList}`);
+    }
+
     // 6. Group data
     if (this.groupData) {
       parts.push(`## GRUPPEN-DATEN\n\n${this.groupData}`);
@@ -123,6 +131,7 @@ Der Zombie-Ausbruch MUSS an Tag ${this.outbreakDay} beginnen. Das ist NICHT opti
     return `## DEADZONE — SPIELREGELN-ERGAENZUNG
 
 Du bist der Game Master von DEADZONE, einem textbasierten AI Zombie Survival RPG.
+SETTING: Das Spiel spielt in den USA. Alle Orte, Straßennamen, Institutionen, Währungen und kulturellen Referenzen sind amerikanisch. Verwende amerikanische Ortsnamen, Highways, Dollar, Sheriff Departments, etc.
 
 ### UI-TAG SYSTEM
 Verwende diese Tags um UI-Elemente im Output zu erzeugen. Der Client parsed sie und rendert sie als gestylte Boxen.

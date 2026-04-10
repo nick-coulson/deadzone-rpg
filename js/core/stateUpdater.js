@@ -67,6 +67,31 @@ class StateUpdater {
     const updateNote = `\n# Letztes Update\n${Object.entries(changes).map(([k, v]) => `${k}: ${v}`).join('\n')}`;
     await saveManager.setState('charakter_updates', updateNote);
 
+    // Persist inventory changes
+    if (changes.inventar_add || changes.inventar_remove) {
+      const invRaw = await saveManager.getState('inventar');
+      let inventory = [];
+      if (invRaw) {
+        try { inventory = JSON.parse(invRaw); } catch (e) { inventory = []; }
+      }
+
+      if (changes.inventar_add && Array.isArray(changes.inventar_add)) {
+        for (const item of changes.inventar_add) {
+          if (item && !inventory.includes(item)) {
+            inventory.push(item);
+          }
+        }
+      }
+      if (changes.inventar_remove && Array.isArray(changes.inventar_remove)) {
+        for (const item of changes.inventar_remove) {
+          inventory = inventory.filter(i => i.toLowerCase() !== item.toLowerCase());
+        }
+      }
+
+      await saveManager.setState('inventar', JSON.stringify(inventory));
+      eventBus.emit('inventar:updated', inventory);
+    }
+
     // Extract and persist numeric stats separately
     const STAT_KEYS = ['gesundheit', 'hunger', 'durst', 'müdigkeit', 'psyche'];
     const hasStats = STAT_KEYS.some(k => changes[k] !== undefined);

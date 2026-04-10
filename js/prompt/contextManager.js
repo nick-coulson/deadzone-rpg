@@ -69,28 +69,33 @@ class ContextManager {
         role: 'system',
         content: `Du bist der Save-Manager von DEADZONE.
 Fasse die aktuelle Session zusammen im folgenden YAML-Format.
-MAX 500 Tokens. Fokus auf: Entscheidungen, Zustandsänderungen,
-neue Informationen, offene Fäden.
+MAX 700 Tokens. KRITISCH: Das Inventar und alle Gegenstände MÜSSEN VOLLSTÄNDIG aufgelistet werden — nichts weglassen!
 
 FORMAT:
 zusammenfassung: |
-  [Freitext, max 3 Absätze]
+  [Freitext, max 3 Absätze — was ist passiert?]
+aktuelles_inventar:
+  - "Gegenstand 1"
+  - "Gegenstand 2"
+  - "[JEDEN einzelnen Gegenstand den der Spieler besitzt auflisten!]"
 wichtige_entscheidungen:
   - "..."
 veränderungen:
-  charakter: "..."
-  gruppe: "..."
-  basis: "..."
-  welt: "..."
+  charakter: "Aktueller Zustand, Verletzungen, Zustand"
+  gruppe: "Begleiter und deren Status"
+  basis: "Basis-Zustand falls vorhanden"
+  welt: "Weltlage, bekannte Bedrohungen"
 offene_fäden:
-  - "..."`
+  - "..."
+aktueller_ort: "Wo ist der Spieler gerade?"
+aktuelle_uhrzeit: "Tag X, HH:MM"`
       },
       ...this.conversationHistory
     ];
 
     return await apiClient.send(messages, {
       temperature: 0.3,
-      maxTokens: 600
+      maxTokens: 800
     });
   }
 
