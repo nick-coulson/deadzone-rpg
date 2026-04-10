@@ -118,8 +118,7 @@ const BOX_RENDERERS = {
       const opt = document.createElement('div');
       opt.className = 'choice-option';
 
-      // Highlight [A], [B], [C] etc.
-      const highlighted = line.replace(/\[([A-Z])\]/g, '<span class="choice-key">[$1]</span>');
+      const highlighted = mdToHtml(line).replace(/\[([A-Z])\]/g, '<span class="choice-key">[$1]</span>');
       opt.innerHTML = highlighted;
 
       // Click to insert option text into chat input
@@ -151,7 +150,7 @@ const BOX_RENDERERS = {
       if (isOption) {
         const opt = document.createElement('div');
         opt.className = 'choice-option';
-        const highlighted = trimmed
+        const highlighted = mdToHtml(trimmed)
           .replace(/\[([A-Z])\]/g, '<span class="choice-key">[$1]</span>');
         opt.innerHTML = highlighted;
 

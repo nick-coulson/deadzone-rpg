@@ -811,6 +811,7 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
       });
       wcClose._bound = true;
     }
+    this.initWorldClocksTabs();
 
     // Init input line
     if (!this.inputLine) {
@@ -1102,6 +1103,45 @@ Vergiss nicht den <state_update> Block am Ende.`
     const panel = document.getElementById('world-clocks-panel');
     if (!panel) return;
     panel.classList.toggle('hidden');
+  }
+
+  initWorldClocksTabs() {
+    const panel = document.getElementById('world-clocks-panel');
+    if (!panel) return;
+    panel.querySelectorAll('.wc-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        panel.querySelectorAll('.wc-tab').forEach(t => t.classList.remove('active'));
+        panel.querySelectorAll('.wc-tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-wc-tab');
+        const content = panel.querySelector(`.wc-tab-content[data-wc-tab="${target}"]`);
+        if (content) content.classList.add('active');
+      });
+    });
+  }
+
+  renderWorldEventsPanel(timeline) {
+    const list = document.getElementById('world-events-list');
+    if (!list) return;
+    const events = Array.isArray(timeline) ? timeline.slice(-20).reverse() : [];
+    list.innerHTML = '';
+    if (events.length === 0) {
+      list.innerHTML = '<div class="wc-empty">Keine Ereignisse bisher</div>';
+      return;
+    }
+    for (const ev of events) {
+      const item = document.createElement('div');
+      item.className = 'wc-item';
+      const label = document.createElement('div');
+      label.className = 'wc-label';
+      label.textContent = typeof ev === 'object' ? (ev.label || ev.type || 'Ereignis') : 'Ereignis';
+      const desc = document.createElement('div');
+      desc.className = 'wc-desc';
+      desc.textContent = typeof ev === 'object' ? (ev.desc || ev.text || ev.event || JSON.stringify(ev)) : String(ev);
+      item.appendChild(label);
+      item.appendChild(desc);
+      list.appendChild(item);
+    }
   }
 
   async updateTopBar() {

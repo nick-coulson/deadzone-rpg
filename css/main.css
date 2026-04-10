@@ -1219,6 +1219,44 @@ a:hover { text-decoration: underline; color: var(--accent); }
   flex-shrink: 0;
 }
 
+.wc-tabs {
+  display: flex;
+  gap: 0;
+  flex: 1;
+}
+
+.wc-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.wc-tab.active {
+  color: var(--accent-amber);
+  border-bottom-color: var(--accent-amber);
+}
+
+.wc-tab:hover:not(.active) {
+  color: var(--text-secondary);
+}
+
+.wc-tab-content {
+  display: none;
+}
+
+.wc-tab-content.active {
+  display: block;
+}
+
 .wc-title {
   font-family: var(--font-heading);
   color: var(--accent);
