@@ -506,12 +506,20 @@ class GameEngine {
 
   _pickRandomName() {
     const NAMES_MALE = [
-      'Marcus Weber', 'Jonas Richter', 'Erik Brandt', 'Liam Vogt', 'Tobias Krüger',
-      'Niklas Schäfer', 'David Hartmann', 'Finn Lehmann', 'Leon Baumann', 'Maximilian Wolff'
+      'James Cole', 'Marcus Webb', 'Ethan Briggs', 'Liam Hartley', 'Noah Sullivan',
+      'Ryan Calloway', 'Tyler Reeves', 'Jake Morrison', 'Dylan Cross', 'Logan Pierce',
+      'Caleb Tanner', 'Mason Drake', 'Wyatt Shepard', 'Nate Holloway', 'Sam Beckett',
+      'Carlos Rivera', 'Andre Washington', 'Travis Odom', 'Cody Harrelson', 'Devin Marsh',
+      'Jonas Richter', 'Erik Brandt', 'Tobias Krüger', 'Niklas Schäfer', 'Finn Lehmann',
+      'Leon Baumann', 'Maximilian Wolff', 'David Hartmann', 'Lukas Engel', 'Rafael Voss'
     ];
     const NAMES_FEMALE = [
-      'Elena Fischer', 'Mira Hoffmann', 'Sophie Engel', 'Lena Schreiber', 'Nina Kessler',
-      'Johanna Ritter', 'Clara Neumann', 'Emilia Berger', 'Freya Seidel', 'Alina Wendt'
+      'Elena Voss', 'Sarah Mitchell', 'Riley Cooper', 'Megan Thorn', 'Chloe Blackwood',
+      'Hailey Dawson', 'Brooke Langford', 'Zoe Castillo', 'Kayla Jennings', 'Paige Mercer',
+      'Amber Whitfield', 'Savannah Hale', 'Tessa Rowland', 'Jenna Prescott', 'Alexis Grant',
+      'Maya Henderson', 'Destiny Monroe', 'Cassidy Blake', 'Sienna Cruz', 'Leah Pennington',
+      'Mira Hoffmann', 'Sophie Engel', 'Lena Schreiber', 'Nina Kessler', 'Johanna Ritter',
+      'Clara Neumann', 'Emilia Berger', 'Freya Seidel', 'Alina Wendt', 'Lara Fischer'
     ];
     const gender = document.querySelector('.gender-preset.active')?.dataset.value;
     const pool = gender === 'weiblich' ? NAMES_FEMALE : NAMES_MALE;
