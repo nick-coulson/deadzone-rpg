@@ -32,7 +32,7 @@ const BOX_HEADERS = {
   trade: 'HANDEL',
   radio: 'FUNK',
   save: 'AUTO-SAVE',
-  roll: 'WUERFEL',
+  roll: 'WÜRFEL',
   choice: 'OPTIONEN'
 };
 
