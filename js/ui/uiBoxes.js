@@ -138,6 +138,42 @@ const BOX_RENDERERS = {
     return div;
   },
 
+  combat_player(content, attrs) {
+    const div = document.createElement('div');
+    div.className = 'ui-box-content';
+
+    const lines = content.split('\n').filter(l => l.trim());
+    for (const line of lines) {
+      const trimmed = line.trim();
+      // Detect option-like lines: "- Action", "1. Action", "[A] Action", "• Action"
+      const isOption = /^(\d+[\.\)]\s|[-•]\s|\[[A-Z]\]\s)/.test(trimmed);
+
+      if (isOption) {
+        const opt = document.createElement('div');
+        opt.className = 'choice-option';
+        const highlighted = trimmed
+          .replace(/\[([A-Z])\]/g, '<span class="choice-key">[$1]</span>');
+        opt.innerHTML = highlighted;
+
+        const plainText = trimmed;
+        opt.addEventListener('click', () => {
+          if (opt.classList.contains('disabled')) return;
+          const input = document.getElementById('game-input');
+          if (input) {
+            input.value = plainText;
+            input.focus();
+          }
+        });
+        div.appendChild(opt);
+      } else {
+        const p = document.createElement('div');
+        p.innerHTML = mdToHtml(trimmed);
+        div.appendChild(p);
+      }
+    }
+    return div;
+  },
+
   notebook_update(content) {
     const div = document.createElement('div');
     div.className = 'ui-box-content';
