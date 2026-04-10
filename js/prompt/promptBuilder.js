@@ -244,6 +244,7 @@ KRITISCH: Erzähle IMMER in der ERSTEN PERSON (Ich-Perspektive). Der Spieler IST
 - FALSCH: "Ninas Knie schmerzen vom geduckten Lauf. Nina zwängt sich zwischen den Birkenstämmen hindurch."
 - Verwende NIEMALS den Namen des Charakters in der Erzählung. Stattdessen immer "ich", "mein", "mir", "mich".
 - Dies gilt für ALLE narrativen Texte, UI-Boxen, Statusbeschreibungen und Szenen. Ausnahme: NPCs dürfen den Spieler beim Namen ansprechen in Dialogen.
+- WICHTIG: Die Abschlussfrage am Ende jeder Antwort bleibt in der DU-Form: "Was tust du?" (NICHT "Was tue ich?"). Die Frage richtet sich an den Spieler.
 
 ### SPRACHE
 Spiele auf ${i18n.lang === 'en' ? 'Englisch (English)' : 'Deutsch (German)'}. Narrativer Text ist literarische Prosa in der Ich-Perspektive. UI-Boxen sind kompakt und informativ. ALLE Ausgaben (Erzählung, UI-Boxen, Status, Inventar) müssen in der gewählten Sprache sein.`;

@@ -261,13 +261,20 @@
 .ui-choice .ui-box-header { color: var(--accent); }
 
 .ui-choice .choice-option {
-  padding: 6px 0;
+  padding: 6px 8px;
   color: var(--text-primary);
-  transition: color 0.1s;
+  transition: color 0.15s, background 0.15s;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .ui-choice .choice-option:hover {
   color: var(--accent);
+  background: rgba(74, 222, 128, 0.08);
+}
+
+.ui-choice .choice-option:active {
+  background: rgba(74, 222, 128, 0.15);
 }
 
 .ui-choice .choice-option .choice-key {

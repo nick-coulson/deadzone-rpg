@@ -121,6 +121,17 @@ const BOX_RENDERERS = {
       // Highlight [A], [B], [C] etc.
       const highlighted = line.replace(/\[([A-Z])\]/g, '<span class="choice-key">[$1]</span>');
       opt.innerHTML = highlighted;
+
+      // Click to insert option text into chat input
+      const plainText = line.trim();
+      opt.addEventListener('click', () => {
+        const input = document.getElementById('game-input');
+        if (input) {
+          input.value = plainText;
+          input.focus();
+        }
+      });
+
       div.appendChild(opt);
     }
     return div;
