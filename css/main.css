@@ -938,7 +938,7 @@ a:hover { text-decoration: underline; color: var(--accent); }
 .faq-btn {
   background: transparent;
   border: 1px solid var(--border-color);
-  color: var(--text-muted);
+  color: var(--text-dim);
   font-size: 12px;
   padding: 6px 16px;
 }
@@ -1031,7 +1031,7 @@ a:hover { text-decoration: underline; color: var(--accent); }
 }
 
 #music-volume-display {
-  color: var(--text-muted);
+  color: var(--text-dim);
   font-size: 12px;
   min-width: 32px;
 }

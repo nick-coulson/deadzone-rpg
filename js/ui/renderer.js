@@ -4,14 +4,13 @@ import { parseResponse, parseStateUpdate } from './responseParser.js';
 import { typewriter } from './typewriter.js';
 import { renderUIBox } from './uiBoxes.js';
 import { eventBus } from '../core/eventBus.js';
-import { StreamRenderer } from './streamRenderer.js';
 
 class Renderer {
   constructor() {
     this.outputEl = null;
     this.streamTarget = null;
-    this.streamRenderer = null;
     this.isStreaming = false;
+    this.streamBuffer = '';  // Full raw response during streaming
   }
 
   init() {
@@ -57,49 +56,82 @@ class Renderer {
     this.scrollToBottom();
   }
 
-  // Start streaming — create progressive stream renderer
+  // Start streaming — create target for incoming tokens
   startStreaming() {
     this.isStreaming = true;
-    // Insert a hidden marker so we know where stream content starts
-    this.streamMarker = document.createElement('div');
-    this.streamMarker.className = 'stream-marker';
-    this.streamMarker.style.display = 'none';
-    this.outputEl.appendChild(this.streamMarker);
-    this.streamRenderer = new StreamRenderer(this.outputEl, this.markdownToHtml.bind(this));
+    this.streamBuffer = '';
+    this.streamTarget = typewriter.createStreamTarget(this.outputEl);
     this.scrollToBottom();
-    // Return a compat object for legacy callers
-    return { element: document.createElement('div'), append() {}, finish() {} };
+    return this.streamTarget;
   }
 
-  // Append streaming token
+  // Append streaming token — filter out <ui:...> and <state_update> tags
   appendStreamToken(token) {
-    if (this.streamRenderer) {
-      this.streamRenderer.appendToken(token);
-    }
+    if (!this.streamTarget) return;
+
+    this.streamBuffer += token;
+
+    // Build the visible text: strip all <ui:...>...</ui:...> and <state_update>...</state_update>
+    // Also strip incomplete tags at the end (still being streamed)
+    const visible = this._getVisibleStreamText(this.streamBuffer);
+    this.streamTarget.setText(visible);
+    this.scrollToBottom();
   }
 
-  // Finish streaming — replace stream content with final parsed output
+  // Extract only the narrative text that should be shown during streaming
+  _getVisibleStreamText(raw) {
+    let text = raw;
+
+    // Remove complete <state_update>...</state_update> blocks
+    text = text.replace(/<state_update>[\s\S]*?<\/state_update>/g, '');
+
+    // Remove complete <ui:xyz ...>...</ui:xyz> blocks
+    text = text.replace(/<ui:(\w+)(?:\s+[^>]*?)?>[\s\S]*?<\/ui:\1>/g, '');
+
+    // Hide incomplete <state_update> at the end (started but not closed)
+    const stateStart = text.indexOf('<state_update>');
+    if (stateStart !== -1) {
+      text = text.slice(0, stateStart);
+    }
+
+    // Hide incomplete <ui: tag at the end (started but not closed)
+    // Find the last <ui: that doesn't have a matching </ui:
+    const lastUiOpen = text.lastIndexOf('<ui:');
+    if (lastUiOpen !== -1) {
+      // Check if there's a closing tag after it
+      const afterOpen = text.slice(lastUiOpen);
+      const nameMatch = afterOpen.match(/^<ui:(\w+)/);
+      if (nameMatch) {
+        const closingTag = `</ui:${nameMatch[1]}>`;
+        if (!afterOpen.includes(closingTag)) {
+          text = text.slice(0, lastUiOpen);
+        }
+      } else {
+        // Tag name not even complete yet
+        text = text.slice(0, lastUiOpen);
+      }
+    }
+
+    return text.trim();
+  }
+
+  // Finish streaming — parse and re-render properly
   finishStreaming(fullResponse) {
     this.isStreaming = false;
 
-    if (this.streamRenderer) {
-      this.streamRenderer.finish();
-    }
-    this.streamRenderer = null;
+    if (this.streamTarget) {
+      this.streamTarget.finish();
 
-    // Remove all elements after the stream marker (stream-rendered content)
-    if (this.streamMarker && this.streamMarker.parentNode) {
-      while (this.streamMarker.nextSibling) {
-        this.streamMarker.nextSibling.remove();
+      // Remove the raw stream element
+      if (this.streamTarget.element.parentNode) {
+        this.streamTarget.element.remove();
       }
-      this.streamMarker.remove();
     }
-    this.streamMarker = null;
+    this.streamTarget = null;
+    this.streamBuffer = '';
 
-    // Parse the COMPLETE response for final clean render
+    // Parse and render the complete response
     const { segments, stateUpdates } = parseResponse(fullResponse);
-
-    // Render the final clean segments
     this.renderSegments(segments);
 
     // Process state updates

@@ -82,6 +82,9 @@ export class Typewriter {
       append(char) {
         textNode.textContent += char;
       },
+      setText(text) {
+        textNode.textContent = text;
+      },
       finish() {
         if (cursor.parentNode) cursor.remove();
       },
