@@ -1228,6 +1228,75 @@ a:hover { text-decoration: underline; color: var(--accent); }
   text-transform: uppercase;
 }
 
+.wc-tabs {
+  display: flex;
+  gap: 2px;
+}
+
+.wc-tab {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.15s;
+}
+
+.wc-tab:hover {
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+}
+
+.wc-tab.active {
+  color: var(--accent);
+  background: rgba(74, 222, 80, 0.1);
+}
+
+.wc-view.hidden { display: none; }
+
+.wc-clock-display {
+  padding: 20px 14px;
+  text-align: center;
+}
+
+.wc-clock-time {
+  font-family: var(--font-heading);
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.wc-clock-day {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.wc-clock-tageszeit {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.wc-clock-weather {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
 .wc-close {
   background: none;
   border: none;

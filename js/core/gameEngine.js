@@ -315,6 +315,9 @@ class GameEngine {
     eventBus.on('time:updated', ({ time, tageszeit, dayAdvance }) => {
       const timeEl = document.getElementById('top-bar-time');
       if (timeEl) timeEl.textContent = `${time} ${tageszeit}`;
+      this._currentTime = time;
+      this._currentTageszeit = tageszeit;
+      this.renderWorldClockDisplay();
       if (dayAdvance > 0) this.updateTopBar();
     });
 
@@ -323,12 +326,17 @@ class GameEngine {
       const textEl = document.getElementById('top-bar-weather-text');
       if (iconEl) iconEl.textContent = icon;
       if (textEl) textEl.textContent = wetter;
+      this._currentWeather = wetter;
+      this._currentWeatherIcon = icon;
+      this.renderWorldClockDisplay();
     });
 
     eventBus.on('day:updated', ({ day }) => {
       const dayEl = document.getElementById('top-bar-day');
       if (dayEl) dayEl.textContent = `${i18n.t('topbar.day')} ${day}`;
       if (this.currentSave) this.currentSave.currentDay = day;
+      this._currentDay = day;
+      this.renderWorldClockDisplay();
     });
   }
 
@@ -733,10 +741,24 @@ STARTAUSRÜSTUNG (realistisch für ${PHASE_LABELS[phase]}, ${location}, passend 
 
       // Restore game time, weather, current scene
       const gameTime = stateMap['game_time'];
-      if (gameTime) promptBuilder.setGameTime(gameTime);
+      if (gameTime) {
+        promptBuilder.setGameTime(gameTime);
+        this._currentTime = gameTime;
+      }
+
+      const tageszeit = stateMap['tageszeit'];
+      if (tageszeit) this._currentTageszeit = tageszeit;
 
       const weather = stateMap['wetter'];
-      if (weather) promptBuilder.setWeather(weather);
+      if (weather) {
+        promptBuilder.setWeather(weather);
+        this._currentWeather = weather;
+      }
+
+      const weatherIcon = stateMap['wetter_icon'];
+      if (weatherIcon) this._currentWeatherIcon = weatherIcon;
+
+      this._currentDay = save.currentDay || 1;
 
       const scene = stateMap['szene_aktuell'];
       if (scene) promptBuilder.setCurrentScene(scene);
@@ -1053,18 +1075,16 @@ Vergiss nicht den <state_update> Block am Ende.`
   }
 
   renderWorldClocksPanel(clocks) {
-    const panel = document.getElementById('world-clocks-panel');
     const list = document.getElementById('world-clocks-list');
-    if (!panel || !list) return;
+    if (!list) return;
 
     const entries = Object.entries(clocks || {});
+    list.innerHTML = '';
+
     if (entries.length === 0) {
-      panel.classList.add('hidden');
+      list.innerHTML = `<div class="wc-empty">${i18n.t('worldClocks.empty')}</div>`;
       return;
     }
-
-    panel.classList.remove('hidden');
-    list.innerHTML = '';
 
     for (const [key, value] of entries) {
       const item = document.createElement('div');
@@ -1072,7 +1092,6 @@ Vergiss nicht den <state_update> Block am Ende.`
 
       const label = document.createElement('div');
       label.className = 'wc-label';
-      // Convert snake_case to readable: militaer_konvoi → Militär Konvoi
       label.textContent = key.replace(/_/g, ' ');
 
       const desc = document.createElement('div');
@@ -1085,16 +1104,55 @@ Vergiss nicht den <state_update> Block am Ende.`
     }
   }
 
+  renderWorldClockDisplay() {
+    const display = document.getElementById('world-clock-display');
+    if (!display) return;
+
+    const time = this._currentTime || '--:--';
+    const day = this._currentDay || '-';
+    const tageszeit = this._currentTageszeit || '';
+    const weather = this._currentWeather || '';
+    const weatherIcon = this._currentWeatherIcon || '';
+
+    display.innerHTML = `
+      <div class="wc-clock-time">${time}</div>
+      <div class="wc-clock-day">Tag ${day}</div>
+      <div class="wc-clock-tageszeit">${tageszeit}</div>
+      ${weather ? `<div class="wc-clock-weather">${weatherIcon} ${weather}</div>` : ''}
+    `;
+  }
+
+  setupWorldPanelTabs() {
+    const panel = document.getElementById('world-clocks-panel');
+    if (!panel || panel._tabsWired) return;
+    panel._tabsWired = true;
+
+    panel.querySelectorAll('.wc-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        panel.querySelectorAll('.wc-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const clockView = document.getElementById('world-clock-view');
+        const eventsView = document.getElementById('world-events-view');
+        if (tab.dataset.tab === 'clock') {
+          clockView?.classList.remove('hidden');
+          eventsView?.classList.add('hidden');
+        } else {
+          clockView?.classList.add('hidden');
+          eventsView?.classList.remove('hidden');
+        }
+      });
+    });
+  }
+
   toggleWorldClocksPanel() {
     const panel = document.getElementById('world-clocks-panel');
     if (!panel) return;
 
-    // If hidden (no clocks yet), show it anyway with empty message
+    this.setupWorldPanelTabs();
+
     if (panel.classList.contains('hidden')) {
-      const list = document.getElementById('world-clocks-list');
-      if (list && list.children.length === 0) {
-        list.innerHTML = `<div class="wc-empty">${i18n.t('worldClocks.empty')}</div>`;
-      }
+      this.renderWorldClockDisplay();
       panel.classList.remove('hidden');
     } else {
       panel.classList.add('hidden');

@@ -372,13 +372,21 @@
     </div>
   </main>
 
-  <!-- World Clocks Panel (right sidebar) -->
+  <!-- World Panel (right sidebar) -->
   <aside id="world-clocks-panel" class="wc-panel hidden">
     <div class="wc-header">
-      <span class="wc-title" data-i18n="worldClocks.title">🌍 Welt-Ereignisse</span>
+      <div class="wc-tabs">
+        <button type="button" class="wc-tab active" data-tab="clock">🕐 Uhr</button>
+        <button type="button" class="wc-tab" data-tab="events">🌍 Ereignisse</button>
+      </div>
       <button type="button" id="btn-wc-close" class="wc-close" title="Schließen">✕</button>
     </div>
-    <div id="world-clocks-list" class="wc-list"></div>
+    <div id="world-clock-view" class="wc-view">
+      <div id="world-clock-display" class="wc-clock-display"></div>
+    </div>
+    <div id="world-events-view" class="wc-view hidden">
+      <div id="world-clocks-list" class="wc-list"></div>
+    </div>
   </aside>
 
   <!-- Input Area (game mode) -->
