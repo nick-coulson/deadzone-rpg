@@ -83,7 +83,8 @@ export function parseStateUpdate(yamlText) {
     szene: {},
     notizbuch: [],
     world_clocks: {},
-    npcs: []
+    npcs: [],
+    infrastruktur: {}
   };
 
   if (!yamlText) return result;
@@ -118,6 +119,8 @@ export function parseStateUpdate(yamlText) {
         result.szene[key] = value;
       } else if (currentSection === 'world_clocks') {
         result.world_clocks[key] = value;
+      } else if (currentSection === 'infrastruktur') {
+        result.infrastruktur[key] = value;
       }
     } else if (currentSection === 'notizbuch' && trimmed.startsWith('-')) {
       result.notizbuch.push(trimmed.slice(1).trim());

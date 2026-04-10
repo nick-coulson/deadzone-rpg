@@ -203,9 +203,11 @@ Bei "Status"-Eingabe: <ui:status> mit "wert/10 | Beschreibung" pro Zeile (wird a
 - Zeitschätzung: Gespräch ~5-10min, Raum erkunden ~15-30min, Plündern ~30-60min, Reise ~1-3h, Schlaf ~6-8h
 
 ### WORLD CLOCKS
-Parallele Hintergrund-Events. Bei jeder Antwort aktualisieren. 3-8 aktive Clocks halten.
+Parallele Hintergrund-Events die der Spieler WAHRGENOMMEN oder ERFAHREN hat.
+KRITISCH: Erstelle World Clocks NUR für Ereignisse die im bisherigen Spielverlauf oder in der aktuellen Antwort TATSÄCHLICH erwähnt/angedeutet werden. KEINE Phantom-Events erfinden die nie im Chat vorkamen!
 Format: name: "[Tag X, HH:MM] Kompakter Status" | Erledigte: "ABGESCHLOSSEN"
-Erstelle für: NPC-Aktivitäten, Bedrohungen, Wetter, Gruppen, Infrastruktur, Militär etc.
+Erstelle für: Bedrohungen, Wetter-Fronten, Infrastruktur-Verfall, Militär-Operationen, Gerüchte die der Spieler gehört hat.
+KEINE NPC-Aktivitäten als eigene Clocks — NPCs werden im npcs-Block getrackt.
 
 ### ERZÄHLPERSPEKTIVE
 ERSTE PERSON (Ich-Perspektive). "Meine Knie schmerzen" NICHT "Ninas Knie schmerzen". Nie Charaktername in Erzählung — immer ich/mein/mir/mich. Ausnahme: NPCs dürfen Namen in Dialogen verwenden.

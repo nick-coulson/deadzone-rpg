@@ -228,6 +228,7 @@ class StateUpdater {
 
   async updateWeather(wetter) {
     const WEATHER_ICONS = {
+      // German
       'sonnig': '☀️', 'klar': '☀️', 'heiter': '🌤️',
       'bewölkt': '☁️', 'bedeckt': '☁️', 'wolkig': '⛅',
       'teilweise bewölkt': '⛅', 'leicht bewölkt': '🌤️',
@@ -237,6 +238,16 @@ class StateUpdater {
       'nebel': '🌫️', 'neblig': '🌫️', 'dunst': '🌫️',
       'wind': '💨', 'windig': '💨', 'stürmisch': '🌪️',
       'nacht': '🌙', 'sternenklar': '🌙',
+      // English
+      'sunny': '☀️', 'clear': '☀️', 'bright': '🌤️',
+      'cloudy': '☁️', 'overcast': '☁️', 'partly cloudy': '⛅',
+      'rain': '🌧️', 'drizzle': '🌦️', 'heavy rain': '🌧️', 'shower': '🌦️', 'downpour': '🌧️',
+      'thunder': '⛈️', 'storm': '🌪️', 'lightning': '⛈️',
+      'snow': '🌨️', 'blizzard': '🌨️', 'sleet': '🌨️',
+      'fog': '🌫️', 'foggy': '🌫️', 'mist': '🌫️', 'haze': '🌫️', 'hazy': '🌫️',
+      'windy': '💨', 'gusty': '💨',
+      'night': '🌙', 'starry': '🌙',
+      'hot': '🔥', 'humid': '🔥',
     };
 
     const lower = wetter.toLowerCase().trim();
