@@ -334,10 +334,7 @@ html {
   }
 
   .quick-btn.settings-btn {
-    margin-left: auto;
-    position: sticky;
-    right: 0;
-    background: var(--bg-primary);
+    flex-shrink: 0;
   }
 
   /* === UI BOXES === */
@@ -391,18 +388,33 @@ html {
     border-left: none;
     border-top: 2px solid var(--border-color);
     box-shadow: 0 -6px 24px rgba(0,0,0,0.5);
-    max-height: 50vh;
+    max-height: 60vh;
     bottom: calc(var(--input-area-height) + var(--quick-buttons-height));
     top: auto;
   }
 
   .wc-header {
-    padding: 8px 12px;
+    padding: 6px 12px;
   }
 
   .wc-list {
-    max-height: calc(50vh - 50px);
+    max-height: calc(60vh - 50px);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .wc-item {
+    padding: 10px 14px;
+  }
+
+  .wc-label {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .wc-desc {
+    font-size: 13px;
+    line-height: 1.6;
   }
 
   body:has(.wc-panel:not(.hidden)) .game-output {
